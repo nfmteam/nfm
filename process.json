@@ -1,0 +1,19 @@
+{
+  "apps": [
+    {
+      "name": "NFM",
+      "script": "app.js",
+      "watch": true,
+      "ignore_watch": [
+        "node_modules",
+        "doc",
+        "logs"
+      ],
+      "env": {
+        "NODE_ENV": "production"
+      },
+      "instances": 2,
+      "exec_mode": "cluster"
+    }
+  ]
+}

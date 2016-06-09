@@ -1,0 +1,27 @@
+{
+  "name": "nfm",
+  "version": "1.0.0",
+  "description": "node file manager",
+  "main": "app.js",
+  "scripts": {
+    "start": "NODE_ENV=development DEBUG=* nodemon --ignore logs/ --ignore npm-debug.log app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://172.24.225.62/node-labs/nfm.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "co-body": "^4.2.0",
+    "koa": "^1.2.0",
+    "koa-favicon": "^1.2.1",
+    "koa-pug": "^3.0.0-0",
+    "koa-router": "^5.4.0",
+    "moment": "^2.13.0",
+    "winston": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.9.2"
+  }
+}
