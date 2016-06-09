@@ -7,3 +7,4 @@ coverage/
 assets.json
 assets/app.*.js
 !assets/app.js
+*.tgz
