@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = {
 
     // -------- app configuration --------
@@ -11,9 +13,6 @@ module.exports = {
 
     // 启用日志
     'log.enable': true,
-
-    // 启用全局日志
-    'log.global.enable': false,
 
     // 启用接口日志
     'log.api.enable': false,

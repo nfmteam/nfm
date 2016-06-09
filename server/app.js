@@ -3,18 +3,16 @@
 const koa = require('koa');
 const app = koa();
 const favicon = require('koa-favicon');
-const Pug = require('koa-pug');
+const serve = require('koa-static');
+const path = require('path');
 
 const config = require('./config');
 const router = require('./router');
 const logger = require('./lib/logger');
 const exceptionHandler = require('./lib/exceptionHandler');
 
-const IS_DEVELOPMENT = app.env === 'development';
-
 // logger
 logger.register(app);
-app.use(logger.useGlobalLogger());
 
 // exception handler
 app.on('error', function (error) {
@@ -24,18 +22,12 @@ app.use(exceptionHandler.errorHandler);
 app.use(exceptionHandler.notfoundHandler);
 
 // favicon.ico
-app.use(favicon('./public/favicon.ico'));
-
-// view engine
-const pug = new Pug({
-    viewPath: './views',
-    basedir: './views',
-    noCache: IS_DEVELOPMENT,
-    debug: IS_DEVELOPMENT,
-    app: app
-});
+app.use(favicon(path.resolve(__dirname, './public/favicon.ico')));
 
 // router
 app.use(router.routes());
+
+// static serve
+app.use(serve(path.resolve(__dirname, '../client')));
 
 app.listen(config['app.port'] || 3000);

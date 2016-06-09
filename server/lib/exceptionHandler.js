@@ -11,9 +11,11 @@ function *errorHandler(next) {
         }
 
         this.app.emit('error', error, this);
-        this.render('views/error', {
-            status: error.status || 500
-        });
+
+        this.body = {
+            code: error.status || 500,
+            massge: error.message
+        };
     }
 }
 
@@ -30,9 +32,10 @@ function *notfoundHandler(next) {
         return;
     }
 
-    this.render('views/error', {
-        status: this.status
-    });
+    this.body = {
+        code: this.status,
+        massge: 'Not Found'
+    };
 }
 
 module.exports = {

@@ -94,40 +94,6 @@ Logger.prototype.register = function (app) {
     });
 };
 
-Logger.prototype.useGlobalLogger = function () {
-    return config['log.global.enable']
-        ? this._globalLogger
-        : this._noopGenerator;
-};
-
-Logger.prototype._globalLogger = function *(next) {
-    var start = Date.now();
-
-    yield next;
-
-    var end = Date.now(),
-        req = this.request,
-        path = req.path,
-        method = this.method,
-        requestData = req.method === 'GET' ? req.querystring : yield parse.form(this),
-        body = this.body,
-        logData;
-
-    logData = {
-        responseTime: end - start,
-        method,
-        path,
-        requestData,
-        body: this.response.is('json') ? body : this.type
-    };
-
-    this.info('[Global]', logData);
-};
-
-Logger.prototype._noopGenerator = function *(next) {
-    yield next;
-};
-
 Logger.prototype._noopFunction = function () {
     // do nothing
 };

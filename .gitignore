@@ -1,5 +1,6 @@
 .DS_Store
 .idea/
 .vscode/
+**/logs/
 node_modules/
 coverage/
