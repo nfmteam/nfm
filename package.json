@@ -4,8 +4,9 @@
   "description": "node file manager",
   "main": "app.js",
   "scripts": {
-    "start": "npm run server",
-    "server": "NODE_ENV=development DEBUG=*,-babel nodemon -V -i logs/ -i assets.json -i public/ app.js"
+    "start": "NODE_ENV=development DEBUG=*,-babel nodemon -V -i logs/ -i assets.json -i public/ app.js",
+    "predeploy": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --config webpack.config.js",
+    "deploy": "npm pack"
   },
   "repository": {
     "type": "git",
@@ -36,5 +37,17 @@
     "react-dom": "^15.1.0",
     "webpack": "^1.13.1",
     "webpack-md5-hash": "0.0.5"
-  }
+  },
+  "files": [
+    "assets/favicon.ico",
+    "assets/app.*.js",
+    "controllers",
+    "lib",
+    "views",
+    "*.js",
+    "*.json",
+    "!assets/app.js",
+    "!webpack.config.js",
+    "!.eslintrc.json"
+  ]
 }

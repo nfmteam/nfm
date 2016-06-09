@@ -7,6 +7,8 @@ const webpack = require('webpack');
 const AssetsPlugin = require('assets-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 
+const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
+
 function getPath(jsPath) {
     return path.join(__dirname, jsPath);
 }
@@ -34,10 +36,15 @@ module.exports = {
         ]
     },
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
         new WebpackMd5Hash(),
         new AssetsPlugin({
             filename: 'assets.json'
         })
     ],
-    devtool: 'source-map'
+    devtool: IS_DEVELOPMENT ? 'source-map' : ''
 };
