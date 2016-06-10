@@ -2,7 +2,6 @@
 
 const koa = require('koa');
 const app = koa();
-const favicon = require('koa-favicon');
 const serve = require('koa-static');
 const Pug = require('koa-pug');
 
@@ -22,9 +21,6 @@ app.on('error', function (error) {
 });
 app.use(exceptionHandler.errorHandler);
 app.use(exceptionHandler.notfoundHandler);
-
-// favicon.ico
-app.use(favicon('./assets/favicon.ico'));
 
 // view engine
 const IS_DEVELOPMENT = app.env === 'development';
