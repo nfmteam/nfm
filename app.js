@@ -5,16 +5,13 @@ const app = koa();
 const favicon = require('koa-favicon');
 const serve = require('koa-static');
 const Pug = require('koa-pug');
-const path = require('path');
 
-const webpack = require('./lib/webpack');
+const webpack = require('./lib/webpackMiddleware');
 const config = require('./config');
 const router = require('./router');
 const logger = require('./lib/logger');
 const exceptionHandler = require('./lib/exceptionHandler');
 const assets = require('./assets.json');
-
-const IS_DEVELOPMENT = app.env === 'development';
 
 // logger
 logger.register(app);
@@ -30,6 +27,7 @@ app.use(exceptionHandler.notfoundHandler);
 app.use(favicon('./assets/favicon.ico'));
 
 // view engine
+const IS_DEVELOPMENT = app.env === 'development';
 const pug = new Pug({
     viewPath: './views',
     basedir: './views',

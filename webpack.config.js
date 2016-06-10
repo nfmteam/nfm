@@ -9,18 +9,25 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
-function getPath(jsPath) {
-    return path.join(__dirname, jsPath);
-}
+var filename = IS_DEVELOPMENT ? '[name].js' : '[name].[hash].js';
 
-module.exports = {
+var assetsPluginInstance = new AssetsPlugin({
+    filename: 'assets.json'
+});
+
+var config = {
     entry: {
         'app': getPath('assets/app.js')
     },
     output: {
         path: getPath('assets/'),
         publicPath: '/js/',
-        filename: '[name].[hash].js'
+        filename: filename
+    },
+    resolve: {
+        modulesDirectories: [
+            'node_modules'
+        ]
     },
     module: {
         loaders: [
@@ -36,15 +43,27 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-            }
-        }),
-        new WebpackMd5Hash(),
-        new AssetsPlugin({
-            filename: 'assets.json'
-        })
-    ],
-    devtool: IS_DEVELOPMENT ? 'source-map' : ''
+        assetsPluginInstance
+    ]
 };
+
+if (IS_DEVELOPMENT) {
+    let definePluginInstance = new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+        }
+    });
+
+    let md5HashInstance = new WebpackMd5Hash();
+
+    config.plugins.unshift(md5HashInstance);
+    config.plugins.unshift(definePluginInstance);
+
+    config.devtool = 'eval-cheap-module-source-map';
+}
+
+function getPath(jsPath) {
+    return path.join(__dirname, jsPath);
+}
+
+module.exports = config;
