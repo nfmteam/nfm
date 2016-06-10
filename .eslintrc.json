@@ -1,10 +1,27 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
   },
   "env": {
-    "node": true
+    "node": true,
+    "browser": true,
+    "es6": true
   },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React"
+    }
+  },
+  "extends": [
+    "plugin:react/recommended"
+  ],
   "rules": {
     "comma-dangle": 2,
     "no-console": 2,
@@ -87,10 +104,7 @@
     "no-warning-comments": 1,
     "no-with": 2,
     "radix": 2,
-    "strict": [
-      2,
-      "global"
-    ],
+    "strict": 0,
     "no-catch-shadow": 2,
     "no-delete-var": 2,
     "no-shadow-restricted-names": 2,
@@ -160,10 +174,7 @@
     "no-trailing-spaces": 2,
     "no-unneeded-ternary": 2,
     "no-whitespace-before-property": 2,
-    "object-curly-spacing": [
-      2,
-      "never"
-    ],
+    "object-curly-spacing": 0,
     "quotes": [
       2,
       "single"
