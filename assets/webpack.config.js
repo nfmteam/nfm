@@ -16,6 +16,12 @@ var babelPlugins = IS_DEVELOPMENT ? [] : [
     'transform-runtime'
 ];
 
+var definePluginInstance = new webpack.DefinePlugin({
+    'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+    }
+});
+
 var config = {
     entry: {
         'app': getPath('script/index.js')
@@ -45,28 +51,25 @@ var config = {
                 }
             }
         ]
-    }
+    },
+    plugins: [
+        definePluginInstance
+    ]
 };
 
 if (IS_DEVELOPMENT) {
     config.devtool = 'eval-cheap-module-source-map';
 } else {
-    let definePluginInstance = new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-            }
-        }),
-        assetsPluginInstance = new AssetsPlugin({
+    let assetsPluginInstance = new AssetsPlugin({
             path: 'assets',
             filename: '.assets.json'
         }),
         md5HashInstance = new WebpackMd5Hash();
 
-    config.plugins = [
-        definePluginInstance,
+    config.plugins = config.plugins.concat([
         md5HashInstance,
         assetsPluginInstance
-    ];
+    ]);
 }
 
 function getPath(jsPath) {

@@ -18,6 +18,7 @@ class App extends Component {
 }
 
 App.propTypes = {
+    dispatch: PropTypes.func.isRequired,
     count: PropTypes.number.isRequired
 };
 
