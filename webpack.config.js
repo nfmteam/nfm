@@ -10,6 +10,11 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 var filename = IS_DEVELOPMENT ? '[name].js' : '[name].[hash].js';
+var babelPlugins = IS_DEVELOPMENT ? [] : [
+    'transform-react-constant-elements',
+    'transform-react-remove-prop-types',
+    'transform-runtime'
+];
 
 var assetsPluginInstance = new AssetsPlugin({
     filename: 'assets.json'
@@ -36,8 +41,11 @@ var config = {
                 exclude: /node_modules/,
                 loader: 'babel',
                 query: {
-                    presets: ['react', 'es2015'],
-                    plugins: ['transform-runtime']
+                    presets: [
+                        'react',
+                        'es2015'
+                    ],
+                    plugins: babelPlugins
                 }
             }
         ]
