@@ -2,14 +2,14 @@
   "name": "nfm",
   "version": "1.0.0",
   "description": "node file manager",
-  "main": "app.js",
+  "main": "lib/app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --config webpack.config.js",
+    "start": "nodemon lib/app.js",
+    "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --config assets/webpack.config.js",
     "test": "istanbul cover _mocha test/**/*.spec.js && istanbul report text",
     "predeploy": "npm test && npm run build",
     "deploy": "npm pack",
-    "postdeploy": "rm -vrf assets/js"
+    "postdeploy": "rm -vrf assets/script/bundle.*.js"
   },
   "repository": {
     "type": "git",
@@ -48,15 +48,12 @@
     "webpack-md5-hash": "0.0.5"
   },
   "files": [
+    "assets/script/bundle.*.js",
     "assets/favicon.ico",
-    "assets/js/bundle.*.js",
+    "assets/assets.json",
     "controllers",
     "lib",
     "views",
-    "*.js",
-    "*.json",
-    "!assets/index.js",
-    "!webpack.config.js",
-    "!.eslintrc.json"
+    "process.json"
   ]
 }

@@ -4,7 +4,7 @@ const lint = require('mocha-eslint');
 
 var paths = [
     'assets/**/*.js',
-    '!assets/js/bundle.*.js',
+    '!assets/script/bundle.*.js',
     'controllers',
     'lib',
     '*.js'

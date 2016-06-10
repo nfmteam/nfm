@@ -18,11 +18,11 @@ var babelPlugins = IS_DEVELOPMENT ? [] : [
 
 var config = {
     entry: {
-        'app': getPath('assets/index.js')
+        'app': getPath('script/index.js')
     },
     output: {
-        path: getPath('assets/js'),
-        publicPath: '/js/',
+        path: getPath('script'),
+        publicPath: '/script/',
         filename: filename
     },
     resolve: {
@@ -57,6 +57,7 @@ if (IS_DEVELOPMENT) {
             }
         }),
         assetsPluginInstance = new AssetsPlugin({
+            path: 'assets',
             filename: 'assets.json'
         }),
         md5HashInstance = new WebpackMd5Hash();

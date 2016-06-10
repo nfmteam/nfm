@@ -4,6 +4,5 @@
 **/logs/
 node_modules/
 coverage/
-assets.json
-assets/bundle.*.js
+assets/script/bundle.*.js
 *.tgz
