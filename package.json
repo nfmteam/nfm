@@ -9,7 +9,7 @@
     "test": "istanbul cover _mocha test/**/*.spec.js && istanbul report text",
     "predeploy": "npm test && npm run build",
     "deploy": "npm pack",
-    "postdeploy": "rm -vrf assets/bundle.*.js"
+    "postdeploy": "rm -vrf assets/js"
   },
   "repository": {
     "type": "git",
@@ -50,7 +50,7 @@
   },
   "files": [
     "assets/favicon.ico",
-    "assets/bundle.*.js",
+    "assets/js/bundle.*.js",
     "controllers",
     "lib",
     "views",

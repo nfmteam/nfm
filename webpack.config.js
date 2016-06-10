@@ -16,16 +16,12 @@ var babelPlugins = IS_DEVELOPMENT ? [] : [
     'transform-runtime'
 ];
 
-var assetsPluginInstance = new AssetsPlugin({
-    filename: 'assets.json'
-});
-
 var config = {
     entry: {
         'app': getPath('assets/index.js')
     },
     output: {
-        path: getPath('assets/'),
+        path: getPath('assets/js'),
         publicPath: '/js/',
         filename: filename
     },
@@ -49,25 +45,27 @@ var config = {
                 }
             }
         ]
-    },
-    plugins: [
-        assetsPluginInstance
-    ]
+    }
 };
 
 if (IS_DEVELOPMENT) {
-    let definePluginInstance = new webpack.DefinePlugin({
-        'process.env': {
-            NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-        }
-    });
-
-    let md5HashInstance = new WebpackMd5Hash();
-
-    config.plugins.unshift(md5HashInstance);
-    config.plugins.unshift(definePluginInstance);
-
     config.devtool = 'eval-cheap-module-source-map';
+} else {
+    let definePluginInstance = new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
+        assetsPluginInstance = new AssetsPlugin({
+            filename: 'assets.json'
+        }),
+        md5HashInstance = new WebpackMd5Hash();
+
+    config.plugins = [
+        definePluginInstance,
+        md5HashInstance,
+        assetsPluginInstance
+    ];
 }
 
 function getPath(jsPath) {

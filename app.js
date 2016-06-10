@@ -34,7 +34,7 @@ const pug = new Pug({
     noCache: IS_DEVELOPMENT,
     debug: IS_DEVELOPMENT,
     app: app,
-    locals: assets
+    locals: IS_DEVELOPMENT ? {app: {js: '/js/bundle.js'}} : assets
 });
 
 // router
