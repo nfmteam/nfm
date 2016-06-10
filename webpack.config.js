@@ -9,7 +9,7 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
-var filename = IS_DEVELOPMENT ? '[name].js' : '[name].[hash].js';
+var filename = IS_DEVELOPMENT ? 'bundle.js' : 'bundle.[hash].js';
 var babelPlugins = IS_DEVELOPMENT ? [] : [
     'transform-react-constant-elements',
     'transform-react-remove-prop-types',
@@ -22,7 +22,7 @@ var assetsPluginInstance = new AssetsPlugin({
 
 var config = {
     entry: {
-        'app': getPath('assets/app.js')
+        'app': getPath('assets/index.js')
     },
     output: {
         path: getPath('assets/'),

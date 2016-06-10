@@ -5,6 +5,5 @@
 node_modules/
 coverage/
 assets.json
-assets/app.*.js
-!assets/app.js
+assets/bundle.*.js
 *.tgz
