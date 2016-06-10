@@ -1,0 +1,19 @@
+{
+  "verbose": true,
+  "ignore": [
+    "logs/",
+    "assets/",
+    "coverage/",
+    "node_modules/**/node_modules",
+    "test/",
+    ".eslintrc.json",
+    ".git/",
+    "LICENSE",
+    "README.md",
+    "assets.json"
+  ],
+  "env": {
+    "NODE_ENV": "development",
+    "DEBUG": "*,-babel"
+  }
+}

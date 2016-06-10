@@ -4,7 +4,7 @@
   "description": "node file manager",
   "main": "app.js",
   "scripts": {
-    "start": "NODE_ENV=development DEBUG=*,-babel nodemon -V -i logs/ -i assets.json -i public/ app.js",
+    "start": "nodemon app.js",
     "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --config webpack.config.js",
     "test": "istanbul cover _mocha test/**/*.spec.js && istanbul report text",
     "predeploy": "npm test && npm run build",
