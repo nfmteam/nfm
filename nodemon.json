@@ -9,8 +9,7 @@
     ".eslintrc.json",
     ".git/",
     "LICENSE",
-    "README.md",
-    "assets.json"
+    "README.md"
   ],
   "env": {
     "NODE_ENV": "development",

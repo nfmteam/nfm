@@ -50,7 +50,7 @@
   "files": [
     "assets/script/bundle.*.js",
     "assets/favicon.ico",
-    "assets/assets.json",
+    "assets/.assets.json",
     "controllers",
     "lib",
     "views",

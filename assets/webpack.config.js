@@ -58,7 +58,7 @@ if (IS_DEVELOPMENT) {
         }),
         assetsPluginInstance = new AssetsPlugin({
             path: 'assets',
-            filename: 'assets.json'
+            filename: '.assets.json'
         }),
         md5HashInstance = new WebpackMd5Hash();
 
