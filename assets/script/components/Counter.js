@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 
-export default class Test extends React.Component {
+export default class Test extends Component {
     constructor(props) {
         super(props);
     }
@@ -8,7 +8,7 @@ export default class Test extends React.Component {
     render() {
         return (
             <div>
-                123
+                <p></p>
             </div>
         );
     }

@@ -44,6 +44,8 @@
     "nodemon": "^1.9.2",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2",
     "webpack": "^1.13.1",
     "webpack-md5-hash": "0.0.5"
   },
