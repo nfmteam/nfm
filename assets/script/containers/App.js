@@ -1,18 +1,18 @@
 import React, { Component, PropTypes } from 'react';
-import { addCount, subtractCount, cleanCount } from '../actions/counter';
 import { connect } from 'react-redux';
+import { addCount, subtractCount, cleanCount } from '../actions/counter';
+import Counter from '../components/Counter';
 
 class App extends Component {
     render() {
         const { dispatch, count } = this.props;
 
         return (
-            <div>
-                <p>{count}</p>
-                <button onClick={() => dispatch(addCount())}>+1</button>
-                <button onClick={() => dispatch(subtractCount())}>-1</button>
-                <button onClick={() => dispatch(cleanCount())}>Clean</button>
-            </div>
+            <Counter
+                addHandler={() => dispatch(addCount())}
+                subtractHandler={() => dispatch(subtractCount())}
+                cleanHandler={() => dispatch(cleanCount())}
+                count={count}/>
         );
     }
 }

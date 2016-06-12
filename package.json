@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "node file manager",
   "main": "lib/app.js",
+  "private": true,
   "scripts": {
     "start": "nodemon lib/app.js",
     "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --config assets/webpack.config.js",
@@ -42,6 +43,7 @@
     "mocha": "^2.5.3",
     "mocha-eslint": "^2.1.0",
     "nodemon": "^1.9.2",
+    "normalizr": "^2.1.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",

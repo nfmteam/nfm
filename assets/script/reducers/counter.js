@@ -1,7 +1,5 @@
-import {
-    ADD_COUNT, SUBTRACT_COUNT, CLEAN_COUNT,
-    addCount, subtractCount, cleanCount
-} from '../actions/counter';
+import { ADD_COUNT, SUBTRACT_COUNT, CLEAN_COUNT } from '../constants/actionTypes';
+import { addCount, subtractCount, cleanCount } from '../actions/counter';
 
 const initialState = {
     count: 0
