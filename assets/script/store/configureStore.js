@@ -1,4 +1,4 @@
-import {applyMiddleware, createStore} from 'redux';
+import { applyMiddleware, createStore } from 'redux';
 import promiseMiddleware from 'redux-promise';
 import counterApp from '../reducers/counter';
 
