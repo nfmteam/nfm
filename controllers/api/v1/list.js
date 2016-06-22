@@ -7,7 +7,7 @@ const basePath = process.cwd();
 
 module.exports = {
 
-    // TODO: path校验(排除隐藏文件...)
+    // path校验(排除隐藏文件...)
     getList: function *() {
         const p = this.request.query.path || '/';
         const type = this.request.query.type || 'f';
@@ -29,7 +29,7 @@ function getFileStat(filePath) {
     var stats = fs.statSync(filePath);
 
     return {
-        id: md5(filePath), // TODO: 临时方案
+        id: md5(filePath), // 临时方案
         name: path.basename(filePath),
         size: stats.size,
         createAt: stats.birthtime,

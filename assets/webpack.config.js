@@ -10,21 +10,29 @@ const WebpackMd5Hash = require('webpack-md5-hash');
 const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 
 var filename = IS_DEVELOPMENT ? 'bundle.js' : 'bundle.[hash].js';
-var babelPlugins = IS_DEVELOPMENT ? [] : [
+var vendorname = IS_DEVELOPMENT ? 'vendor.js' : 'vendor.[hash].js';
+var babelPlugins = IS_DEVELOPMENT ? [
+    'transform-async-to-generator'
+] : [
+    'transform-async-to-generator',
     'transform-react-constant-elements',
     'transform-react-remove-prop-types',
     'transform-runtime'
 ];
 
-var definePluginInstance = new webpack.DefinePlugin({
-    'process.env': {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-    }
-});
-
 var config = {
     entry: {
-        'app': getPath('script/index.js')
+        app: getPath('script/index.js'),
+        vendor: [
+            'normalizr',
+            'react',
+            'react-dom',
+            'react-redux',
+            'redux',
+            'redux-actions',
+            'redux-promise',
+            'redux-logger'
+        ]
     },
     output: {
         path: getPath('script'),
@@ -53,7 +61,12 @@ var config = {
         ]
     },
     plugins: [
-        definePluginInstance
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+            }
+        }),
+        new webpack.optimize.CommonsChunkPlugin('vendor', vendorname)
     ]
 };
 
