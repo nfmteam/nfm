@@ -1,3 +1,22 @@
 export const ADD_COUNT = 'ADD_COUNT';
 export const SUBTRACT_COUNT = 'SUBTRACT_COUNT';
 export const CLEAN_COUNT = 'CLEAN_COUNT';
+
+// tree
+export const TREE_REQUEST = 'REQUEST_TREE';
+export const TREE_REQUEST_SUCCESS = 'TREE_REQUEST_SUCCESS';
+export const TREE_REQUEST_FAIL = 'TREE_REQUEST_FAIL';
+
+// workspace
+export const WORKSPACE_CHANGE = 'WORKSPACE_CHANGE';
+export const WORKSPACE_REQUEST = 'WORKSPACE_REQUEST';
+export const WORKSPACE_REQUEST_SUCCESS = 'WORKSPACE_REQUEST_SUCCESS';
+export const WORKSPACE_REQUEST_ERROR = 'WORKSPACE_REQUEST_ERROR';
+
+// file
+export const FILE_ADD = 'FILE_ADD';
+export const FILE_DEL = 'FILE_DEL';
+
+// directory
+export const DIRECTORY_ADD = 'DIRECTORY_ADD';
+export const DIRECTORY_DEL = 'DIRECTORY_DEL';

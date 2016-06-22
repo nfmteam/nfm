@@ -1,19 +1,14 @@
-import { ADD_COUNT, SUBTRACT_COUNT, CLEAN_COUNT } from '../constants/actionTypes';
+import {createAction} from 'redux-actions';
+import {ADD_COUNT, SUBTRACT_COUNT, CLEAN_COUNT} from '../constants/actionTypes';
 
-export function addCount() {
-    return {
-        type: ADD_COUNT
-    }
-}
+export let addCount = createAction(ADD_COUNT);
+export let subtractCount = createAction(SUBTRACT_COUNT);
+export let cleanCount = createAction(CLEAN_COUNT);
 
-export function subtractCount() {
-    return {
-        type: SUBTRACT_COUNT
-    }
-}
-
-export function cleanCount() {
-    return {
-        type: CLEAN_COUNT
-    }
+export function addCountAsync() {
+    return addCount(new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, 3000);
+    }))
 }

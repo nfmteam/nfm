@@ -1,7 +1,8 @@
-import { applyMiddleware, createStore } from 'redux';
+import {applyMiddleware, createStore} from 'redux';
+import promiseMiddleware from 'redux-promise';
 import counterApp from '../reducers/counter';
 
-const middlewares = [];
+const middlewares = [promiseMiddleware];
 
 if (process.env.NODE_ENV === 'development') {
     /* eslint-disable global-require */

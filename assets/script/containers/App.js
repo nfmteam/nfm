@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addCount, subtractCount, cleanCount } from '../actions/counter';
+import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
 import Counter from '../components/Counter';
 
 class App extends Component {
@@ -10,6 +10,7 @@ class App extends Component {
         return (
             <Counter
                 addHandler={() => dispatch(addCount())}
+                addAsyncHandler={() => dispatch(addCountAsync())}
                 subtractHandler={() => dispatch(subtractCount())}
                 cleanHandler={() => dispatch(cleanCount())}
                 count={count}/>
