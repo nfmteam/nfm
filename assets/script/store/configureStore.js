@@ -1,6 +1,6 @@
 import { applyMiddleware, createStore } from 'redux';
 import promiseMiddleware from 'redux-promise';
-import counterApp from '../reducers/counter';
+import Reducers from '../reducers';
 
 const middlewares = [promiseMiddleware];
 
@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const store = createStore(
-    counterApp,
+    Reducers,
     applyMiddleware(...middlewares)
 );
 

@@ -8,8 +8,6 @@ File manage implement by node.
 * **history**
 * loding
 * https://github.com/reactjs/reselect
-* redux-actions
-* redux-thunk
 * normalizr
 * Immutable
 * CSS Modules
