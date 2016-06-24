@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "nodemon lib/app.js",
-    "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-minimize --optimize-occurrence-order --progress --colors --display-error-details --config assets/webpack.config.js",
+    "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config assets/webpack.config.js",
     "test": "istanbul cover _mocha test/**/*.spec.js && istanbul report text",
     "predeploy": "npm test && npm run build",
     "deploy": "npm pack",

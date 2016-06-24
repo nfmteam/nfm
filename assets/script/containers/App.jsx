@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
 import { getTree } from '../actions/tree';
-import Counter from '../components/Counter';
-import Tree from '../components/Tree';
+import Counter from '../components/Counter.jsx';
+import Tree from '../components/Tree.jsx';
 
 class App extends Component {
     render() {

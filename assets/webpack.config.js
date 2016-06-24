@@ -22,7 +22,7 @@ var babelPlugins = IS_DEVELOPMENT ? [
 
 var config = {
     entry: {
-        app: getPath('script/index.js'),
+        app: getPath('script/index.jsx'),
         vendor: [
             'normalizr',
             'react',
@@ -39,9 +39,7 @@ var config = {
         filename: filename
     },
     resolve: {
-        modulesDirectories: [
-            'node_modules'
-        ]
+        root: path.resolve('../node_modules')
     },
     module: {
         loaders: [
@@ -76,11 +74,17 @@ if (IS_DEVELOPMENT) {
             path: 'assets',
             filename: '.assets.json'
         }),
-        md5HashInstance = new WebpackMd5Hash();
+        md5HashInstance = new WebpackMd5Hash(),
+        uglifyJsPlugin = new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        });
 
     config.plugins = config.plugins.concat([
         md5HashInstance,
-        assetsPluginInstance
+        assetsPluginInstance,
+        uglifyJsPlugin
     ]);
 }
 
