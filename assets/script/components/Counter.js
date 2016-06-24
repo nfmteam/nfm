@@ -8,7 +8,7 @@ class Counter extends Component {
             <div>
                 <p>{count}</p>
                 <button onClick={addHandler}>+1</button>
-                <button onClick={addAsyncHandler}>+3 Async</button>
+                <button onClick={addAsyncHandler}>+1 Async</button>
                 <button onClick={subtractHandler}>-1</button>
                 <button onClick={cleanHandler}>Clean</button>
             </div>

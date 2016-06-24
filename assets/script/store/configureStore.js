@@ -1,8 +1,8 @@
 import { applyMiddleware, createStore } from 'redux';
-import promiseMiddleware from 'redux-promise';
+import thunk from 'redux-thunk';
 import Reducers from '../reducers';
 
-const middlewares = [promiseMiddleware];
+const middlewares = [thunk];
 
 if (process.env.NODE_ENV === 'development') {
     /* eslint-disable global-require */

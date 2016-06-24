@@ -9,9 +9,9 @@ class Tree extends Component {
     render() {
         const { treeData } = this.props;
         return (
-            <div>
-                {treeData.map(item => <p>{item.name}</p>)}
-            </div>
+            <ul>
+                {treeData.map(item => <li key={item.id}>{item.name}</li>)}
+            </ul>
         );
     }
 }

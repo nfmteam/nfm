@@ -1,12 +1,22 @@
-import { TREE_REQUEST } from '../constants/actionTypes';
-import { handleActions } from 'redux-actions';
+import { TREE_REQUEST, TREE_REQUEST_SUCCESS } from '../constants/actionTypes';
 
 const initialState = {
+    message: '',
     data: []
 };
 
-export default handleActions({
-    [TREE_REQUEST]: (state, action) => ({
-        data: state.data.concat(action.payload)
-    })
-}, initialState);
+export default function treeReducer(state = initialState, action) {
+    switch (action.type) {
+        case TREE_REQUEST:
+            return Object.assign({}, state, {
+                message: action.message
+            });
+        case TREE_REQUEST_SUCCESS:
+            return {
+                message: '',
+                data: state.data.concat(action.data)
+            };
+        default:
+            return state;
+    }
+}

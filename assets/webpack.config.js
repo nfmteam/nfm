@@ -29,8 +29,7 @@ var config = {
             'react-dom',
             'react-redux',
             'redux',
-            'redux-actions',
-            'redux-promise',
+            'redux-thunk',
             'redux-logger'
         ]
     },

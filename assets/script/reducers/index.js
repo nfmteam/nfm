@@ -1,8 +1,8 @@
-import CounterReducer from './counter';
-import TreeReducer from './tree';
+import counterReducer from './counter';
+import treeReducer from './tree';
 import { combineReducers } from 'redux'
 
 export default combineReducers({
-    counter: CounterReducer,
-    tree: TreeReducer
+    counter: counterReducer,
+    tree: treeReducer
 });
