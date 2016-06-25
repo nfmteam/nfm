@@ -6,14 +6,17 @@ class Tree extends Component {
         this.props.loadTreeHandler();
     }
 
-    renderTree(data) {
-        let itemHtml;
+    renderTree(data, index) {
+        var itemHtml;
 
-        return data.map(item => {
-            return <li key={item.id}>
-                <a href='javascript:;' onClick={() => this.props.loadTreeHandler(item.path)}>{item.name}</a>
-            </li>
-        });
+        return <div style={{paddingLeft: 10 * index}}>
+            {data.map((item, i) => {
+                itemHtml = <a href='javascript:;' onClick={() => this.props.loadTreeHandler(item.path)}>{item.name}</a>
+                return <div key={item.id}>
+                    {item.children ? this.renderTree(item.children, i) : itemHtml}
+                </div>
+            })}
+        </div>
     }
 
     render() {
@@ -21,21 +24,12 @@ class Tree extends Component {
             tree: {
                 data: data,
                 loading: loading
-            },
-            loadTreeHandler
+            }
         } = this.props;
 
-        let html = loading ? 'loading...' : data.map(item =>
-            <li key={item.id}>
-                <a href='javascript:;' onClick={() => loadTreeHandler(item.path)}>{item.name}</a>
-            </li>
-        );
+        let html = loading ? 'loading...' : this.renderTree(data, 0);
 
-        return (
-            <ul>
-                {html}
-            </ul>
-        );
+        return <div style={{margin: 30}}>{html}</div>;
     }
 }
 
