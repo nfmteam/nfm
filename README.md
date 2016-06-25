@@ -6,8 +6,6 @@ File manage implement by node.
 
 * **router**
 * **history**
-* loding
-* https://github.com/reactjs/reselect
 * normalizr
 * Immutable
 * CSS Modules

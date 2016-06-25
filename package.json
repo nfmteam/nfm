@@ -53,6 +53,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
+    "reselect": "^2.5.1",
     "webpack": "^1.13.1",
     "webpack-md5-hash": "0.0.5"
   },

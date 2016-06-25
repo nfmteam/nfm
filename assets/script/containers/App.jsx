@@ -5,6 +5,7 @@ import { getTree } from '../actions/tree';
 import Counter from '../components/Counter.jsx';
 import Tree from '../components/Tree.jsx';
 import Message from '../components/Message.jsx';
+import selector from '../selectors';
 
 class App extends Component {
     render() {
@@ -40,14 +41,4 @@ App.propTypes = {
     count: PropTypes.number.isRequired
 };
 
-function select(state) {
-    return {
-        count: state.counter.count,
-        tree: {
-            data: state.tree.data,
-            loading: state.tree.loading
-        }
-    };
-}
-
-export default connect(select)(App);
+export default connect(selector)(App);
