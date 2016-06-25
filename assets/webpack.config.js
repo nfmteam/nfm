@@ -25,6 +25,7 @@ var config = {
         app: getPath('script/index.jsx'),
         vendor: [
             'normalizr',
+            'bluebird',
             'react',
             'react-dom',
             'react-redux',

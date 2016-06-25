@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class Tree extends Component {
 
@@ -7,18 +7,17 @@ class Tree extends Component {
     }
 
     render() {
-        const { treeData } = this.props;
+        const { data, loading } = this.props.tree;
+        let html  = loading ? 'loading...': data.map(item =>
+            <li key={item.id}>{item.name}</li>
+        );
+
         return (
             <ul>
-                {treeData.map(item => <li key={item.id}>{item.name}</li>)}
+                {html}
             </ul>
         );
     }
 }
-
-Tree.propTypes = {
-    treeData: PropTypes.array.isRequired,
-    loadTreeHandler: PropTypes.func.isRequired
-};
 
 export default Tree;

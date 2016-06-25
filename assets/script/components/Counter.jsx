@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 
 class Counter extends Component {
     render() {
@@ -15,13 +15,5 @@ class Counter extends Component {
         );
     }
 }
-
-Counter.propTypes = {
-    count: PropTypes.number.isRequired,
-    addHandler: PropTypes.func.isRequired,
-    addAsyncHandler: PropTypes.func.isRequired,
-    subtractHandler: PropTypes.func.isRequired,
-    cleanHandler: PropTypes.func.isRequired
-};
 
 export default Counter;
