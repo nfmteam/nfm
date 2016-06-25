@@ -14,7 +14,7 @@ export default function treeReducer(state = initialState, action) {
         case TREE_REQUEST_SUCCESS:
             return {
                 loading: false,
-                data: state.data.concat(action.data)
+                data: action.data
             };
         default:
             return state;

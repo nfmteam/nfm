@@ -3,6 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+
 const basePath = process.cwd();
 
 module.exports = {
@@ -10,8 +11,14 @@ module.exports = {
     // path校验(排除隐藏文件...)
     getList: function *() {
         const p = this.request.query.path || '/';
-        const type = this.request.query.type || 'f';
+        const _type = this.request.query.type || 'f';
         const dir = path.join(basePath, path.resolve('/', p));
+
+        let type = ['f', 'd'];
+
+        if (_type === 'f' || _type === 'd') {
+            type = [_type];
+        }
 
         this.body = getFileList(dir, type);
     }
@@ -22,7 +29,7 @@ function getFileList(dir, type) {
     return fs.readdirSync(dir)
         .filter(filename => !!filename.indexOf('.'))
         .map(filename => getFileStat(path.resolve(dir, filename)))
-        .filter(obj => obj.type === type);
+        .filter(obj => type.includes(obj.type));
 }
 
 function getFileStat(filePath) {
@@ -31,6 +38,7 @@ function getFileStat(filePath) {
     return {
         id: md5(filePath), // 临时方案
         name: path.basename(filePath),
+        path: path.relative(basePath, filePath),
         size: stats.size,
         createAt: stats.birthtime,
         updateAt: stats.mtime,

@@ -22,7 +22,7 @@ class App extends Component {
                     count={count} />
                 <Tree
                     tree={tree}
-                    loadTreeHandler={() => dispatch(getTree())} />
+                    loadTreeHandler={(path) => dispatch(getTree(path))} />
             </div>
         );
     }

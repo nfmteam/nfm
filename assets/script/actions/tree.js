@@ -20,7 +20,7 @@ export function getTree(path = '/') {
         dispatch(requestTree());
 
         Promise.all([
-            fetch(`http://localhost:3010/api/v1/list?path=${path}`).then(response => response.json()),
+            fetch(`http://localhost:3010/api/v1/list?path=${path}&type=d`).then(response => response.json()),
             Promise.delay(1000)
         ]).then(([data]) => {
             dispatch(requestTreeSuccess(data));
