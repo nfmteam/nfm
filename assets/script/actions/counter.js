@@ -1,4 +1,5 @@
 import { ADD_COUNT, SUBTRACT_COUNT, CLEAN_COUNT } from '../constants/actionTypes';
+import { showInfoMessage } from './message';
 
 export function addCount() {
     return {
@@ -12,10 +13,17 @@ export function subtractCount() {
     }
 }
 
-export function cleanCount() {
+function _cleanCount() {
     return {
         type: CLEAN_COUNT
     }
+}
+
+export function cleanCount() {
+    return dispatch => {
+        dispatch(showInfoMessage('clean!'));
+        dispatch(_cleanCount());
+    };
 }
 
 export function addCountAsync() {

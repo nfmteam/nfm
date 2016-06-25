@@ -21,7 +21,7 @@ class App extends Component {
                     cleanHandler={() => dispatch(cleanCount())}
                     count={count} />
                 <Tree
-                    tree = {tree}
+                    tree={tree}
                     loadTreeHandler={() => dispatch(getTree())} />
             </div>
         );

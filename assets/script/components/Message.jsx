@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 class Message extends Component {
 
     render() {
-        const { text, show } = this.props;
+        const { text, show } = this.props.message;
 
         return (
             <div style={{display: show ? 'block' : 'none'}}>
-                {text}
+                <p>{text}</p>
             </div>
         );
     }
