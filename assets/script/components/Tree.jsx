@@ -1,22 +1,18 @@
 import React, { Component } from 'react';
+import Tree, { TreeNode } from 'rc-tree';
 
-class Tree extends Component {
+class TreeComponent extends Component {
 
     componentWillMount() {
         this.props.loadTreeHandler();
     }
 
-    renderTree(data, index) {
-        var itemHtml;
-
-        return <div style={{paddingLeft: 10 * index}}>
-            {data.map((item, i) => {
-                itemHtml = <a href='javascript:;' onClick={() => this.props.loadTreeHandler(item.path)}>{item.name}</a>
-                return <div key={item.id}>
-                    {item.children ? this.renderTree(item.children, i) : itemHtml}
-                </div>
-            })}
-        </div>
+    renderTree(data) {
+        return data.map(item => {
+            return <TreeNode title={item.name} key={item.id}>
+                {item.children ? this.renderTree(item.children) : null}
+            </TreeNode>
+        });
     }
 
     render() {
@@ -27,10 +23,14 @@ class Tree extends Component {
             }
         } = this.props;
 
-        let html = loading ? 'loading...' : this.renderTree(data, 0);
+        let html = loading ? 'loading...' : <Tree showLine defaultExpandedKeys={['0']}>
+            <TreeNode title={data.name} key={data.id}>
+                {data.children ? this.renderTree(data.children) : null}
+            </TreeNode>
+        </Tree>;
 
         return <div style={{margin: 30}}>{html}</div>;
     }
 }
 
-export default Tree;
+export default TreeComponent;

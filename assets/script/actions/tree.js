@@ -8,15 +8,15 @@ function requestTree() {
     }
 }
 
-function requestTreeSuccess(data, path) {
+function requestTreeSuccess(data, id) {
     return {
         type: TREE_REQUEST_SUCCESS,
-        currentPath: path,
-        data: data,
+        currentId: id,
+        data: data
     }
 }
 
-export function getTree(path = '/') {
+export function getTree(path = '/', id = 0) {
     return dispatch => {
         dispatch(requestTree());
 
@@ -24,7 +24,7 @@ export function getTree(path = '/') {
             fetch(`http://localhost:3010/api/v1/list?path=${path}&type=d`).then(response => response.json()),
             Promise.delay(1000)
         ]).then(([data]) => {
-            dispatch(requestTreeSuccess(data, path));
+            dispatch(requestTreeSuccess(data, id));
         });
     }
 }

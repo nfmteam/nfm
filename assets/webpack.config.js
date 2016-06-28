@@ -25,10 +25,14 @@ var config = {
         app: getPath('script/index.jsx'),
         vendor: [
             'normalizr',
+            'reselect',
+            'isomorphic-fetch',
             'bluebird',
             'react',
             'react-dom',
             'react-redux',
+            'rc-tree',
+            'tree-model',
             'redux',
             'redux-thunk',
             'redux-logger'

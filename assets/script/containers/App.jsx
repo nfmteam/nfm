@@ -22,7 +22,7 @@ class App extends Component {
                     count={count} />
                 <Tree
                     tree={tree}
-                    loadTreeHandler={(path) => dispatch(getTree(path))} />
+                    loadTreeHandler={(path, id) => dispatch(getTree(path, id))} />
             </div>
         );
     }
@@ -31,8 +31,9 @@ class App extends Component {
 App.propTypes = {
     dispatch: PropTypes.func.isRequired,
     tree: PropTypes.shape({
-        data: PropTypes.array.isRequired,
-        loading: PropTypes.bool.isRequired
+        loading: PropTypes.bool.isRequired,
+        currentId: PropTypes.number.isRequired,
+        data: PropTypes.object.isRequired
     }),
     message: PropTypes.shape({
         text: PropTypes.string.isRequired,

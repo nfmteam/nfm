@@ -6,6 +6,7 @@ File manage implement by node.
 
 * **router**
 * **history**
+* reselect cache?
 * normalizr
 * Immutable
 * CSS Modules
