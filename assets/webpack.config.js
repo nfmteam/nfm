@@ -31,6 +31,7 @@ var config = {
             'isomorphic-fetch',
             'bluebird',
             'classnames',
+            'lodash.merge',
             'react',
             'react-dom',
             'react-redux',
