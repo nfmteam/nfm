@@ -37,7 +37,6 @@ function walk(tree, nodeId, fn) {
 }
 
 function addChild(tree, nodeId, child) {
-    console.log(arguments);
     return walk(tree, nodeId, (node) => {
         node.isOpen = true;
         node.loaded = true;
