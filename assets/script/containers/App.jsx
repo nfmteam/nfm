@@ -31,7 +31,6 @@ class App extends Component {
 App.propTypes = {
     dispatch: PropTypes.func.isRequired,
     tree: PropTypes.shape({
-        loading: PropTypes.bool.isRequired,
         currentId: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired
     }),

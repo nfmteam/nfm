@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames/bind';
 
 class SubTree extends Component {
 
@@ -21,10 +22,14 @@ class SubTree extends Component {
 
         return <ul className='tree'>
             {
-                data.map(({ id, name, path, isOpen, children }) => {
-                    return <li
-                        className={isOpen ? 'tree-open' : null}
-                        key={id}
+                data.map(({ id, name, path, isOpen, isLoading, children }) => {
+
+                    let liClass = classNames({
+                        'tree-open': isOpen,
+                        'tree-loading': isLoading
+                    });
+
+                    return <li className={liClass} key={id}
                         onClick={event => this.loadSubTree(event, path, id)}>
                         <span className='tree-switcher tree-noline-open'/>
                         <a href='javascript:;'>
@@ -48,15 +53,14 @@ class Tree extends Component {
     render() {
         const {
             tree: {
-                data: data,
-                loading: loading
-            }
+                data: data
+            },
+            loadTreeHandler
         } = this.props;
 
-        let html = loading ? 'loading...' :
-            <SubTree data={data} loadTreeHandler={this.props.loadTreeHandler}/>;
-
-        return <div style={{margin: 30}}>{html}</div>;
+        return <div style={{margin: 30}}>
+            <SubTree data={data} loadTreeHandler={loadTreeHandler}/>
+        </div>;
     }
 }
 

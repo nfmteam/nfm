@@ -30,6 +30,7 @@ var config = {
             'reselect',
             'isomorphic-fetch',
             'bluebird',
+            'classnames',
             'react',
             'react-dom',
             'react-redux',

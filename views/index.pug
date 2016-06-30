@@ -18,7 +18,21 @@ html
       a {
         text-decoration: none;
       }
-      .tree li span.tree-switcher, .tree li a i.tree-icon {
+      .wrap1000 {
+        width: 1000px;
+        margin: 0 auto;
+      }
+      .tree li a {
+        display: inline-block;
+        padding: 1px 3px 0 0;
+        height: 17px;
+        cursor: pointer;
+      }
+      .tree li ul {
+        padding: 0 0 0 18px;
+        display: none;
+      }
+      .tree li > span, .tree li a > i {
         display: inline-block;
         width: 16px;
         height: 16px;
@@ -28,35 +42,26 @@ html
         vertical-align: middle;
         cursor: pointer;
       }
-      .tree li span.tree-switcher {
+      .tree li > span {
         background-position: -74px -72px;
       }
-      .tree li a i.tree-icon {
+      .tree li a > i {
         background-position: -110px 0;
       }
-      .tree li.tree-open > span.tree-switcher {
+      .tree li.tree-open > span, .tree li.tree-loading > span {
         background-position: -92px -72px;
       }
-      .tree li span.tree-noline-none {
-        background: none;
-      }
-      .tree li a {
-        display: inline-block;
-        padding: 1px 3px 0 0;
-        height: 17px;
-        cursor: pointer;
-      }
-      .tree li.tree-open > a i.tree-icon {
+      .tree li.tree-open > a > i {
         background-position: -110px -16px;
-      }
-      .tree li a span.tree-title {
-      }
-      .tree li ul {
-        padding: 0 0 0 18px;
-        display: none;
       }
       .tree li.tree-open > ul {
         display: block;
+      }
+      .tree li.tree-none > span {
+        background: none;
+      }
+      .tree li.tree-loading a > i {
+        background: url(https://t.alipayobjects.com/images/rmsweb/T1YxhiXgJbXXXXXXXX.gif) no-repeat 0 0;
       }
   body
     div#root
