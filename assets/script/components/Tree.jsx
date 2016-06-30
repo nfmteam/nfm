@@ -5,11 +5,18 @@ class SubTree extends Component {
 
     constructor(props) {
         super(props);
-        this.loadSubTree = this.loadSubTree.bind(this);
+        this.clickTree = this.clickTree.bind(this);
     }
 
-    loadSubTree(event, path, id) {
-        this.props.loadTreeHandler(path, id);
+    clickTree(event, node) {
+        if (node.loaded && node.children && node.children.length) {
+            this.props.controlTreeHandler(node.id);
+        }
+
+        if (!node.loaded) {
+            this.props.loadTreeHandler(node.path, node.id);
+        }
+
         event.stopPropagation();
     }
 
@@ -22,15 +29,17 @@ class SubTree extends Component {
 
         return <ul className='tree'>
             {
-                data.map(({ id, name, path, isOpen, isLoading, children }) => {
+                data.map(node => {
+                    let { id, name, path, isOpen, isLoading, loaded, children } = node;
 
                     let liClass = classNames({
                         'tree-open': isOpen,
-                        'tree-loading': isLoading
+                        'tree-loading': isLoading,
+                        'tree-none': loaded && (!children || !children.length)
                     });
 
                     return <li className={liClass} key={id}
-                        onClick={event => this.loadSubTree(event, path, id)}>
+                               onClick={event => this.clickTree(event, node)}>
                         <span className='tree-switcher tree-noline-open'/>
                         <a href='javascript:;'>
                             <i className='tree-icon tree-icon-open'/>
@@ -55,11 +64,11 @@ class Tree extends Component {
             tree: {
                 data: data
             },
-            loadTreeHandler
+            ...otherProps
         } = this.props;
 
         return <div style={{margin: 30}}>
-            <SubTree data={data} loadTreeHandler={loadTreeHandler}/>
+            <SubTree data={data} {...otherProps}/>
         </div>;
     }
 }

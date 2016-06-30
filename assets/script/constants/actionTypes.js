@@ -10,6 +10,7 @@ export const MESSAGE_TIPS_HIDE = 'MESSAGE_TIPS_HIDE';
 // tree
 export const TREE_REQUEST = 'REQUEST_TREE';
 export const TREE_REQUEST_SUCCESS = 'TREE_REQUEST_SUCCESS';
+export const TREE_CONTROL = 'TREE_CONTROL';
 
 // workspace
 export const WORKSPACE_CHANGE = 'WORKSPACE_CHANGE';

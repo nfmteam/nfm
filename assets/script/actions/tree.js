@@ -1,7 +1,14 @@
 import Promise from 'bluebird';
 import fetch from 'isomorphic-fetch';
-import { TREE_REQUEST, TREE_REQUEST_SUCCESS } from '../constants/actionTypes';
+import {
+    TREE_REQUEST,
+    TREE_REQUEST_SUCCESS,
+    TREE_CONTROL
+} from '../constants/actionTypes';
 
+/**
+ * 发出请求
+ */
 function requestTree(id) {
     return {
         type: TREE_REQUEST,
@@ -9,6 +16,9 @@ function requestTree(id) {
     }
 }
 
+/**
+ * 请求成功
+ */
 function requestTreeSuccess(data, id) {
     return {
         type: TREE_REQUEST_SUCCESS,
@@ -23,9 +33,19 @@ export function getTree(path = '/', id = '0') {
 
         Promise.all([
             fetch(`http://localhost:3010/api/v1/list?path=${path}&type=d`).then(response => response.json()),
-            Promise.delay(1000)
+            Promise.delay(500)
         ]).then(([data]) => {
             dispatch(requestTreeSuccess(data, id));
         });
+    }
+}
+
+/**
+ * 展开 & 折叠
+ */
+export function controlTree(id) {
+    return {
+        type: TREE_CONTROL,
+        currentId: id
     }
 }

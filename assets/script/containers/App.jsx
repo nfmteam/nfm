@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
-import { getTree } from '../actions/tree';
+import { getTree, controlTree } from '../actions/tree';
 import Counter from '../components/Counter.jsx';
 import Tree from '../components/Tree.jsx';
 import Message from '../components/Message.jsx';
@@ -22,7 +22,8 @@ class App extends Component {
                     count={count} />
                 <Tree
                     tree={tree}
-                    loadTreeHandler={(path, id) => dispatch(getTree(path, id))} />
+                    loadTreeHandler={(path, id) => dispatch(getTree(path, id))}
+                    controlTreeHandler={id => dispatch(controlTree(id))} />
             </div>
         );
     }
