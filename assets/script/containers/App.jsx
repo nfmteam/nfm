@@ -9,28 +9,31 @@ import selector from '../selectors';
 
 class App extends Component {
     render() {
-        const { dispatch, count, tree, message } = this.props;
+        const {
+            count, tree, message,
+            addHandler, addAsyncHandler, subtractHandler, cleanHandler,
+            loadTreeHandler, controlTreeHandler
+        } = this.props;
 
         return (
             <div>
-                <Message message={message} />
+                <Message message={message}/>
                 <Counter
-                    addHandler={() => dispatch(addCount())}
-                    addAsyncHandler={() => dispatch(addCountAsync())}
-                    subtractHandler={() => dispatch(subtractCount())}
-                    cleanHandler={() => dispatch(cleanCount())}
-                    count={count} />
+                    addHandler={addHandler}
+                    addAsyncHandler={addAsyncHandler}
+                    subtractHandler={subtractHandler}
+                    cleanHandler={cleanHandler}
+                    count={count}/>
                 <Tree
                     tree={tree}
-                    loadTreeHandler={(path, id) => dispatch(getTree(path, id))}
-                    controlTreeHandler={id => dispatch(controlTree(id))} />
+                    loadTreeHandler={loadTreeHandler}
+                    controlTreeHandler={controlTreeHandler}/>
             </div>
         );
     }
 }
 
 App.propTypes = {
-    dispatch: PropTypes.func.isRequired,
     tree: PropTypes.shape({
         currentId: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired
@@ -39,7 +42,25 @@ App.propTypes = {
         text: PropTypes.string.isRequired,
         show: PropTypes.bool.isRequired
     }),
-    count: PropTypes.number.isRequired
+    count: PropTypes.number.isRequired,
+    addHandler: PropTypes.func.isRequired,
+    addAsyncHandler: PropTypes.func.isRequired,
+    subtractHandler: PropTypes.func.isRequired,
+    cleanHandler: PropTypes.func.isRequired,
+    loadTreeHandler: PropTypes.func.isRequired,
+    controlTreeHandler: PropTypes.func.isRequired
 };
 
-export default connect(selector)(App);
+const mapDispatchToProps = dispatch => ({
+    addHandler: () => dispatch(addCount()),
+    addAsyncHandler: () => dispatch(addCountAsync()),
+    subtractHandler: () => dispatch(subtractCount()),
+    cleanHandler: () => dispatch(cleanCount()),
+    loadTreeHandler: (path, id) => dispatch(getTree(path, id)),
+    controlTreeHandler: id=>dispatch(controlTree(id))
+});
+
+export default connect(
+    selector,
+    mapDispatchToProps
+)(App);
