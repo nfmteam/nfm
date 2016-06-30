@@ -38,6 +38,7 @@ function getFileStat(filePath) {
     return {
         id: md5(filePath), // 临时方案
         name: path.basename(filePath),
+        path: path.relative(basePath, filePath),
         size: stats.size,
         createAt: stats.birthtime,
         updateAt: stats.mtime,

@@ -16,7 +16,7 @@ function requestTreeSuccess(data, id) {
     }
 }
 
-export function getTree(path = '/', id = 0) {
+export function getTree(path = '/', id = '0') {
     return dispatch => {
         dispatch(requestTree());
 

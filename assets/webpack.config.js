@@ -12,9 +12,11 @@ const IS_DEVELOPMENT = process.env.NODE_ENV === 'development';
 var filename = IS_DEVELOPMENT ? 'bundle.js' : 'bundle.[hash].js';
 var vendorname = IS_DEVELOPMENT ? 'vendor.js' : 'vendor.[hash].js';
 var babelPlugins = IS_DEVELOPMENT ? [
-    'transform-async-to-generator'
+    'transform-async-to-generator',
+    'transform-object-rest-spread'
 ] : [
     'transform-async-to-generator',
+    'transform-object-rest-spread',
     'transform-react-constant-elements',
     'transform-react-remove-prop-types',
     'transform-runtime'
@@ -31,8 +33,6 @@ var config = {
             'react',
             'react-dom',
             'react-redux',
-            'rc-tree',
-            'tree-model',
             'redux',
             'redux-thunk',
             'redux-logger'

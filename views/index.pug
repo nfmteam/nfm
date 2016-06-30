@@ -4,7 +4,60 @@ html
     meta(charset='UTF-8')
     title NFM
     link(rel='icon', type='image/x-icon', href='/favicon.ico')
-    link(media="all", rel="stylesheet", href='/css/tree.css')
+    style.
+      body, html, div, blockquote, img, label, p, h1, h2, h3, h4, h5, h6, pre, ul, ol,
+      li, dl, dt, dd, form, a, fieldset, input, th, td {
+        margin: 0;
+        padding: 0;
+        border: 0;
+        outline: none;
+        font: 12px/1.5 'Microsoft YaHei', SimSun, tahoma, arial, 'Hiragino Sans GB', sans-serif;
+        list-style: none;
+        font-style: normal;
+      }
+      a {
+        text-decoration: none;
+      }
+      .tree li span.tree-switcher, .tree li a i.tree-icon {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-right: 2px;
+        background-image: url("https://t.alipayobjects.com/images/T1.ANfXhXtXXXXXXXX.png");
+        background-repeat: no-repeat;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+      .tree li span.tree-switcher {
+        background-position: -74px -72px;
+      }
+      .tree li a i.tree-icon {
+        background-position: -110px 0;
+      }
+      .tree li.tree-open > span.tree-switcher {
+        background-position: -92px -72px;
+      }
+      .tree li span.tree-noline-none {
+        background: none;
+      }
+      .tree li a {
+        display: inline-block;
+        padding: 1px 3px 0 0;
+        height: 17px;
+        cursor: pointer;
+      }
+      .tree li.tree-open > a i.tree-icon {
+        background-position: -110px -16px;
+      }
+      .tree li a span.tree-title {
+      }
+      .tree li ul {
+        padding: 0 0 0 18px;
+        display: none;
+      }
+      .tree li.tree-open > ul {
+        display: block;
+      }
   body
     div#root
     script(type='text/javascript', src=vendor.js)

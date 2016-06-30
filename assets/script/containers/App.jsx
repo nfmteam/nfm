@@ -32,8 +32,8 @@ App.propTypes = {
     dispatch: PropTypes.func.isRequired,
     tree: PropTypes.shape({
         loading: PropTypes.bool.isRequired,
-        currentId: PropTypes.number.isRequired,
-        data: PropTypes.object.isRequired
+        currentId: PropTypes.string.isRequired,
+        data: PropTypes.array.isRequired
     }),
     message: PropTypes.shape({
         text: PropTypes.string.isRequired,

@@ -1,55 +1,51 @@
 import { TREE_REQUEST, TREE_REQUEST_SUCCESS } from '../constants/actionTypes';
-import TreeModel from 'tree-model';
 
-let tree = new TreeModel();
-let treeRoot;
-let initialState;
+const initialState = {
+    loading: false,
+    currentId: '0',
+    data: [
+        {
+            id: '0',
+            name: '/',
+            type: 'd',
+            isOpen: true,
+            children: []
+        }
+    ]
+};
 
-function getInitialState() {
-    const initialState = {
-        loading: false,
-        currentId: 0,
-        data: null
-    };
-    const rootTree = {
-        id: 0,
-        name: '/',
-        type: 'd',
-        children: []
-    };
+function addChild(tree, parentId, child) {
+    var node;
 
-    var treeModel = new TreeModel();
-    treeRoot = treeModel.parse(rootTree);
+    for (var i = 0, j = tree.length; i < j; i++) {
+        node = tree[i];
+        if (node.id === parentId) {
+            node.isOpen = true;
+            node.children = child;
+            break;
+        } else if (node.children && node.children.length !== 0) {
+            node = addChild(node.children, parentId, child);
+        }
+    }
 
-    initialState.data = treeRoot.model;
-
-    return initialState;
+    return tree;
 }
 
-export default function treeReducer(state, action) {
+export default function treeReducer(state = initialState, action) {
     switch (action.type) {
         case TREE_REQUEST:
             return Object.assign({}, state, {
                 loading: true
             });
         case TREE_REQUEST_SUCCESS:
-            let currentNode = treeRoot.first(node => node.model.id === state.currentId);
-            let node;
-
-            action.data.forEach(item => {
-                node = tree.parse(item);
-                currentNode.addChild(node);
-            });
+            var data = addChild(state.data, action.currentId, action.data);
 
             return {
                 loading: false,
                 currentId: action.currentId,
-                data: treeRoot.model
+                data: data
             };
         default:
-            if (!initialState) {
-                initialState = getInitialState();
-            }
-            return initialState;
+            return state;
     }
 }
