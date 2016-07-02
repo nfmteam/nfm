@@ -31,6 +31,8 @@ export function getTree(path = '/', id = '0') {
     return dispatch => {
         dispatch(requestTree(id));
 
+        // TODO: {"code":500,"massge":"EACCES: permission denied, scandir '/tmp/KSOutOfProcessFetcher.0.ppfIhqX0vjaTSb8AJYobDV7Cu68='"}
+
         Promise.all([
             fetch(`http://localhost:3010/api/v1/list?path=${path}&type=d`).then(response => response.json()),
             Promise.delay(500)

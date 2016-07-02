@@ -23,33 +23,37 @@ class SubTree extends Component {
     render() {
         const { data, ...otherProps } = this.props;
 
-        if (!data || data.length === 0) {
+        if (Object.prototype.toString.call(data) !== '[object Array]' || !data.length) {
             return null;
         }
 
-        return <ul className='tree'>
-            {
-                data.map(node => {
-                    let { id, name, path, isOpen, isLoading, loaded, children } = node;
+        return (
+            <ul className='tree'>
+                {
+                    data.map(node => {
+                        let { id, name, path, isOpen, isLoading, loaded, children } = node;
 
-                    let liClass = classNames({
-                        'tree-open': isOpen,
-                        'tree-loading': isLoading,
-                        'tree-none': loaded && (!children || !children.length)
-                    });
+                        let liClass = classNames({
+                            'tree-open': isOpen,
+                            'tree-loading': isLoading,
+                            'tree-none': loaded && (!children || !children.length)
+                        });
 
-                    return <li className={liClass} key={id}
-                               onClick={event => this.clickTree(event, node)}>
-                        <span className='tree-switcher tree-noline-open'/>
-                        <a href='javascript:;'>
-                            <i className='tree-icon tree-icon-open'/>
-                            <span className='tree-title'>{name}</span>
-                        </a>
-                        <SubTree data={children} {...otherProps} />
-                    </li>
-                })
-            }
-        </ul>
+                        return (
+                            <li className={liClass} key={id}
+                                onClick={event => this.clickTree(event, node)}>
+                                <span className='tree-switcher tree-noline-open'/>
+                                <a href='javascript:;'>
+                                    <i className='tree-icon tree-icon-open'/>
+                                    <span className='tree-title'>{name}</span>
+                                </a>
+                                <SubTree data={children} {...otherProps} />
+                            </li>
+                        );
+                    })
+                }
+            </ul>
+        );
     }
 }
 
@@ -67,9 +71,12 @@ class Tree extends Component {
             ...otherProps
         } = this.props;
 
-        return <div style={{margin: 30}}>
-            <SubTree data={data} {...otherProps}/>
-        </div>;
+        return (
+            <div style={{margin: 30}}>
+                <input type='text' style={{border: '1px solid #ccc'}}/>
+                <SubTree data={data} {...otherProps}/>
+            </div>
+        );
     }
 }
 
