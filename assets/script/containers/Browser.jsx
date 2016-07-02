@@ -5,6 +5,8 @@ import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/c
 import { getTree, controlTree } from '../actions/tree';
 import Counter from '../components/Counter.jsx';
 import Tree from '../components/Tree.jsx';
+import Workspace from '../components/Workspace.jsx';
+import Search from '../components/Search.jsx';
 import selector from '../selectors/browser';
 
 class Browser extends Component {
@@ -12,8 +14,20 @@ class Browser extends Component {
         const {
             count, tree,
             addHandler, addAsyncHandler, subtractHandler, cleanHandler,
-            loadTreeHandler, controlTreeHandler
+            loadTreeHandler, controlTreeHandler,
+            params: {
+                workspacePath: workspacePath,
+                keyword: keyword
+            }
         } = this.props;
+
+        let subComponent = null;
+
+        if(workspacePath) {
+            subComponent = <Workspace />
+        } else if (keyword) {
+            subComponent = <Search />
+        }
 
         return (
             <div>
@@ -27,6 +41,7 @@ class Browser extends Component {
                     tree={tree}
                     loadTreeHandler={loadTreeHandler}
                     controlTreeHandler={controlTreeHandler}/>
+                {subComponent}
             </div>
         );
     }

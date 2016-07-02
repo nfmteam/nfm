@@ -17,6 +17,7 @@ File manage implement by node.
 * CSS Modules
 * 错误信息区分请求和页面
 * 服务端渲染
+* To optimize the react
 
 
 ```javascript

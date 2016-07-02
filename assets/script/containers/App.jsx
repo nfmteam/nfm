@@ -10,6 +10,17 @@ class App extends Component {
 
         return (
             <div>
+                <ul>
+                    <li>
+                        <Link to='/test1'>test1</Link>
+                    </li>
+                    <li>
+                        <Link to='/test2'>test2</Link>
+                    </li>
+                    <li>
+                        <Link to='/browser'>browser</Link>
+                    </li>
+                </ul>
                 <Message message={message}/>
                 {children}
             </div>

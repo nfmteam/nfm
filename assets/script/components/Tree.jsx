@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { browserHistory } from 'react-router'
 import classNames from 'classnames';
 
 class SubTree extends Component {
@@ -60,7 +61,12 @@ class SubTree extends Component {
 class Tree extends Component {
 
     componentWillMount() {
-        this.props.loadTreeHandler();
+        const currentId = this.props.tree.currentId;
+        const loadTreeHandler = this.props.loadTreeHandler;
+
+        if (currentId === '') {
+            loadTreeHandler();
+        }
     }
 
     render() {
@@ -72,8 +78,7 @@ class Tree extends Component {
         } = this.props;
 
         return (
-            <div style={{margin: 30}}>
-                <input type='text' style={{border: '1px solid #ccc'}}/>
+            <div style={{width: 400, position: 'absolute', top: 120, left: 30 }}>
                 <SubTree data={data} {...otherProps}/>
             </div>
         );
