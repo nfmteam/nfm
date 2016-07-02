@@ -2,11 +2,14 @@
 
 File manage implement by node.
 
+## Featur
+
+- [ ] 收藏目录
+- [ ] 在线编辑器
+- [ ] zip上传
+
 ## TODO
 
-* import * as reducers from './reducers'
-* **router**
-* **history**
 * reselect cache?
 * normalizr
 * monaco-editor
@@ -14,10 +17,6 @@ File manage implement by node.
 * CSS Modules
 * 错误信息区分请求和页面
 * 服务端渲染
-
-## Featur
-
-* 收藏目录
 
 
 ```javascript
