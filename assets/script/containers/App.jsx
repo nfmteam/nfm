@@ -6,7 +6,7 @@ import selector from '../selectors/app';
 
 class App extends Component {
     render() {
-        const { message, children } = this.props;
+        const { message, workspaceCurrentPath, children } = this.props;
 
         return (
             <div>
@@ -18,7 +18,7 @@ class App extends Component {
                         <Link to='/test2'>test2</Link>
                     </li>
                     <li>
-                        <Link to='/browser'>browser</Link>
+                        <Link to={`/browser/${workspaceCurrentPath}`}>browser</Link>
                     </li>
                 </ul>
                 <Message message={message}/>

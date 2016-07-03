@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router'
+import { push } from 'react-router-redux';
 import classNames from 'classnames';
 
 class SubTree extends Component {
@@ -24,7 +24,13 @@ class SubTree extends Component {
     }
 
     loadWorkspace(event, node) {
-        this.props.loadWorkspaceFilesHandler(node.path);
+        var path = encodeURIComponent(node.path),
+            push = this.props.push,
+            loadWorkspaceFilesHandler = this.props.loadWorkspaceFilesHandler;
+
+        push(`/browser/${path}`);
+        loadWorkspaceFilesHandler(node.path);
+
         event.stopPropagation();
     }
 

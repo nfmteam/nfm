@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
 import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
 import { getTree, controlTree } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
@@ -15,7 +15,7 @@ class Browser extends Component {
         const {
             count, tree, workspace,
             addHandler, addAsyncHandler, subtractHandler, cleanHandler,
-            loadTreeHandler, controlTreeHandler,
+            loadTreeHandler, controlTreeHandler, push,
             loadWorkspaceFilesHandler,
             params: {
                 workspacePath: workspacePath,
@@ -44,6 +44,7 @@ class Browser extends Component {
                     count={count}/>
                 <Tree
                     tree={tree}
+                    push={push}
                     loadTreeHandler={loadTreeHandler}
                     controlTreeHandler={controlTreeHandler}
                     loadWorkspaceFilesHandler={loadWorkspaceFilesHandler}/>
@@ -69,7 +70,8 @@ Browser.propTypes = {
     cleanHandler: PropTypes.func.isRequired,
     loadTreeHandler: PropTypes.func.isRequired,
     controlTreeHandler: PropTypes.func.isRequired,
-    loadWorkspaceFilesHandler: PropTypes.func.isRequired
+    loadWorkspaceFilesHandler: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -79,7 +81,8 @@ const mapDispatchToProps = dispatch => ({
     cleanHandler: () => dispatch(cleanCount()),
     loadTreeHandler: path => dispatch(getTree(path)),
     controlTreeHandler: path => dispatch(controlTree(path)),
-    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path))
+    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path)),
+    push: path => dispatch(push(path))
 });
 
 export default connect(

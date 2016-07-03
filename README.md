@@ -20,19 +20,3 @@ File manage implement by node.
 * To optimize the react
 * 安全性,完整性验证,error处理
 * 注释
-
-
-```javascript
-
-  <Route path="/" component={App}>
-    <Route path="browser" component={Browser}/>
-    <Route path="user" component={User}/>
-    <Route path="editor" component={Editor}/>
-    <Route path="admin" component={Admin}/>
-  </Route>
-
-```
-App
-	loading bar
-	dialog
-	message
