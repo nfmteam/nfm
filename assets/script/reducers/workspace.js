@@ -1,4 +1,3 @@
-import merge from 'lodash.merge';
 import {
     WORKSPACE_REQUEST,
     WORKSPACE_REQUEST_SUCCESS
@@ -12,13 +11,15 @@ const initialState = {
 export default function workspaceReducer(state = initialState, action) {
     switch (action.type) {
         case WORKSPACE_REQUEST:
-            return merge({}, state, {
-                currentPath: action.currentPath
-            });
+            return {
+                currentPath: action.currentPath,
+                data: state.data
+            };
         case WORKSPACE_REQUEST_SUCCESS:
-            return merge({}, state, {
+            return {
+                currentPath: state.currentPath,
                 data: action.data
-            });
+            };
         default:
             return state;
     }

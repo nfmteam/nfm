@@ -45,7 +45,8 @@ class Browser extends Component {
                 <Tree
                     tree={tree}
                     loadTreeHandler={loadTreeHandler}
-                    controlTreeHandler={controlTreeHandler}/>
+                    controlTreeHandler={controlTreeHandler}
+                    loadWorkspaceFilesHandler={loadWorkspaceFilesHandler}/>
                 {subComponent}
             </div>
         );

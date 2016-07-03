@@ -6,10 +6,12 @@ class SubTree extends Component {
 
     constructor(props) {
         super(props);
-        this.clickTree = this.clickTree.bind(this);
+
+        this.controlTree = this.controlTree.bind(this);
+        this.loadWorkspace = this.loadWorkspace.bind(this);
     }
 
-    clickTree(event, node) {
+    controlTree(event, node) {
         if (node.loaded && node.children && node.children.length) {
             this.props.controlTreeHandler(node.path);
         }
@@ -18,6 +20,11 @@ class SubTree extends Component {
             this.props.loadTreeHandler(node.path);
         }
 
+        event.stopPropagation();
+    }
+
+    loadWorkspace(event, node) {
+        this.props.loadWorkspaceFilesHandler(node.path);
         event.stopPropagation();
     }
 
@@ -41,10 +48,11 @@ class SubTree extends Component {
                         });
 
                         return (
-                            <li className={liClass} key={path}
-                                onClick={event => this.clickTree(event, node)}>
-                                <span className='tree-switcher tree-noline-open'/>
-                                <a href='javascript:;'>
+                            <li className={liClass} key={path}>
+                                <span
+                                    className='tree-switcher tree-noline-open'
+                                    onClick={event => this.controlTree(event, node)} />
+                                <a href='javascript:;' onClick={event => this.loadWorkspace(event, node)}>
                                     <i className='tree-icon tree-icon-open'/>
                                     <span className='tree-title'>{name}</span>
                                 </a>
