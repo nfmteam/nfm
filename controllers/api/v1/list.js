@@ -11,7 +11,7 @@ module.exports = {
     // path校验(排除隐藏文件...)
     getList: function *() {
         const p = this.request.query.path || '/';
-        const _type = this.request.query.type || 'f';
+        const _type = this.request.query.type;
         const dir = path.join(basePath, path.resolve('/', p));
 
         let type = ['f', 'd'];

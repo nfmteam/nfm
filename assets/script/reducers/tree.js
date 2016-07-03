@@ -6,10 +6,10 @@ import {
 } from '../constants/actionTypes';
 
 const initialState = {
-    currentId: '',
+    currentPath: '',
     data: [
         {
-            id: '0',
+            path: '/',
             name: '/',
             type: 'd',
             isOpen: true,
@@ -20,24 +20,24 @@ const initialState = {
     ]
 };
 
-function walk(tree, nodeId, fn) {
+function walk(tree, nodePath, fn) {
     var node;
 
     for (var i = 0, j = tree.length; i < j; i++) {
         node = tree[i];
-        if (node.id === nodeId) {
+        if (node.path === nodePath) {
             fn(node);
             break;
         } else if (node.children && node.children.length !== 0) {
-            node = walk(node.children, nodeId, fn);
+            node = walk(node.children, nodePath, fn);
         }
     }
 
     return tree;
 }
 
-function addChild(tree, nodeId, child) {
-    return walk(tree, nodeId, (node) => {
+function addChild(tree, nodePath, child) {
+    return walk(tree, nodePath, (node) => {
         node.isOpen = true;
         node.loaded = true;
         node.isLoading = false;
@@ -45,14 +45,14 @@ function addChild(tree, nodeId, child) {
     });
 }
 
-function loadingTree(tree, nodeId) {
-    return walk(tree, nodeId, (node) => {
+function loadingTree(tree, nodePath) {
+    return walk(tree, nodePath, (node) => {
         node.isLoading = true;
     });
 }
 
-function controlTree(tree, nodeId) {
-    return walk(tree, nodeId, (node) => {
+function controlTree(tree, nodePath) {
+    return walk(tree, nodePath, (node) => {
         node.isOpen = !node.isOpen;
     });
 }
@@ -61,18 +61,18 @@ export default function treeReducer(state = initialState, action) {
     switch (action.type) {
         case TREE_REQUEST:
             return merge({}, state, {
-                currentId: action.currentId,
-                data: loadingTree(state.data, action.currentId)
+                currentPath: action.currentPath,
+                data: loadingTree(state.data, action.currentPath)
             });
         case TREE_REQUEST_SUCCESS:
             return merge({}, state, {
-                currentId: action.currentId,
-                data: addChild(state.data, action.currentId, action.data)
+                currentPath: action.currentPath,
+                data: addChild(state.data, action.currentPath, action.data)
             });
         case TREE_CONTROL:
             return merge({}, state, {
-                currentId: action.currentId,
-                data: controlTree(state.data, action.currentId)
+                currentPath: action.currentPath,
+                data: controlTree(state.data, action.currentPath)
             });
         default:
             return state;

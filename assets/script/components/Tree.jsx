@@ -11,11 +11,11 @@ class SubTree extends Component {
 
     clickTree(event, node) {
         if (node.loaded && node.children && node.children.length) {
-            this.props.controlTreeHandler(node.id);
+            this.props.controlTreeHandler(node.path);
         }
 
         if (!node.loaded) {
-            this.props.loadTreeHandler(node.path, node.id);
+            this.props.loadTreeHandler(node.path);
         }
 
         event.stopPropagation();
@@ -32,7 +32,7 @@ class SubTree extends Component {
             <ul className='tree'>
                 {
                     data.map(node => {
-                        let { id, name, path, isOpen, isLoading, loaded, children } = node;
+                        let { name, path, isOpen, isLoading, loaded, children } = node;
 
                         let liClass = classNames({
                             'tree-open': isOpen,
@@ -41,7 +41,7 @@ class SubTree extends Component {
                         });
 
                         return (
-                            <li className={liClass} key={id}
+                            <li className={liClass} key={path}
                                 onClick={event => this.clickTree(event, node)}>
                                 <span className='tree-switcher tree-noline-open'/>
                                 <a href='javascript:;'>
@@ -61,10 +61,11 @@ class SubTree extends Component {
 class Tree extends Component {
 
     componentWillMount() {
-        const currentId = this.props.tree.currentId;
+        const root = this.props.tree.data[0];
         const loadTreeHandler = this.props.loadTreeHandler;
 
-        if (currentId === '') {
+        // 初始化时, 加载树
+        if (!root.loaded) {
             loadTreeHandler();
         }
     }

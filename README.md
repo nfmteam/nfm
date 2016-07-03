@@ -18,6 +18,8 @@ File manage implement by node.
 * 错误信息区分请求和页面
 * 服务端渲染
 * To optimize the react
+* 安全性,完整性验证,error处理
+* 注释
 
 
 ```javascript

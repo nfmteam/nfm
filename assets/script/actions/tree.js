@@ -9,27 +9,27 @@ import {
 /**
  * 发出请求
  */
-function requestTree(id) {
+function requestTree(path) {
     return {
         type: TREE_REQUEST,
-        currentId: id
+        currentPath: path
     }
 }
 
 /**
  * 请求成功
  */
-function requestTreeSuccess(data, id) {
+function requestTreeSuccess(data, path) {
     return {
         type: TREE_REQUEST_SUCCESS,
-        currentId: id,
+        currentPath: path,
         data: data
     }
 }
 
-export function getTree(path = '/', id = '0') {
+export function getTree(path = '/') {
     return dispatch => {
-        dispatch(requestTree(id));
+        dispatch(requestTree(path));
 
         // TODO: {"code":500,"massge":"EACCES: permission denied, scandir '/tmp/KSOutOfProcessFetcher.0.ppfIhqX0vjaTSb8AJYobDV7Cu68='"}
 
@@ -37,7 +37,7 @@ export function getTree(path = '/', id = '0') {
             fetch(`http://localhost:3010/api/v1/list?path=${path}&type=d`).then(response => response.json()),
             Promise.delay(500)
         ]).then(([data]) => {
-            dispatch(requestTreeSuccess(data, id));
+            dispatch(requestTreeSuccess(data, path));
         });
     }
 }
@@ -45,9 +45,9 @@ export function getTree(path = '/', id = '0') {
 /**
  * 展开 & 折叠
  */
-export function controlTree(id) {
+export function controlTree(path) {
     return {
         type: TREE_CONTROL,
-        currentId: id
+        currentPath: path
     }
 }
