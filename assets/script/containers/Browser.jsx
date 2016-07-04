@@ -29,6 +29,7 @@ class Browser extends Component {
             subComponent = <Workspace
                 workspace={workspace}
                 workspacePath={workspacePath}
+                push={push}
                 loadWorkspaceFilesHandler={loadWorkspaceFilesHandler}/>
         } else if (keyword) {
             subComponent = <Search keyword={keyword}/>
