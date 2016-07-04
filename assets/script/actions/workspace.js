@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import Promise from 'bluebird';
 import fetch from 'isomorphic-fetch';
 import {
@@ -49,6 +50,9 @@ export function getWorkspaceFiles(path = '/') {
             fetch(`http://localhost:3010/api/v1/list?path=${path}`).then(response => response.json()),
             Promise.delay(500)
         ]).then(([data]) => {
+            var historyPath = `/browser/${encodeURIComponent(path)}`;
+            dispatch(push(historyPath));
+
             dispatch(requestWorkspaceSuccess(sortFiles(data)));
         });
     }

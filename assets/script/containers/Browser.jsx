@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { push } from 'react-router-redux';
 import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
 import { getTree, controlTree } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
@@ -71,8 +70,7 @@ Browser.propTypes = {
     cleanHandler: PropTypes.func.isRequired,
     loadTreeHandler: PropTypes.func.isRequired,
     controlTreeHandler: PropTypes.func.isRequired,
-    loadWorkspaceFilesHandler: PropTypes.func.isRequired,
-    push: PropTypes.func.isRequired
+    loadWorkspaceFilesHandler: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
@@ -82,8 +80,7 @@ const mapDispatchToProps = dispatch => ({
     cleanHandler: () => dispatch(cleanCount()),
     loadTreeHandler: path => dispatch(getTree(path)),
     controlTreeHandler: path => dispatch(controlTree(path)),
-    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path)),
-    push: path => dispatch(push(path))
+    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path))
 });
 
 export default connect(

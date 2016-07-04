@@ -2,12 +2,6 @@ import React, { Component } from 'react';
 
 class Workspace extends Component {
 
-    constructor(props) {
-        super(props);
-
-        this.loadWorkspaceFiles = this.loadWorkspaceFiles.bind(this);
-    }
-
     componentWillMount() {
         const workspacePath = this.props.workspacePath;
         const loadWorkspaceFilesHandler = this.props.loadWorkspaceFilesHandler;
@@ -18,15 +12,14 @@ class Workspace extends Component {
         }
     }
 
-    loadWorkspaceFiles(path) {
-        const { loadWorkspaceFilesHandler, push } = this.props;
-
-        push(`/browser/${encodeURIComponent(path)}`);
-        loadWorkspaceFilesHandler(path);
-    }
-
     render() {
-        const { data, currentPath } = this.props.workspace;
+        const {
+            workspace: {
+                data: data,
+                currentPath: currentPath
+            },
+            loadWorkspaceFilesHandler
+        } = this.props;
 
         return (
             <div style={{width: 700, position: 'absolute', top: 120, left: 460 }}>
@@ -37,7 +30,7 @@ class Workspace extends Component {
                                 {
                                     item.type === 'd' ?
                                         <a href='javascript:;'
-                                           onClick={() => this.loadWorkspaceFiles(item.path)}
+                                           onClick={() => loadWorkspaceFilesHandler(item.path)}
                                            key={item.path}>
                                             [directory]{item.name}
                                         </a> :
