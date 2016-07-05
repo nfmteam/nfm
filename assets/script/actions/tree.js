@@ -25,6 +25,13 @@ function requestTreeSuccessCreater(data, path) {
     }
 }
 
+export function controlTreeCreater(path) {
+    return {
+        type: TREE_CONTROL,
+        currentPath: path
+    }
+}
+
 /**
  * Async Action Creater
  */
@@ -41,12 +48,5 @@ export function getTree(path = '/') {
         ]).then(([data]) => {
             dispatch(requestTreeSuccessCreater(data, path));
         });
-    }
-}
-
-export function controlTreeCreater(path) {
-    return {
-        type: TREE_CONTROL,
-        currentPath: path
     }
 }

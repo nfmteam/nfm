@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { getTree, controlTree } from '../actions/tree';
+import { getTree, controlTreeCreater } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
 import Tree from '../components/tree';
 import Workspace from '../components/workspace';
@@ -61,7 +61,7 @@ Browser.propTypes = {
 
 const mapDispatchToProps = dispatch => ({
     loadTreeHandler: path => dispatch(getTree(path)),
-    controlTreeHandler: path => dispatch(controlTree(path)),
+    controlTreeHandler: path => dispatch(controlTreeCreater(path)),
     loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path))
 });
 
