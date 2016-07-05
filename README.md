@@ -10,7 +10,6 @@ File manage implement by node.
 
 ## TODO
 
-* components分类拆分
 * reselect cache?
 * normalizr
 * monaco-editor

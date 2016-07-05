@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classNames from 'classnames';
 
-class SubTree extends Component {
+export default class SubTree extends Component {
 
     constructor(props) {
         super(props);
@@ -49,9 +49,9 @@ class SubTree extends Component {
 
                         return (
                             <li className={liClass} key={path}>
-                                <span
-                                    className='tree-switcher tree-noline-open'
-                                    onClick={event => this.controlTree(event, node)} />
+                    <span
+                        className='tree-switcher tree-noline-open'
+                        onClick={event => this.controlTree(event, node)}/>
                                 <a href='javascript:;' onClick={event => this.loadWorkspace(event, node)}>
                                     <i className='tree-icon tree-icon-open'/>
                                     <span className='tree-title'>{name}</span>
@@ -65,33 +65,3 @@ class SubTree extends Component {
         );
     }
 }
-
-class Tree extends Component {
-
-    componentWillMount() {
-        const root = this.props.tree.data[0];
-        const loadTreeHandler = this.props.loadTreeHandler;
-
-        // 初始化时, 加载树
-        if (!root.loaded) {
-            loadTreeHandler();
-        }
-    }
-
-    render() {
-        const {
-            tree: {
-                data: data
-            },
-            ...otherProps
-        } = this.props;
-
-        return (
-            <div style={{width: 400, position: 'absolute', top: 120, left: 30 }}>
-                <SubTree data={data} {...otherProps}/>
-            </div>
-        );
-    }
-}
-
-export default Tree;
