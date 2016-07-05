@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 
-const basePath = process.cwd();
+const basePath = '/Users/keenwon/Desktop/temp';
 
 module.exports = {
 

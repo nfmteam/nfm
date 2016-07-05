@@ -1,6 +1,10 @@
 import { MESSAGE_TIPS_ERROR, MESSAGE_TIPS_HIDE, MESSAGE_TIPS_INFO } from '../constants/actionTypes';
 
-function _showInfoMessage(text) {
+/**
+ * Action Creater
+ */
+
+function showInfoMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_INFO,
         text: text,
@@ -8,18 +12,7 @@ function _showInfoMessage(text) {
     }
 }
 
-export function showInfoMessage(text) {
-    return dispatch => {
-        dispatch(_showInfoMessage(text));
-
-        setTimeout(
-            () => dispatch(hideMessage()),
-            2000
-        )
-    };
-}
-
-export function showErrorMessage(text) {
+export function showErrorMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_ERROR,
         text: text,
@@ -27,10 +20,25 @@ export function showErrorMessage(text) {
     }
 }
 
-export function hideMessage() {
+export function hideMessageCreater() {
     return {
         type: MESSAGE_TIPS_HIDE,
         text: '',
         show: false
     }
+}
+
+/**
+ * Async Action Creater
+ */
+
+export function showInfoMessage(text) {
+    return dispatch => {
+        dispatch(showInfoMessageCreater(text));
+
+        setTimeout(
+            () => dispatch(hideMessageCreater()),
+            2000
+        )
+    };
 }
