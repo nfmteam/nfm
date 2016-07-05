@@ -36,14 +36,15 @@ class Nav extends Component {
             <p>
                 {
                     paths.map((obj, index) => {
-                        return (
+                        return lastIndex !== index ?
                             <span key={obj.navPath}>
                                 <a href='javascript:;' onClick={() => clickHandler(obj.navPath)}>
                                     {obj.navName}
                                 </a>
-                                {lastIndex !== index ? <i> > </i> : null}
+                                <i> > </i>
                             </span>
-                        )
+                            :
+                            <span key={obj.navPath}>{obj.navName}</span>
                     })
                 }
             </p>
