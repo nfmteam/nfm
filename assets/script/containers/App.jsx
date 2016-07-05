@@ -18,7 +18,7 @@ class App extends Component {
                         <Link to='/test2'>test2</Link>
                     </li>
                     <li>
-                        <Link to={`/browser/${workspaceCurrentPath}`}>browser</Link>
+                        <Link to={`/browser/${encodeURIComponent(workspaceCurrentPath)}`}>browser</Link>
                     </li>
                 </ul>
                 <Message message={message}/>
