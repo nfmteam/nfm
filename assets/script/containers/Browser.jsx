@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addCount, addCountAsync, subtractCount, cleanCount } from '../actions/counter';
 import { getTree, controlTree } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
-import Counter from '../components/Counter.jsx';
 import Tree from '../components/Tree.jsx';
 import Workspace from '../components/Workspace.jsx';
 import Search from '../components/Search.jsx';
@@ -12,8 +10,7 @@ import selector from '../selectors/browser';
 class Browser extends Component {
     render() {
         const {
-            count, tree, workspace,
-            addHandler, addAsyncHandler, subtractHandler, cleanHandler,
+            tree, workspace,
             loadTreeHandler, controlTreeHandler, push,
             loadWorkspaceFilesHandler,
             params: {
@@ -36,12 +33,6 @@ class Browser extends Component {
 
         return (
             <div>
-                <Counter
-                    addHandler={addHandler}
-                    addAsyncHandler={addAsyncHandler}
-                    subtractHandler={subtractHandler}
-                    cleanHandler={cleanHandler}
-                    count={count}/>
                 <Tree
                     tree={tree}
                     push={push}
@@ -63,21 +54,12 @@ Browser.propTypes = {
         currentPath: PropTypes.string.isRequired,
         data: PropTypes.array.isRequired
     }),
-    count: PropTypes.number.isRequired,
-    addHandler: PropTypes.func.isRequired,
-    addAsyncHandler: PropTypes.func.isRequired,
-    subtractHandler: PropTypes.func.isRequired,
-    cleanHandler: PropTypes.func.isRequired,
     loadTreeHandler: PropTypes.func.isRequired,
     controlTreeHandler: PropTypes.func.isRequired,
     loadWorkspaceFilesHandler: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-    addHandler: () => dispatch(addCount()),
-    addAsyncHandler: () => dispatch(addCountAsync()),
-    subtractHandler: () => dispatch(subtractCount()),
-    cleanHandler: () => dispatch(cleanCount()),
     loadTreeHandler: path => dispatch(getTree(path)),
     controlTreeHandler: path => dispatch(controlTree(path)),
     loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path))

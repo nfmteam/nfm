@@ -1,15 +1,13 @@
 import { createSelector } from 'reselect';
 
-const getCount = (state) => state.counter.count;
 const getTreeData = (state) => state.tree.data;
 const getTreeCurrentPath = (state) => state.tree.currentPath;
 const getWorkspaceCurrentPath = (state) => state.workspace.currentPath;
 const getWorkspaceData = (state) => state.workspace.data;
 
 export default createSelector(
-    [getCount, getTreeData, getTreeCurrentPath, getWorkspaceCurrentPath, getWorkspaceData],
-    (count, treeData, treeCurrentPath, workspaceCurrentPath, workspaceData) => ({
-        count,
+    [getTreeData, getTreeCurrentPath, getWorkspaceCurrentPath, getWorkspaceData],
+    (treeData, treeCurrentPath, workspaceCurrentPath, workspaceData) => ({
         tree: {
             currentPath: treeCurrentPath,
             data: treeData

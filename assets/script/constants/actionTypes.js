@@ -1,7 +1,3 @@
-export const ADD_COUNT = 'ADD_COUNT';
-export const SUBTRACT_COUNT = 'SUBTRACT_COUNT';
-export const CLEAN_COUNT = 'CLEAN_COUNT';
-
 // message
 export const MESSAGE_TIPS_INFO = 'MESSAGE_TIPS_INFO';
 export const MESSAGE_TIPS_ERROR = 'MESSAGE_TIPS_ERROR';
