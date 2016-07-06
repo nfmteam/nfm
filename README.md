@@ -10,6 +10,12 @@ File manage implement by node.
 
 ## TODO
 
+* next
+	1. 应用皮肤
+	2. loading bar
+	3. message
+	4. dialog
+	5. 文件操作
 * reselect cache?
 * normalizr
 * monaco-editor

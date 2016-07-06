@@ -22,9 +22,13 @@ export default class Tree extends Component {
         } = this.props;
 
         return (
-            <div style={{width: 400, position: 'absolute', top: 120, left: 30 }}>
-                <SubTree data={data} {...otherProps}/>
-            </div>
+            <aside className='main-sidebar'>
+                <section className='sidebar'>
+                    <div className='menu-tree'>
+                        <SubTree data={data} {...otherProps}/>
+                    </div>
+                </section>
+            </aside>
         );
     }
 }

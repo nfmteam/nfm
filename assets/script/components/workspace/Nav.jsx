@@ -5,7 +5,7 @@ export default class Nav extends Component {
     formatPath(path) {
         let navPath, navName, index = 0, objs = [{
             navPath: '/',
-            navName: '/'
+            navName: 'ROOT'
         }];
 
         if (path === '/') {
@@ -33,21 +33,20 @@ export default class Nav extends Component {
         const lastIndex = paths.length - 1;
 
         return (
-            <p>
+            <ol className='breadcrumb'>
                 {
                     paths.map((obj, index) => {
                         return lastIndex !== index ?
-                            <span key={obj.navPath}>
+                            <li key={obj.navPath}>
                                 <a href='javascript:;' onClick={() => clickHandler(obj.navPath)}>
+                                    {index === 0 ? <i className='fa fa-dashboard'/> : null}
                                     {obj.navName}
                                 </a>
-                                <i> > </i>
-                            </span>
-                            :
-                            <span key={obj.navPath}>{obj.navName}</span>
+                            </li> :
+                            <li className='active' key={obj.navPath}>{obj.navName}</li>
                     })
                 }
-            </p>
+            </ol>
         );
     }
 }

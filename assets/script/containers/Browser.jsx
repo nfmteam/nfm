@@ -4,6 +4,7 @@ import { getTree, controlTreeCreater } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
 import Tree from '../components/tree';
 import Workspace from '../components/workspace';
+import Footer from '../components/Footer.jsx';
 import Search from '../components/Search.jsx';
 import selector from '../selectors/browser';
 
@@ -40,6 +41,7 @@ class Browser extends Component {
                     controlTreeHandler={controlTreeHandler}
                     loadWorkspaceFilesHandler={loadWorkspaceFilesHandler}/>
                 {subComponent}
+                <Footer />
             </div>
         );
     }

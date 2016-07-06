@@ -2,10 +2,15 @@ doctype html
 html
   head
     meta(charset='UTF-8')
+    meta(http-equiv='X-UA-Compatible' content='IE=edge')
     title NFM
     link(rel='icon', type='image/x-icon', href='/favicon.ico')
-    link(rel="stylesheet", href='/css/tree.css')
-  body
-    div#root
+    link(rel="stylesheet", href='/css/libs/bootstrap.min.css')
+    link(rel="stylesheet", href='/css/libs/font-awesome.min.css')
+    link(rel="stylesheet", href='/css/libs/theme.css')
+    link(rel="stylesheet", href='/css/libs/skin-blue.min.css')
+    link(rel="stylesheet", href='/css/nfm.css')
+  body.hold-transition.skin-blue.sidebar-mini
+    div#root.wrapper
     script(type='text/javascript', src=vendor.js)
     script(type='text/javascript', src=app.js)

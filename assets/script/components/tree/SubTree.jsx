@@ -49,12 +49,10 @@ export default class SubTree extends Component {
 
                         return (
                             <li className={liClass} key={path}>
-                    <span
-                        className='tree-switcher tree-noline-open'
-                        onClick={event => this.controlTree(event, node)}/>
+                                <i onClick={event => this.controlTree(event, node)}/>
                                 <a href='javascript:;' onClick={event => this.loadWorkspace(event, node)}>
-                                    <i className='tree-icon tree-icon-open'/>
-                                    <span className='tree-title'>{name}</span>
+                                    <i/>
+                                    <span>{name}</span>
                                 </a>
                                 <SubTree data={children} {...otherProps} />
                             </li>
