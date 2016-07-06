@@ -8,12 +8,6 @@ export default class Header extends Component {
                     <span className='logo-lg'><b>N</b>FM</span>
                 </a>
                 <nav className='navbar navbar-static-top'>
-                    <div className='page-prompt page-prompt-close'>
-                        <div className='alert alert-danger alert-dismissible'>
-                            <button type='button' className='close'>×</button>
-                            <span>提示信息提示信息</span>
-                        </div>
-                    </div>
                     <div className='navbar-custom-menu'>
                         <ul className='nav navbar-nav'>
                             <li className='user user-menu'>

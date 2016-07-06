@@ -11,11 +11,9 @@ File manage implement by node.
 ## TODO
 
 * next
-	1. 应用皮肤
-	2. loading bar
-	3. message
-	4. dialog
-	5. 文件操作
+	1. message
+	2. dialog
+	3. 文件操作
 * 优化打包规则
 * reselect cache?
 * normalizr

@@ -30,12 +30,16 @@ export default class Workspace extends Component {
     }
 
     itemClick(item) {
-        const push = this.props.push;
+        const {
+            push,
+            showInfoMessage,
+            showErrorMessage
+        } = this.props;
 
         if (item.type === 'd') {
             push(item.path);
         } else {
-            alert('open file');
+            showInfoMessage('open file');
         }
     }
 
@@ -52,11 +56,11 @@ export default class Workspace extends Component {
             <div className='content-wrapper'>
                 <section className='content-header clearfix'>
                     <Nav path={currentPath} clickHandler={loadWorkspaceFilesHandler}/>
-                    <form action='#' method='get' className='sidebar-form'>
+                    <form className='sidebar-form'>
                         <div className='input-group'>
-                            <input type='text' name='q' className='form-control' placeholder='Search...'/>
+                            <input type='text' className='form-control' placeholder='Search...'/>
                             <span className='input-group-btn'>
-                                <button type='submit' name='search' id='search-btn' className='btn btn-flat'>
+                                <button type='button' className='btn btn-flat'>
                                     <i className='fa fa-search'/>
                                 </button>
                             </span>

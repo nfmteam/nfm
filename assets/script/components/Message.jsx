@@ -1,13 +1,30 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 
 class Message extends Component {
 
     render() {
-        const { text, show } = this.props.message;
+        const {
+            message: {
+                text: text,
+                show: show,
+                level: level
+            },
+            hideMessage
+        } = this.props;
+
+        const cls = classNames({
+            'page-prompt': true,
+            'page-prompt-info': level === 'info',
+            'page-prompt-close': !show
+        });
 
         return (
-            <div style={{display: show ? 'block' : 'none'}}>
-                <p>{text}</p>
+            <div className={cls}>
+                <div className='alert'>
+                    <button type='button' className='close' onClick={() => hideMessage()}>×</button>
+                    <span>{text}</span>
+                </div>
             </div>
         );
     }

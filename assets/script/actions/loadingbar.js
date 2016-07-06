@@ -4,13 +4,13 @@ import { LOADINGBAR_BEGIN, LOADINGBAR_END } from '../constants/actionTypes';
  * Action Creater
  */
 
-export function loadingBegin() {
+export function beginLoadingCreater() {
     return {
         type: LOADINGBAR_BEGIN
     }
 }
 
-export function loadingEnd() {
+export function endLoadingCreater() {
     return {
         type: LOADINGBAR_END
     }

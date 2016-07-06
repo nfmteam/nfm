@@ -2,7 +2,7 @@ import Promise from 'bluebird';
 import fetch from 'isomorphic-fetch';
 import { WORKSPACE_REQUEST, WORKSPACE_REQUEST_SUCCESS } from '../constants/actionTypes';
 import { syncTree } from './tree';
-import { loadingEnd, loadingBegin } from './loadingbar';
+import { beginLoadingCreater, endLoadingCreater } from './loadingbar';
 
 /**
  * Action Creater
@@ -27,7 +27,7 @@ function requestWorkspaceSuccessCreater(data) {
  */
 export function getWorkspaceFiles(path = '/') {
     return dispatch => {
-        dispatch(loadingBegin());
+        dispatch(beginLoadingCreater());
         dispatch(requestWorkspaceCreater(path));
 
         // TODO: {"code":500,"massge":"EACCES: permission denied, scandir '/tmp/KSOutOfProcessFetcher.0.ppfIhqX0vjaTSb8AJYobDV7Cu68='"}
@@ -38,7 +38,7 @@ export function getWorkspaceFiles(path = '/') {
         ]).then(([data]) => {
             dispatch(syncTree(path, data));
             dispatch(requestWorkspaceSuccessCreater(sortFiles(data)));
-            dispatch(loadingEnd());
+            dispatch(endLoadingCreater());
         });
     }
 }

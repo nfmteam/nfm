@@ -1,8 +1,9 @@
 import { MESSAGE_TIPS_INFO, MESSAGE_TIPS_ERROR, MESSAGE_TIPS_HIDE } from '../constants/actionTypes';
 
 const initialState = {
+    show: false,
     text: '',
-    show: false
+    level: 'info'
 };
 
 export default function counterReducer(state = initialState, action) {
@@ -11,12 +12,12 @@ export default function counterReducer(state = initialState, action) {
         case MESSAGE_TIPS_ERROR:
             return Object.assign({}, state, {
                 show: true,
-                text: action.text
+                text: action.text,
+                level: action.level
             });
         case MESSAGE_TIPS_HIDE:
             return {
-                show: false,
-                text: ''
+                show: false
             };
         default:
             return state;

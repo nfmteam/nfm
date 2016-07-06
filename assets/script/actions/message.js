@@ -8,7 +8,7 @@ function showInfoMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_INFO,
         text: text,
-        show: true
+        level: 'info'
     }
 }
 
@@ -16,15 +16,13 @@ export function showErrorMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_ERROR,
         text: text,
-        show: true
+        level: 'error'
     }
 }
 
 export function hideMessageCreater() {
     return {
-        type: MESSAGE_TIPS_HIDE,
-        text: '',
-        show: false
+        type: MESSAGE_TIPS_HIDE
     }
 }
 

@@ -9,8 +9,6 @@ export default class Loadingbar extends Component {
             'end': !this.props.loading
         });
 
-        console.log(cls);
-
         return (
             <div className={cls}>
                 <dt />
