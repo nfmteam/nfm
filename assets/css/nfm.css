@@ -317,7 +317,7 @@ html, body { height: 100%; }
     left: -6px;
     width: 0;
     height: 4px;
-    background: #F3E64E;
+    background: #ff8400;
     -moz-border-radius: 1px;
     -webkit-border-radius: 1px;
     border-radius: 1px;
@@ -398,10 +398,10 @@ html, body { height: 100%; }
     position: absolute;
     top: 0;
     height: 2px;
-    -moz-box-shadow: #F3E64E 1px 0 6px 1px;
-    -ms-box-shadow: #F3E64E 1px 0 6px 1px;
-    -webkit-box-shadow: #F3E64E 1px 0 6px 1px;
-    box-shadow: #F3E64E 1px 0 6px 1px;
+    -moz-box-shadow: #d87900 1px 0 6px 1px;
+    -ms-box-shadow: #d87900 1px 0 6px 1px;
+    -webkit-box-shadow: #d87900 1px 0 6px 1px;
+    box-shadow: #d87900 1px 0 6px 1px;
     -moz-border-radius: 100%;
     -webkit-border-radius: 100%;
     border-radius: 100%;

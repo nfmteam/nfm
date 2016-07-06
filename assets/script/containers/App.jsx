@@ -9,11 +9,11 @@ import selector from '../selectors/app';
 class App extends Component {
 
     render() {
-        const { message, workspaceCurrentPath, children } = this.props;
+        const { message, loading, workspaceCurrentPath, children } = this.props;
 
         return (
             <div>
-                <Loadingbar />
+                <Loadingbar loading={loading} />
                 <Header />
                 {children}
             </div>
