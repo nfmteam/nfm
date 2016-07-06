@@ -15,7 +15,7 @@ class App extends Component {
             <div>
                 <Loadingbar />
                 <Header />
-                {this.props.children}
+                {children}
             </div>
         );
     }

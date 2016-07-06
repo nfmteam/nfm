@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import Nav from './Nav.jsx';
 
 export default class Workspace extends Component {
@@ -25,13 +26,13 @@ export default class Workspace extends Component {
         return (
             <div className='content-wrapper'>
                 <section className='content-header clearfix'>
-                    <Nav path={currentPath} clickHandler={loadWorkspaceFilesHandler} />
+                    <Nav path={currentPath} clickHandler={loadWorkspaceFilesHandler}/>
                     <form action='#' method='get' className='sidebar-form'>
                         <div className='input-group'>
-                            <input type='text' name='q' className='form-control' placeholder='Search...' />
+                            <input type='text' name='q' className='form-control' placeholder='Search...'/>
                             <span className='input-group-btn'>
                                 <button type='submit' name='search' id='search-btn' className='btn btn-flat'>
-                                    <i className='fa fa-search' />
+                                    <i className='fa fa-search'/>
                                 </button>
                             </span>
                         </div>
@@ -56,13 +57,14 @@ export default class Workspace extends Component {
                                 </div>
                                 <div className='box-body table-responsive no-padding self-body-body'>
                                     <table className='table self-table'>
-                                        <tbody><tr>
+                                        <tbody>
+                                        <tr>
                                             <th width='5%'>
                                                 <div className='icheckbox_flat-blue'>
-                                                    <input type='checkbox' />
+                                                    <input type='checkbox'/>
                                                 </div>
                                             </th>
-                                            <th width='6%' />
+                                            <th width='6%'/>
                                             <th width='35%'>名称</th>
                                             <th width='10%'>大小</th>
                                             <th width='10%'>作者</th>
@@ -74,25 +76,30 @@ export default class Workspace extends Component {
                                     <div className='table-block'>
                                         <table className='table self-table'>
                                             <tbody>
-                                                {
-                                                    data.map(item => {
-                                                        return (
-                                                            <tr key={item.path}>
-                                                                <td width='5%'>
-                                                                    <div className='icheckbox_flat-blue'>
-                                                                        <input type='checkbox' />
-                                                                    </div>
-                                                                </td>
-                                                                <td width='6%'><i className='file-icon file-icon-js' /></td>
-                                                                <td width='35%'><a href='javascript:;'>{item.name}</a></td>
-                                                                <td width='10%'>{item.size}</td>
-                                                                <td width='10%'> - </td>
-                                                                <td width='15%'>{item.updateAt}</td>
-                                                                <td>{item.createAt}</td>
-                                                            </tr>
-                                                        )
-                                                    })
-                                                }
+                                            {
+                                                data.map(item => {
+                                                    let iconClass = classNames({
+                                                        'file-icon': true,
+                                                        [`file-icon-${Workspace.getIconName(item.extname, item.type)}`]: true
+                                                    });
+
+                                                    return (
+                                                        <tr key={item.path}>
+                                                            <td width='5%'>
+                                                                <div className='icheckbox_flat-blue'>
+                                                                    <input type='checkbox'/>
+                                                                </div>
+                                                            </td>
+                                                            <td width='6%'><i className={iconClass}/></td>
+                                                            <td width='35%'><a href='javascript:;'>{item.name}</a></td>
+                                                            <td width='10%'>{item.size}</td>
+                                                            <td width='10%'> -</td>
+                                                            <td width='15%'>{item.updateAt}</td>
+                                                            <td>{item.createAt}</td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
                                             </tbody>
                                         </table>
                                     </div>
@@ -106,3 +113,40 @@ export default class Workspace extends Component {
         );
     }
 }
+
+Workspace.getIconName = function (extname, type) {
+    if (type === 'd') {
+        return 'folder';
+    }
+
+    switch (extname) {
+        case '.js':
+        case '.jsx':
+            return 'js';
+        case '.css':
+            return 'css';
+        case '.handlebars':
+        case '.hbs':
+            return 'handlebars';
+        case '.html':
+        case '.htm':
+            return 'html';
+        case '.gif':
+        case '.jpg':
+        case '.jpeg':
+        case '.png':
+            return 'image';
+        case '.jade':
+        case '.pug':
+            return 'jade';
+        case '.less':
+            return 'less';
+        case '.sass':
+            return 'sass';
+        case '.zip':
+        case '.rar':
+            return 'zip';
+        default:
+            return 'default';
+    }
+};

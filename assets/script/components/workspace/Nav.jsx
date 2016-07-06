@@ -33,20 +33,22 @@ export default class Nav extends Component {
         const lastIndex = paths.length - 1;
 
         return (
-            <ol className='breadcrumb'>
-                {
-                    paths.map((obj, index) => {
-                        return lastIndex !== index ?
-                            <li key={obj.navPath}>
-                                <a href='javascript:;' onClick={() => clickHandler(obj.navPath)}>
-                                    {index === 0 ? <i className='fa fa-dashboard'/> : null}
-                                    {obj.navName}
-                                </a>
-                            </li> :
-                            <li className='active' key={obj.navPath}>{obj.navName}</li>
-                    })
-                }
-            </ol>
+            <div className='cont-header-left clearfix'>
+                <i className='fa fa-dashboard'/>
+                <ol className='breadcrumb'>
+                    {
+                        paths.map((obj, index) => {
+                            return lastIndex !== index ?
+                                <li key={obj.navPath}>
+                                    <a href='javascript:;' onClick={() => clickHandler(obj.navPath)}>
+                                        {obj.navName}
+                                    </a>
+                                </li> :
+                                <li className='active' key={obj.navPath}>{obj.navName}</li>
+                        })
+                    }
+                </ol>
+            </div>
         );
     }
 }

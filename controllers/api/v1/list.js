@@ -40,6 +40,7 @@ function getFileStat(filePath) {
     return {
         id: md5(filePath), // 临时方案
         name: path.basename(filePath),
+        extname: path.extname(filePath),
         path: '/' + path.relative(basePath, filePath),
         size: filesize(stats.size),
         createAt: moment(stats.birthtime).format('YY-MM-DD HH:mm:ss'),
