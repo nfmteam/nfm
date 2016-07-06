@@ -23,7 +23,7 @@ export default class SubTree extends Component {
     }
 
     loadWorkspace(event, node) {
-        this.props.loadWorkspaceFilesHandler(node.path);
+        this.props.push(node.path);
 
         event.stopPropagation();
     }

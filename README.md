@@ -16,6 +16,7 @@ File manage implement by node.
 	3. message
 	4. dialog
 	5. 文件操作
+* 优化打包规则
 * reselect cache?
 * normalizr
 * monaco-editor

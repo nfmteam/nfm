@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { getTree, controlTreeCreater } from '../actions/tree';
 import { getWorkspaceFiles } from '../actions/workspace';
+import { push } from 'react-router-redux';
 import Tree from '../components/tree';
 import Workspace from '../components/workspace';
 import Footer from '../components/Footer.jsx';
@@ -58,13 +59,15 @@ Browser.propTypes = {
     }),
     loadTreeHandler: PropTypes.func.isRequired,
     controlTreeHandler: PropTypes.func.isRequired,
-    loadWorkspaceFilesHandler: PropTypes.func.isRequired
+    loadWorkspaceFilesHandler: PropTypes.func.isRequired,
+    push: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
     loadTreeHandler: path => dispatch(getTree(path)),
     controlTreeHandler: path => dispatch(controlTreeCreater(path)),
-    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path))
+    loadWorkspaceFilesHandler: path => dispatch(getWorkspaceFiles(path)),
+    push: path => dispatch(push(`/browser/${encodeURIComponent(path)}`))
 });
 
 export default connect(

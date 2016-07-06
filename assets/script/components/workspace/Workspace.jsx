@@ -4,6 +4,21 @@ import Nav from './Nav.jsx';
 
 export default class Workspace extends Component {
 
+    constructor(props) {
+        super(props);
+
+        this.itemClick = this.itemClick.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        const prevWorkspacePath = prevProps.workspacePath;
+        const { workspacePath, loadWorkspaceFilesHandler } = this.props;
+
+        if (prevWorkspacePath !== workspacePath) {
+            loadWorkspaceFilesHandler(workspacePath);
+        }
+    }
+
     componentWillMount() {
         const workspacePath = this.props.workspacePath;
         const loadWorkspaceFilesHandler = this.props.loadWorkspaceFilesHandler;
@@ -11,6 +26,16 @@ export default class Workspace extends Component {
 
         if (workspacePath !== currentPath) {
             loadWorkspaceFilesHandler(workspacePath);
+        }
+    }
+
+    itemClick(item) {
+        const push = this.props.push;
+
+        if (item.type === 'd') {
+            push(item.path);
+        } else {
+            alert('open file');
         }
     }
 
@@ -44,7 +69,7 @@ export default class Workspace extends Component {
                         <div className='col-xs-12'>
                             <div className='box'>
                                 <div className='box-header self-box-header'>
-                                    <h3 className='box-title'>{currentPath.split('/').pop()}</h3>
+                                    <h3 className='box-title'>{currentPath.split('/').pop() || 'ROOT'}</h3>
                                     <div className='self-btn-group'>
                                         <div className='btn-group'>
                                             <button type='button' className='btn btn-default btn-sm'><i className='fa fa-magic'/> 新建</button>
@@ -91,7 +116,9 @@ export default class Workspace extends Component {
                                                                 </div>
                                                             </td>
                                                             <td width='6%'><i className={iconClass}/></td>
-                                                            <td width='35%'><a href='javascript:;'>{item.name}</a></td>
+                                                            <td width='35%'>
+                                                                <a href='javascript:;' onClick={() => this.itemClick(item)}>{item.name}</a>
+                                                            </td>
                                                             <td width='10%'>{item.size}</td>
                                                             <td width='10%'> -</td>
                                                             <td width='15%'>{item.updateAt}</td>
