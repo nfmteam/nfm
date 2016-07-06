@@ -7,7 +7,7 @@ export default class Footer extends Component {
 
         return (
             <footer className='main-footer'>
-                <strong>Copyright © {year} <a href='javascript:;'>Company</a>.</strong> All rights reserved.
+                <strong>Copyright © {year} NFM.</strong> All rights reserved.
             </footer>
         );
     }

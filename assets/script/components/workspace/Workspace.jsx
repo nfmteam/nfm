@@ -43,7 +43,7 @@ export default class Workspace extends Component {
                         <div className='col-xs-12'>
                             <div className='box'>
                                 <div className='box-header self-box-header'>
-                                    <h3 className='box-title'>Table</h3>
+                                    <h3 className='box-title'>{currentPath.split('/').pop()}</h3>
                                     <div className='self-btn-group'>
                                         <div className='btn-group'>
                                             <button type='button' className='btn btn-default btn-sm'><i className='fa fa-magic'/> 新建</button>
@@ -63,12 +63,11 @@ export default class Workspace extends Component {
                                                 </div>
                                             </th>
                                             <th width='6%' />
-                                            <th width='30%'>名称</th>
-                                            <th width='10%'>类型</th>
-                                            <th width='6%'>大小</th>
+                                            <th width='35%'>名称</th>
+                                            <th width='10%'>大小</th>
                                             <th width='10%'>作者</th>
-                                            <th width='15%'>最后编辑日期</th>
-                                            <th>发布日期</th>
+                                            <th width='15%'>编辑日期</th>
+                                            <th>创建日期</th>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -85,12 +84,11 @@ export default class Workspace extends Component {
                                                                     </div>
                                                                 </td>
                                                                 <td width='6%'><i className='file-icon file-icon-js' /></td>
-                                                                <td width='30%'><a href='javascript:;'>{item.name}</a></td>
-                                                                <td width='10%'>folder</td>
-                                                                <td width='6%'/>
-                                                                <td width='10%'>-</td>
-                                                                <td width='15%'>16-6-3 下午3:02</td>
-                                                                <td>-</td>
+                                                                <td width='35%'><a href='javascript:;'>{item.name}</a></td>
+                                                                <td width='10%'>{item.size}</td>
+                                                                <td width='10%'> - </td>
+                                                                <td width='15%'>{item.updateAt}</td>
+                                                                <td>{item.createAt}</td>
                                                             </tr>
                                                         )
                                                     })

@@ -3,6 +3,8 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const moment = require('moment');
+const filesize = require('filesize');
 
 const basePath = '/Users/keenwon/Desktop/temp';
 
@@ -39,9 +41,9 @@ function getFileStat(filePath) {
         id: md5(filePath), // 临时方案
         name: path.basename(filePath),
         path: '/' + path.relative(basePath, filePath),
-        size: stats.size,
-        createAt: stats.birthtime,
-        updateAt: stats.mtime,
+        size: filesize(stats.size),
+        createAt: moment(stats.birthtime).format('YY-MM-DD HH:mm:ss'),
+        updateAt: moment(stats.mtime).format('YY-MM-DD HH:mm:ss'),
         type: getFileType(stats.mode)
     }
 }
