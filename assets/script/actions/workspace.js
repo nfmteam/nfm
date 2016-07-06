@@ -1,9 +1,7 @@
 import Promise from 'bluebird';
 import fetch from 'isomorphic-fetch';
-import {
-    WORKSPACE_REQUEST,
-    WORKSPACE_REQUEST_SUCCESS
-} from '../constants/actionTypes';
+import { WORKSPACE_REQUEST, WORKSPACE_REQUEST_SUCCESS } from '../constants/actionTypes';
+import { syncTree } from './tree';
 
 /**
  * Action Creater
@@ -36,6 +34,7 @@ export function getWorkspaceFiles(path = '/') {
             fetch(`http://localhost:3010/api/v1/list?path=${path}`).then(response => response.json()),
             Promise.delay(500)
         ]).then(([data]) => {
+            dispatch(syncTree(path, data));
             dispatch(requestWorkspaceSuccessCreater(sortFiles(data)));
         });
     }

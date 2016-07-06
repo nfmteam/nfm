@@ -3,7 +3,8 @@ import fetch from 'isomorphic-fetch';
 import {
     TREE_REQUEST,
     TREE_REQUEST_SUCCESS,
-    TREE_CONTROL
+    TREE_CONTROL,
+    TREE_SYNC_WORKSPACE
 } from '../constants/actionTypes';
 
 /**
@@ -29,6 +30,14 @@ export function controlTreeCreater(path) {
     return {
         type: TREE_CONTROL,
         currentPath: path
+    }
+}
+
+export function syncTree(path, data) {
+    return {
+        type: TREE_SYNC_WORKSPACE,
+        currentPath: path,
+        data: data
     }
 }
 

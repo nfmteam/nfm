@@ -2,7 +2,8 @@ import merge from 'lodash.merge';
 import {
     TREE_REQUEST,
     TREE_REQUEST_SUCCESS,
-    TREE_CONTROL
+    TREE_CONTROL,
+    TREE_SYNC_WORKSPACE
 } from '../constants/actionTypes';
 
 const initialState = {
@@ -38,10 +39,19 @@ function walk(tree, nodePath, fn) {
 
 function addChild(tree, nodePath, child) {
     return walk(tree, nodePath, (node) => {
+        let paths;
+
         node.isOpen = true;
         node.loaded = true;
         node.isLoading = false;
-        node.children = child;
+        node.children = node.children || [];
+
+        paths = node.children.map(n => n.path);
+        child.forEach(n => {
+            if (n.type === 'd' && paths.indexOf(n.path) === -1) {
+                node.children.push(n);
+            }
+        });
     });
 }
 
@@ -64,6 +74,7 @@ export default function treeReducer(state = initialState, action) {
                 currentPath: action.currentPath,
                 data: loadingTree(state.data, action.currentPath)
             });
+        case TREE_SYNC_WORKSPACE:
         case TREE_REQUEST_SUCCESS:
             return merge({}, state, {
                 currentPath: action.currentPath,
