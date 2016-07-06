@@ -323,7 +323,7 @@ html,body{ height: 100%;}
   top: 0;
   left: -6px;
   width: 0;
-  height: 3px;
+  height: 4px;
   background: #F3E64E;
   -moz-border-radius: 1px;
   -webkit-border-radius: 1px;
@@ -419,10 +419,10 @@ html,body{ height: 100%;}
   position: absolute;
   top: 0;
   height: 2px;
-  -moz-box-shadow: #b91f1f 1px 0 6px 1px;
-  -ms-box-shadow: #b91f1f 1px 0 6px 1px;
-  -webkit-box-shadow: #B91F1F 1px 0 6px 1px;
-  box-shadow: #B91F1F 1px 0 6px 1px;
+  -moz-box-shadow: #F3E64E 1px 0 6px 1px;
+  -ms-box-shadow: #F3E64E 1px 0 6px 1px;
+  -webkit-box-shadow: #F3E64E 1px 0 6px 1px;
+  box-shadow: #F3E64E 1px 0 6px 1px;
   -moz-border-radius: 100%;
   -webkit-border-radius: 100%;
   border-radius: 100%;
