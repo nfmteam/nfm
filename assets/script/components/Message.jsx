@@ -15,16 +15,16 @@ class Message extends Component {
 
         const cls = classNames({
             'page-prompt': true,
-            'page-prompt-info': level === 'info',
-            'page-prompt-close': !show
+            'page-prompt-show': show,
+            'callout': true,
+            'callout-danger': level === 'Error',
+            'callout-info': level === 'Info'
         });
 
         return (
-            <div className={cls}>
-                <div className='alert'>
-                    <button type='button' className='close' onClick={() => hideMessage()}>×</button>
-                    <span>{text}</span>
-                </div>
+            <div className={cls} onClick={() => hideMessage()}>
+                <h4>{level}</h4>
+                <p>{text}</p>
             </div>
         );
     }

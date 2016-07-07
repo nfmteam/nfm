@@ -3,7 +3,7 @@ import { MESSAGE_TIPS_INFO, MESSAGE_TIPS_ERROR, MESSAGE_TIPS_HIDE } from '../con
 const initialState = {
     show: false,
     text: '',
-    level: 'info'
+    level: 'Info'
 };
 
 export default function counterReducer(state = initialState, action) {
@@ -16,9 +16,9 @@ export default function counterReducer(state = initialState, action) {
                 level: action.level
             });
         case MESSAGE_TIPS_HIDE:
-            return {
+            return Object.assign({}, state, {
                 show: false
-            };
+            });
         default:
             return state;
     }

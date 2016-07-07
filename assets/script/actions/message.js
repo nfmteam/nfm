@@ -8,7 +8,7 @@ function showInfoMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_INFO,
         text: text,
-        level: 'info'
+        level: 'Info'
     }
 }
 
@@ -16,7 +16,7 @@ export function showErrorMessageCreater(text) {
     return {
         type: MESSAGE_TIPS_ERROR,
         text: text,
-        level: 'error'
+        level: 'Error'
     }
 }
 
@@ -36,7 +36,7 @@ export function showInfoMessage(text) {
 
         setTimeout(
             () => dispatch(hideMessageCreater()),
-            2000
+            5000
         )
     };
 }

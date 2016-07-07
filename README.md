@@ -11,9 +11,8 @@ File manage implement by node.
 ## TODO
 
 * next
-	1. message
-	2. dialog
-	3. 文件操作
+	1. dialog
+	2. 文件操作
 * 优化打包规则
 * reselect cache?
 * normalizr
