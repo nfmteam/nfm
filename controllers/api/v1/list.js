@@ -9,6 +9,7 @@ module.exports = {
     getList: function *() {
         const p = this.request.query.path || '/';
         const _type = this.request.query.type;
+
         const dir = fsHelper.resolvePath(p);
 
         let type = ['f', 'd'];

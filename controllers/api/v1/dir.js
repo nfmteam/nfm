@@ -6,7 +6,7 @@ const parse = require('co-body');
 module.exports = {
 
     mkdir: function *() {
-        const { dir } = yield parse.form(this);
+        const { dir } = this.request.body;
 
         if (!dir) {
             throw Error('入参错误');
