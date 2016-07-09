@@ -124,6 +124,19 @@ module.exports = {
         var newSrc = src.replace(/[^\/]+$/, name);
 
         return fs.moveAsync(src, newSrc);
+    },
+
+    /**
+     * 删除文件(夹)
+     */
+    del: function (p) {
+        var absPath = this.resolveAbsolutePath(p);
+
+        if (fs.statSync(absPath).isDirectory()) {
+            return fs.rmdirAsync(absPath);
+        }
+
+        return fs.unlinkAsync(absPath);
     }
 
 };

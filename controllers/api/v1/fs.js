@@ -76,8 +76,32 @@ module.exports = {
 
         yield fsHelper.rename(src, name)
             .catch(error => {
-                if(error.code === 'EEXIST') {
+                if (error.code === 'EEXIST') {
                     throw Error(`${name}已存在`);
+                }
+
+                throw error;
+            });
+    },
+
+    /**
+     * 删除文件(夹)
+     */
+    del: function *() {
+        const { path } = this.request.body;
+
+        if (!path) {
+            throw Error('入参错误');
+        }
+
+        if (!fsHelper.exists(path)) {
+            throw Error('路径不存在');
+        }
+
+        yield fsHelper.del(path)
+            .catch(error => {
+                if (error.code === 'ENOTEMPTY') {
+                    throw Error('目录非空');
                 }
 
                 throw error;

@@ -3,7 +3,7 @@
 const path = require('path');
 const koa = require('koa');
 const fs = require('fs-extra');
-const { post, put } = require('../../../fetch');
+const { put, post, del } = require('../../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/Users/keenwon/Desktop/nfm-test';
 const stubs = {
@@ -22,7 +22,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
-describe('mkdir测试', function () {
+describe('fs mkdir测试', function () {
 
     before('before mkdir测试', function () {
         fs.mkdirSync(basePath);
@@ -120,7 +120,7 @@ describe('mkdir测试', function () {
 
 });
 
-describe('move测试', function () {
+describe('fs move测试', function () {
 
     before('before move测试', function () {
         fs.mkdirSync(basePath);
@@ -228,7 +228,7 @@ describe('move测试', function () {
 
 });
 
-describe('rename测试', function () {
+describe('fs rename测试', function () {
 
     before('before rename测试', function () {
         fs.mkdirSync(basePath);
@@ -316,6 +316,93 @@ describe('rename测试', function () {
         put('http://localhost:8888', data)
             .then(response => {
                 response.message.should.equal('rename-three已存在');
+                done();
+            });
+    });
+
+});
+
+describe('fs delete测试', function () {
+
+    before('before delete测试', function () {
+        fs.mkdirSync(basePath);
+        fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
+    });
+
+    after('after delete测试', function () {
+        fs.removeSync(basePath);
+    });
+
+    beforeEach(function () {
+        var app = koa();
+
+        app.use(bodyParser);
+        app.use(apiParser);
+        app.use(fsApi.del);
+
+        this.server = app.listen(8888);
+    });
+
+    afterEach(function () {
+        this.server.close();
+    });
+
+    it('# 删除非空文件夹', function (done) {
+        var data = {
+            path: '/files'
+        };
+
+        del('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('目录非空');
+                done();
+            });
+    });
+
+    it('# 删除文件', function (done) {
+        var p = '/files/lib/subdomain.js',
+            data = {
+                path: p
+            };
+
+        del('http://localhost:8888', data)
+            .then(() => {
+                if (!fs.existsSync(path.join(basePath, p))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 删除文件夹', function (done) {
+        var p = '/files/lib',
+            data = {
+                path: p
+            };
+
+        del('http://localhost:8888', data)
+            .then(() => {
+                if (!fs.existsSync(path.join(basePath, p))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 入参错误', function (done) {
+        del('http://localhost:8888')
+            .then(response => {
+                response.message.should.equal('入参错误');
+                done();
+            });
+    });
+
+    it('# 路径不存在', function (done) {
+        var data = {
+                path: '/aa'
+            };
+
+        del('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('路径不存在');
                 done();
             });
     });

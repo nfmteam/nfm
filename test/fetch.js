@@ -2,27 +2,23 @@
 
 const fetch = require('isomorphic-fetch');
 
+const commonFetch = function (url, data) {
+    return fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json());
+};
+
 module.exports = {
 
-    post: function (url, data) {
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(response => response.json());
-    },
+    post: commonFetch,
 
-    put: function (url, data) {
-        return fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        }).then(response => response.json());
-    },
+    put: commonFetch,
+
+    del: commonFetch,
 
     get: function (url) {
         return fetch(url).then(response => response.json());

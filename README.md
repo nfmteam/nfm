@@ -11,6 +11,7 @@ File manage implement by node.
 ## TODO
 
 * ../../../../controllers/api/v1/fs
+* 刷新目录,同步workspace和tree(如果有文件被其他用户删除)
 * next
 	1. dialog
 	2. 文件操作
