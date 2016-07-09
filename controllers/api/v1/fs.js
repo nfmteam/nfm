@@ -50,12 +50,7 @@ module.exports = {
             throw Error('路径不存在');
         }
 
-        var name = src.slice(src.lastIndexOf('/'));
-
-        if (!fsHelper.testName(name)) {
-            throw Error('文件名不合法');
-        }
-
+        var name = src.slice(src.lastIndexOf('/') + 1);
         var newSrc = `${dest}/${name}`;
 
         yield fsHelper.move(src, newSrc);
