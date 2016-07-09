@@ -5,7 +5,7 @@ const koa = require('koa');
 const fs = require('fs-extra');
 const { put, post, del } = require('../../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
-const basePath = '/Users/keenwon/Desktop/nfm-test';
+const basePath = '/tmp/nfm-test';
 const stubs = {
     '../lib/config': {
         'fs.base': basePath,
