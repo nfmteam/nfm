@@ -26,6 +26,9 @@ before(function () {
     fs.mkdirSync(basePath);
     fs.mkdirSync(`${basePath}/move-one`);
     fs.mkdirSync(`${basePath}/move-two`);
+    fs.mkdirSync(`${basePath}/rename-one`);
+    fs.mkdirSync(`${basePath}/rename-two`);
+    fs.mkdirSync(`${basePath}/rename-three`);
 });
 
 after(function () {
@@ -214,6 +217,89 @@ describe('move测试', function () {
         put('http://localhost:8888', data)
             .then(response => {
                 response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
+});
+
+describe('rename测试', function () {
+
+    beforeEach(function () {
+        var app = koa();
+
+        app.use(bodyParser);
+        app.use(apiParser);
+        app.use(fsApi.rename);
+
+        this.server = app.listen(8888);
+    });
+
+    afterEach(function () {
+        this.server.close();
+    });
+
+    it('# 重命名文件夹', function (done) {
+        var data = {
+            src: '/rename-one',
+            name: 'one'
+        };
+
+        put('http://localhost:8888', data)
+            .then(function () {
+                if (fs.existsSync(path.join(basePath, '/one'))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 入参错误', function (done) {
+        var data = {
+            src: '/rename-one'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('入参错误');
+                done();
+            });
+    });
+
+    it('# 路径不存在', function (done) {
+        var data = {
+            src: '/aaaaa',
+            name: 'aa'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
+    it('# 文件名不合法', function (done) {
+        var data = {
+            src: '/rename-two',
+            name: '!!'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('文件名不合法');
+                done();
+            });
+    });
+
+    it('# 目标名称已存在', function (done) {
+        var data = {
+            src: '/rename-two',
+            name: 'rename-three'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('rename-three已存在');
                 done();
             });
     });

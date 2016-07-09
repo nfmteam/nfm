@@ -74,7 +74,14 @@ module.exports = {
             throw Error('文件名不合法');
         }
 
-        yield fsHelper.rename(src, name);
+        yield fsHelper.rename(src, name)
+            .catch(error => {
+                if(error.code === 'EEXIST') {
+                    throw Error(`${name}已存在`);
+                }
+
+                throw error;
+            });
     }
 
 };
