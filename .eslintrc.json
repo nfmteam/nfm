@@ -164,10 +164,6 @@
       2,
       3
     ],
-    "max-params": [
-      2,
-      3
-    ],
     "new-cap": 2,
     "no-lonely-if": 2,
     "no-multiple-empty-lines": 2,

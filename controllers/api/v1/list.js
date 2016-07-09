@@ -5,7 +5,7 @@ const fsHelper = require('../../../utils/fsHelper');
 
 module.exports = {
 
-    // TODO: path校验(排除隐藏文件...)
+    // path校验(排除隐藏文件...)
     getList: function *() {
         const p = this.request.query.path || '/';
         const _type = this.request.query.type;

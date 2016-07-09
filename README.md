@@ -10,6 +10,7 @@ File manage implement by node.
 
 ## TODO
 
+* ../../../../controllers/api/v1/fs
 * next
 	1. dialog
 	2. 文件操作

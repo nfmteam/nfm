@@ -1,21 +1,28 @@
 'use strict';
 
 const fsHelper = require('../../../utils/fsHelper');
-const parse = require('co-body');
 
 module.exports = {
 
     /**
      * 创建文件夹
      */
-    mkdir: function* () {
+    mkdir: function *() {
         const { dir } = this.request.body;
 
         if (!dir) {
             throw Error('入参错误');
         }
 
-        if (!fsHelper.testName(dir)) {
+        var lastIndex = dir.lastIndexOf('/'),
+            p = dir.slice(0, lastIndex) || '/',
+            dirName = dir.slice(lastIndex + 1);
+
+        if (!fsHelper.exists(p)) {
+            throw Error('路径不存在');
+        }
+
+        if (!fsHelper.testName(dirName)) {
             throw Error('文件名不合法');
         }
 
@@ -32,7 +39,7 @@ module.exports = {
     /**
      * 移动文件（夹）
      */
-    move: function* () {
+    move: function *() {
         const { src, dest } = this.request.body;
 
         if (!src || !dest) {
@@ -45,11 +52,11 @@ module.exports = {
 
         var name = src.slice(src.lastIndexOf('/'));
 
-        if(!fsHelper.testName(name)) {
+        if (!fsHelper.testName(name)) {
             throw Error('文件名不合法');
         }
 
-        var newSrc = `${dest}/${name}`; 
+        var newSrc = `${dest}/${name}`;
 
         yield fsHelper.move(src, newSrc);
     },
@@ -68,7 +75,7 @@ module.exports = {
             throw Error('路径不存在');
         }
 
-        if(!fsHelper.testName(name)) {
+        if (!fsHelper.testName(name)) {
             throw Error('文件名不合法');
         }
 

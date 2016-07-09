@@ -79,7 +79,7 @@ module.exports = {
         }
 
         try {
-            fs.statSync(p);
+            fs.statSync(this.resolveAbsolutePath(p));
             result = true;
         } catch (error) {
         }
