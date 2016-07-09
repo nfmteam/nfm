@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon lib/app.js",
     "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config assets/webpack.config.js",
-    "test": "istanbul cover -x logger.js _mocha test/**/*.spec.js && istanbul report text",
+    "test": "istanbul cover -x logger.js _mocha test/**/*.spec.js -- -R spec && istanbul report text && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "predeploy": "npm test && npm run build",
     "deploy": "npm pack",
     "postdeploy": "rm -vrf assets/script/bundle.*.js assets/script/vendor.*.js"
@@ -44,6 +44,7 @@
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
     "classnames": "^2.2.5",
+    "coveralls": "^2.11.9",
     "eslint": "^2.13.1",
     "eslint-plugin-react": "^5.1.1",
     "isomorphic-fetch": "^2.2.1",
