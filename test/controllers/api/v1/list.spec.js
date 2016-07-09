@@ -108,4 +108,15 @@ describe('list测试', function () {
             });
     });
 
+    it('# 非法type测试', function (done) {
+        var path = '/files',
+            type = 'keenwon';
+
+        get(`http://localhost:8888?path=${path}&type=${type}`)
+            .then(response => {
+                response.data.length.should.equal(4);
+                done();
+            });
+    });
+
 });
