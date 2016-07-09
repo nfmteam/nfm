@@ -46,7 +46,7 @@ module.exports = {
             id: md5(filePath), // TODO: 临时方案
             name: path.basename(filePath),
             extname: path.extname(filePath),
-            path: '/' + path.relative(basePath, filePath),
+            path: this.resolveRelativePath(filePath),
             size: filesize(stats.size),
             createAt: moment(stats.birthtime).format('YY-MM-DD HH:mm:ss'),
             updateAt: moment(stats.mtime).format('YY-MM-DD HH:mm:ss'),
@@ -55,17 +55,71 @@ module.exports = {
     },
 
     /**
+     * 将path解析为基于base路径的相对地址
+     */
+    resolveRelativePath: function (p) {
+        return p ? '/' + path.relative(basePath, p) : '';
+    },
+
+    /**
      * 将path解析为基于base路径的绝对地址
      */
-    resolvePath: function (p) {
-        return p ? path.join(basePath, path.resolve('/', p)) : null;
+    resolveAbsolutePath: function (p) {
+        return p ? path.join(basePath, path.resolve('/', p)) : '';
+    },
+
+    /**
+     * 判断path是否存在
+     */
+    exists: function (p) {
+        var result = false;
+
+        if (!p) {
+            return result;
+        }
+
+        try {
+            fs.statSync(p);
+            result = true;
+        } catch (error) {
+        }
+
+        return result;
+    },
+
+    /**
+     * 测试文件（夹）名合法性
+     */
+    testName: function (name) {
+        return /^\w[\w\-\.]*$/.test(name);
     },
 
     /**
      * 创建文件夹
      */
     mkdir: function (dir) {
-        return fs.mkdirAsync(this.resolvePath(dir));
+        return fs.mkdirAsync(this.resolveAbsolutePath(dir));
+    },
+
+    /**
+     * 移动文件(夹)
+     */
+    move: function (src, dest) {
+        src = this.resolveAbsolutePath(src);
+        dest = this.resolveAbsolutePath(dest);
+
+        return fs.moveAsync(src, dest);
+    },
+
+    /**
+     * 重命名文件（夹）
+     */
+    rename: function (src, name) {
+        src = this.resolveAbsolutePath(src);
+
+        var newSrc = src.replace(/[^\/]+$/, name);
+
+        return fs.moveAsync(src, newSrc);
     }
 
 };
