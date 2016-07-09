@@ -22,6 +22,10 @@ module.exports = {
             },
             body: JSON.stringify(data)
         }).then(response => response.json());
+    },
+
+    get: function (url) {
+        return fetch(url).then(response => response.json());
     }
 
 };

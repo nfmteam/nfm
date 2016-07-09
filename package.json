@@ -7,7 +7,7 @@
   "scripts": {
     "start": "nodemon lib/app.js",
     "build": "NODE_ENV=production webpack --optimize-dedupe --optimize-occurrence-order --progress --colors --display-error-details --config assets/webpack.config.js",
-    "test": "istanbul cover -i **/controllers/**/*.js _mocha test/**/*.spec.js && istanbul report text",
+    "test": "istanbul cover -x logger.js _mocha test/**/*.spec.js && istanbul report text",
     "predeploy": "npm test && npm run build",
     "deploy": "npm pack",
     "postdeploy": "rm -vrf assets/script/bundle.*.js assets/script/vendor.*.js"

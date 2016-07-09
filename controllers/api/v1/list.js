@@ -1,16 +1,16 @@
 'use strict';
 
-const path = require('path');
 const fsHelper = require('../../../utils/fsHelper');
 
 module.exports = {
 
-    // path校验(排除隐藏文件...)
     getList: function *() {
         const p = this.request.query.path || '/';
         const _type = this.request.query.type;
 
-        const dir = fsHelper.resolvePath(p);
+        if (!fsHelper.exists(p)) {
+            throw Error('路径不存在');
+        }
 
         let type = ['f', 'd'];
 
@@ -18,7 +18,7 @@ module.exports = {
             type = [_type];
         }
 
-        this.body = fsHelper.getFileList(dir, type);
+        this.body = fsHelper.getFileList(p, type);
     }
 
 };

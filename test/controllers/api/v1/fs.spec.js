@@ -22,20 +22,15 @@ const chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
-before(function () {
-    fs.mkdirSync(basePath);
-    fs.mkdirSync(`${basePath}/move-one`);
-    fs.mkdirSync(`${basePath}/move-two`);
-    fs.mkdirSync(`${basePath}/rename-one`);
-    fs.mkdirSync(`${basePath}/rename-two`);
-    fs.mkdirSync(`${basePath}/rename-three`);
-});
-
-after(function () {
-    fs.removeSync(basePath);
-});
-
 describe('mkdir测试', function () {
+
+    before('before mkdir测试', function () {
+        fs.mkdirSync(basePath);
+    });
+
+    after('after mkdir测试', function () {
+        fs.removeSync(basePath);
+    });
 
     beforeEach(function () {
         var app = koa();
@@ -126,6 +121,16 @@ describe('mkdir测试', function () {
 });
 
 describe('move测试', function () {
+
+    before('before move测试', function () {
+        fs.mkdirSync(basePath);
+        fs.mkdirSync(`${basePath}/move-one`);
+        fs.mkdirSync(`${basePath}/move-two`);
+    });
+
+    after('after move测试', function () {
+        fs.removeSync(basePath);
+    });
 
     beforeEach(function () {
         var app = koa();
@@ -224,6 +229,17 @@ describe('move测试', function () {
 });
 
 describe('rename测试', function () {
+
+    before('before rename测试', function () {
+        fs.mkdirSync(basePath);
+        fs.mkdirSync(`${basePath}/rename-one`);
+        fs.mkdirSync(`${basePath}/rename-two`);
+        fs.mkdirSync(`${basePath}/rename-three`);
+    });
+
+    after('after rename测试', function () {
+        fs.removeSync(basePath);
+    });
 
     beforeEach(function () {
         var app = koa();

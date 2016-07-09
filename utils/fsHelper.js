@@ -30,9 +30,11 @@ module.exports = {
      * 获取文件(夹)列表
      */
     getFileList: function (dir, types) {
-        return fs.readdirSync(dir)
+        var p = this.resolveAbsolutePath(dir);
+
+        return fs.readdirSync(p)
             .filter(filename => !!filename.indexOf('.'))
-            .map(filename => this.getFileStat(path.resolve(dir, filename)))
+            .map(filename => this.getFileStat(path.resolve(p, filename)))
             .filter(obj => types.includes(obj.type));
     },
 
@@ -55,7 +57,7 @@ module.exports = {
     },
 
     /**
-     * 将path解析为基于base路径的相对地址
+     * 将path(绝对路径)解析为基于base路径的相对地址
      */
     resolveRelativePath: function (p) {
         return p ? '/' + path.relative(basePath, p) : '';
@@ -65,7 +67,9 @@ module.exports = {
      * 将path解析为基于base路径的绝对地址
      */
     resolveAbsolutePath: function (p) {
-        return p ? path.join(basePath, path.resolve('/', p)) : '';
+        // 防止../../../file跳的basePath之外
+        var safaPath = path.resolve('/', p);
+        return p ? path.join(basePath, safaPath) : '';
     },
 
     /**
