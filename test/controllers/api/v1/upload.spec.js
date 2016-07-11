@@ -29,22 +29,16 @@ const filesPath = path.resolve(__dirname, '../../../files');
 
 describe('fs upload测试', function () {
 
-    before('before upload测试', function () {
+    beforeEach(function () {
         fs.ensureDirSync(basePath);
         fs.ensureDirSync(`${basePath}/${config['upload.dir']}`);
-    });
 
-    after('after upload测试', function () {
-        fs.removeSync(basePath);
-    });
-
-    beforeEach(function () {
         var app = koa();
 
         app.use(bodyParser);
 
-        router.all('/api/*', apiParser);
-        router.post('/api/:path', uploadApi);
+        router.all('*', apiParser);
+        router.post('/api/upload', uploadApi);
 
         app.use(router.routes());
 
@@ -53,17 +47,36 @@ describe('fs upload测试', function () {
 
     afterEach(function () {
         this.server.close();
+
+        fs.removeSync(basePath);
     });
 
-    it('# 上传文件', function (done) {
+    it('# 单文件上传', function (done) {
         var uploadDir = '/',
             form = new FormData(),
             headers = form.getHeaders();
 
+        form.append('path', uploadDir);
+        form.append('files', fs.createReadStream(`${filesPath}/lib/subdomain.js`));
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(() => {
+                if (fs.existsSync(path.join(basePath, 'subdomain.js'))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 多文件上传', function (done) {
+        var uploadDir = '/',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
         form.append('files', fs.createReadStream(`${filesPath}/README.md`));
         form.append('files', fs.createReadStream(`${filesPath}/package.json`));
 
-        upload(`http://localhost:8888/api/${encodeURIComponent(uploadDir)}`, form, headers)
+        upload(`http://localhost:8888/api/upload`, form, headers)
             .then(() => {
                 if (fs.existsSync(path.join(basePath, 'README.md'))
                     && fs.existsSync(path.join(basePath, 'package.json'))) {
@@ -71,5 +84,70 @@ describe('fs upload测试', function () {
                 }
             });
     });
+
+    it('# 入参错误:未传path', function (done) {
+        var form = new FormData(),
+            headers = form.getHeaders();
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('入参错误');
+                done();
+            });
+    });
+
+    it('# 入参错误:path不存在', function (done) {
+        var uploadDir = '/keenwon',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
+    it('# 入参错误:files不存在', function (done) {
+        var uploadDir = '/',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('files字段为空');
+                done();
+            });
+    });
+
+    it('# 文件已存在', function (done) {
+        var uploadDir = '/',
+            form1 = new FormData(),
+            headers1 = form1.getHeaders();
+
+        form1.append('path', uploadDir);
+        form1.append('files', fs.createReadStream(`${filesPath}/README.md`));
+
+        upload(`http://localhost:8888/api/upload`, form1, headers1)
+            .then(() => {
+
+                var form2 = new FormData(),
+                    headers2 = form2.getHeaders();
+
+                form2.append('path', uploadDir);
+                form2.append('files', fs.createReadStream(`${filesPath}/README.md`));
+
+                upload(`http://localhost:8888/api/upload`, form2, headers2)
+                    .then(() => {
+                        done();
+                    })
+            });
+    });
+
+    
 
 });
