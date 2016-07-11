@@ -32,6 +32,12 @@ module.exports = function *() {
         files = [files];
     }
 
+    files.forEach(file => {
+        if (!fsHelper.testName(file.name)) {
+            throw Error('无效文件名');
+        }
+    });
+
     // 移动文件到path
     for (let file of files) {
         paths.push(`${uploadDir}/${file.name}`);
