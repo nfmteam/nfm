@@ -17,6 +17,7 @@ File manage implement by node.
 * next
 	1. dialog
 	2. 文件操作
+* 清理过期的上传文件
 * 自定义滚动条
 * 浏览器检测
 * 优化打包规则

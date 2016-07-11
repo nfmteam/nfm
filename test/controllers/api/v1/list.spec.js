@@ -25,7 +25,7 @@ chai.use(chaiAsPromised);
 describe('list测试', function () {
 
     before('before list测试', function () {
-        fs.mkdirSync(basePath);
+        fs.ensureDirSync(basePath);
         fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
     });
 

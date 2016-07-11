@@ -25,7 +25,7 @@ chai.use(chaiAsPromised);
 describe('fs mkdir测试', function () {
 
     before('before mkdir测试', function () {
-        fs.mkdirSync(basePath);
+        fs.ensureDirSync(basePath);
     });
 
     after('after mkdir测试', function () {
@@ -123,9 +123,9 @@ describe('fs mkdir测试', function () {
 describe('fs move测试', function () {
 
     before('before move测试', function () {
-        fs.mkdirSync(basePath);
-        fs.mkdirSync(`${basePath}/move-one`);
-        fs.mkdirSync(`${basePath}/move-two`);
+        fs.ensureDirSync(basePath);
+        fs.ensureDirSync(`${basePath}/move-one`);
+        fs.ensureDirSync(`${basePath}/move-two`);
     });
 
     after('after move测试', function () {
@@ -231,10 +231,10 @@ describe('fs move测试', function () {
 describe('fs rename测试', function () {
 
     before('before rename测试', function () {
-        fs.mkdirSync(basePath);
-        fs.mkdirSync(`${basePath}/rename-one`);
-        fs.mkdirSync(`${basePath}/rename-two`);
-        fs.mkdirSync(`${basePath}/rename-three`);
+        fs.ensureDirSync(basePath);
+        fs.ensureDirSync(`${basePath}/rename-one`);
+        fs.ensureDirSync(`${basePath}/rename-two`);
+        fs.ensureDirSync(`${basePath}/rename-three`);
     });
 
     after('after rename测试', function () {
@@ -325,7 +325,7 @@ describe('fs rename测试', function () {
 describe('fs delete测试', function () {
 
     before('before delete测试', function () {
-        fs.mkdirSync(basePath);
+        fs.ensureDirSync(basePath);
         fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
     });
 
