@@ -154,27 +154,11 @@ describe('fs upload测试', function () {
             headers = form.getHeaders();
 
         form.append('path', uploadDir);
-        form.append('files', fs.createReadStream(`${filesPath}/.eslintrc.json`));
+        form.append('files', fs.createReadStream(`${filesPath}/测试.txt`));
 
         upload(`http://localhost:8888/api/upload`, form, headers)
             .then(response => {
-                response.message.should.equal('无效文件名');
-                done();
-            });
-    });
-
-    it('# 无效文件名', function (done) {
-        var uploadDir = '/',
-            form = new FormData(),
-            headers = form.getHeaders();
-
-        form.append('path', uploadDir);
-        form.append('files', fs.createReadStream(`${filesPath}/.gitignore`));
-
-        upload(`http://localhost:8888/api/upload`, form, headers)
-            .then(response => {
-                console.log(response);
-                response.message.should.equal('无效文件名');
+                response.message.should.equal('无效文件名:"测试.txt"');
                 done();
             });
     });

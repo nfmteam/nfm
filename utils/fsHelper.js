@@ -35,7 +35,6 @@ module.exports = {
         var p = this.resolveAbsolutePath(dir);
 
         return fs.readdirSync(p)
-            .filter(filename => !!filename.indexOf('.'))
             .map(filename => this.getFileStat(path.resolve(p, filename)))
             .filter(obj => types.includes(obj.type));
     },
@@ -97,7 +96,7 @@ module.exports = {
      * 测试文件（夹）名合法性
      */
     testName: function (name) {
-        return /^\w[\w\-\.]*$/.test(name);
+        return /^[\w\-\.]*$/.test(name);
     },
 
     /**

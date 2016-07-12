@@ -52,7 +52,7 @@ describe('list测试', function () {
 
         get(`http://localhost:8888?path=${path}`)
             .then(response => {
-                response.data.length.should.equal(4);
+                response.data.length.should.equal(9);
                 done();
             });
     });
@@ -114,7 +114,7 @@ describe('list测试', function () {
 
         get(`http://localhost:8888?path=${path}&type=${type}`)
             .then(response => {
-                response.data.length.should.equal(4);
+                response.data.length.should.equal(9);
                 done();
             });
     });

@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs-extra');
-const is = require('type-is');
 const formidable = require('formidable');
 const config = require('../lib/config');
 
@@ -36,11 +35,6 @@ module.exports = (ctx) => new Promise((resolve, reject) => {
                 }
             } else {
                 fields[field] = value;
-            }
-        })
-        .on('fileBegin', function (name, file) {
-            if (!is.is(file.type, config['upload.allowTypes'])) {
-                throw Error(`不允许上传"${file.type}"`);
             }
         })
         .on('file', function (field, file) {

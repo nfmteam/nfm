@@ -34,7 +34,7 @@ module.exports = function *() {
 
     files.forEach(file => {
         if (!fsHelper.testName(file.name)) {
-            throw Error('无效文件名');
+            throw Error(`无效文件名:"${file.name}"`);
         }
     });
 
