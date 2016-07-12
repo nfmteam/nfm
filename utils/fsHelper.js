@@ -8,6 +8,7 @@ const filesize = require('filesize');
 const crypto = require('crypto');
 
 const basePath = config['fs.base'];
+const backupPath = config['backup.dir'];
 
 function md5(text) {
     return crypto.createHash('md5').update(text).digest('hex');
@@ -79,7 +80,8 @@ module.exports = {
     exists: function (p) {
         var result = false;
 
-        if (!p) {
+        // 隐藏备份文件夹
+        if (!p || p.indexOf(backupPath) !== -1) {
             return result;
         }
 
