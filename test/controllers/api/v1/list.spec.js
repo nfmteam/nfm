@@ -38,7 +38,7 @@ describe('list测试', function () {
 
         app.use(bodyParser);
         app.use(apiParser);
-        app.use(listApi.getList);
+        app.use(listApi);
 
         this.server = app.listen(8888);
     });
@@ -89,6 +89,16 @@ describe('list测试', function () {
 
     it('# 路径错误', function (done) {
         var path = '/f';
+
+        get(`http://localhost:8888?path=${path}`)
+            .then(response => {
+                response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
+    it('# path非目录测试', function (done) {
+        var path = '/files/package.json';
 
         get(`http://localhost:8888?path=${path}`)
             .then(response => {

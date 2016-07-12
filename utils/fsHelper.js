@@ -88,8 +88,7 @@ module.exports = {
         }
 
         try {
-            fs.statSync(this.resolveAbsolutePath(p));
-            result = true;
+            result = fs.statSync(this.resolveAbsolutePath(p));
         } catch (error) {
         }
 
