@@ -9,15 +9,13 @@ module.exports = function *() {
         throw Error('入参错误');
     }
 
-    if (!fsHelper.exists(p)) {
+    var stat = fsHelper.exists(p);
+
+    if (!stat || !stat.isFile()) {
         throw Error('文件不存在');
     }
 
     var file = fsHelper.resolveAbsolutePath(p);
-
-    if (!fsHelper.fs.statSync(file).isFile()) {
-        throw Error('文件不存在');
-    }
 
     this.attachment(file);
 };
