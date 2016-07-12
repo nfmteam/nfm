@@ -67,7 +67,7 @@ describe('fs upload测试', function () {
             });
     });
 
-    it('# 多文件上传', function (done) {
+    it('# 多文件上传1', function (done) {
         var uploadDir = '/',
             form = new FormData(),
             headers = form.getHeaders();
@@ -75,6 +75,30 @@ describe('fs upload测试', function () {
         form.append('path', uploadDir);
         form.append('files', fs.createReadStream(`${filesPath}/README.md`));
         form.append('files', fs.createReadStream(`${filesPath}/package.json`));
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(() => {
+                if (fs.existsSync(path.join(basePath, 'README.md'))
+                    && fs.existsSync(path.join(basePath, 'package.json'))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 多文件上传2', function (done) {
+        var uploadDir = '/',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
+        form.append('a', 'value1');
+        form.append('a', 'value2');
+        form.append('a', 'value3');
+
+        // 部分代码只有两个以上的文件才能跑到
+        form.append('files', fs.createReadStream(`${filesPath}/README.md`));
+        form.append('files', fs.createReadStream(`${filesPath}/package.json`));
+        form.append('files', fs.createReadStream(`${filesPath}/.gitignore`));
 
         upload(`http://localhost:8888/api/upload`, form, headers)
             .then(() => {

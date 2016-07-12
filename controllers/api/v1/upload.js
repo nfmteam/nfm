@@ -6,10 +6,7 @@ const uploader = require('../../../utils/uploader');
 module.exports = function *() {
     var path, uploadDir, formData, files, paths = [];
 
-    formData = yield uploader(this)
-        .catch(error => {
-            throw error;
-        });
+    formData = yield uploader(this);
 
     path = formData.fields.path;
     files = formData.files.files;
@@ -43,10 +40,7 @@ module.exports = function *() {
         paths.push(`${uploadDir}/${file.name}`);
 
         // 重复则覆盖文件
-        yield fsHelper.fs.moveAsync(file.path, `${uploadDir}/${file.name}`, { clobber: true })
-            .catch(error => {
-                throw error;
-            });
+        yield fsHelper.fs.moveAsync(file.path, `${uploadDir}/${file.name}`, { clobber: true });
     }
 
     // 返回上传的文件列表
