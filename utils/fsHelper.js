@@ -8,7 +8,8 @@ const filesize = require('filesize');
 const crypto = require('crypto');
 
 const basePath = config['fs.base'];
-const backupPath = config['backup.dir'];
+const uploadDir = config['upload.dir'];
+const backupDir = config['backup.dir'];
 
 function md5(text) {
     return crypto.createHash('md5').update(text).digest('hex');
@@ -36,6 +37,7 @@ module.exports = {
         var p = this.resolveAbsolutePath(dir);
 
         return fs.readdirSync(p)
+            .filter(filename => filename !== backupDir && filename !== uploadDir)
             .map(filename => this.getFileStat(path.resolve(p, filename)))
             .filter(obj => types.includes(obj.type));
     },
@@ -80,8 +82,8 @@ module.exports = {
     exists: function (p) {
         var result = false;
 
-        // 隐藏备份文件夹
-        if (!p || p.indexOf(backupPath) !== -1) {
+        // 隐藏备份,上传文件夹
+        if (!p || p.indexOf(uploadDir) !== -1 || p.indexOf(backupDir) !== -1) {
             return result;
         }
 
