@@ -1,10 +1,8 @@
 'use strict';
 
-const path = require('path');
-const mime = require('mime-types');
 const fsHelper = require('../../../utils/fsHelper');
 
-module.exports = function *(next) {
+module.exports = function *() {
     const p = this.request.query.path;
 
     if (!p) {
@@ -16,13 +14,10 @@ module.exports = function *(next) {
     }
 
     var file = fsHelper.resolveAbsolutePath(p);
-    var filename = path.basename(file);
-    var mimetype = mime.lookup(file);
 
-    this.response.set('Content-disposition', 'attachment; filename=' + filename);
-    this.response.set('Content-type', mimetype);
+    if (!fsHelper.fs.statSync(file).isFile()) {
+        throw Error('文件不存在');
+    }
 
-    yield fsHelper.fs.createReadStreamAsync(file).pipe(this.response);
-
-    yield next;
+    this.attachment(file);
 };
