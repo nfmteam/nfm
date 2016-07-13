@@ -1,15 +1,18 @@
 'use strict';
 
 const fs = require('../lib/fs');
-const config = require('../lib/config');
 const path = require('path');
 const moment = require('moment');
 const filesize = require('filesize');
 const crypto = require('crypto');
+const Promise = require('bluebird');
+
+const config = require('../lib/config');
 
 const basePath = config['fs.base'];
 const uploadDir = config['upload.dir'];
 const backupDir = config['backup.dir'];
+const deployDir = config['deploy.dir'];
 
 function md5(text) {
     return crypto.createHash('md5').update(text).digest('hex');
@@ -106,7 +109,12 @@ module.exports = {
      * 创建文件夹
      */
     mkdir: function (dir) {
-        return fs.mkdirAsync(this.resolveAbsolutePath(dir));
+        var absDir = this.resolveAbsolutePath(dir);
+
+        return Promise.all([
+            fs.ensureDirAsync(`${absDir}/${backupDir}`),
+            fs.ensureDirAsync(`${absDir}/${deployDir}`)
+        ]);
     },
 
     /**

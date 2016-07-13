@@ -74,18 +74,6 @@ describe('fs mkdir测试', function () {
             });
     });
 
-    it('# 目录已存在', function (done) {
-        var data = {
-            dir: '/mkdir-test'
-        };
-
-        post('http://localhost:8888', data)
-            .then(response => {
-                response.message.should.equal('目录已存在');
-                done();
-            });
-    });
-
     it('# 入参错误', function (done) {
         post('http://localhost:8888')
             .then(response => {

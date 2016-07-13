@@ -1,6 +1,7 @@
 'use strict';
 
 const fsHelper = require('../../../utils/fsHelper');
+const path = require('path');
 
 module.exports = {
 
@@ -14,9 +15,9 @@ module.exports = {
             throw Error('入参错误');
         }
 
-        var lastIndex = dir.lastIndexOf('/'),
-            p = dir.slice(0, lastIndex) || '/',
-            dirName = dir.slice(lastIndex + 1);
+        var parsedDir = path.parse(dir),
+            p = parsedDir.dir,
+            dirName = parsedDir.base;
 
         if (!fsHelper.exists(p)) {
             throw Error('路径不存在');
@@ -28,10 +29,6 @@ module.exports = {
 
         yield fsHelper.mkdir(dir)
             .catch(error => {
-                if (error.code === 'EEXIST') {
-                    throw Error('目录已存在');
-                }
-
                 throw error;
             });
     },
