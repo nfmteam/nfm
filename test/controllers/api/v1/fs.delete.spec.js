@@ -16,6 +16,10 @@ const fsApi = proxyquire('../../../../controllers/api/v1/fs', stubs);
 const bodyParser = require('../../../../lib/bodyParser');
 const apiParser = require('../../../../lib/apiParser');
 
+const config = require('../../../../lib/config');
+const deployDir = config['deploy.dir'];
+const backupDir = config['backup.dir'];
+
 const mocha = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -79,11 +83,28 @@ describe('fs delete测试', function () {
                 path: p
             };
 
+        // 文件夹只有备份, 发布目录, 算空
+        fs.mkdirSync(path.join(basePath, p, deployDir));
+        fs.mkdirSync(path.join(basePath, p, backupDir));
+
         del('http://localhost:8888', data)
             .then(() => {
                 if (!fs.existsSync(path.join(basePath, p))) {
                     done();
                 }
+            });
+    });
+
+    it('# 删除根目录', function (done) {
+        var p = '/',
+            data = {
+                path: p
+            };
+
+        del('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('根目录不能删除');
+                done();
             });
     });
 

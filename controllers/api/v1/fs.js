@@ -27,10 +27,7 @@ module.exports = {
             throw Error('文件名不合法');
         }
 
-        yield fsHelper.mkdir(dir)
-            .catch(error => {
-                throw error;
-            });
+        yield fsHelper.mkdir(dir);
     },
 
     /**
@@ -91,18 +88,15 @@ module.exports = {
             throw Error('入参错误');
         }
 
+        if (path === '/') {
+            throw Error('根目录不能删除');
+        }
+
         if (!fsHelper.exists(path)) {
             throw Error('路径不存在');
         }
 
-        yield fsHelper.del(path)
-            .catch(error => {
-                if (error.code === 'ENOTEMPTY') {
-                    throw Error('目录非空');
-                }
-
-                throw error;
-            });
+        yield fsHelper.del(path);
     }
 
 };

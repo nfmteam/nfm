@@ -37,11 +37,12 @@ module.exports = {
      * 获取文件(夹)列表
      */
     getFileList: function (dir, types) {
-        var p = this.resolveAbsolutePath(dir);
+        var absPath = this.resolveAbsolutePath(dir);
 
-        return fs.readdirSync(p)
-            .filter(filename => filename !== backupDir && filename !== uploadDir)
-            .map(filename => this.getFileStat(path.resolve(p, filename)))
+        return fs.readdirSync(absPath)
+            .filter(fileName =>
+            fileName !== backupDir && fileName !== deployDir && fileName !== uploadDir)
+            .map(fileName => this.getFileStat(path.resolve(absPath, fileName)))
             .filter(obj => types.includes(obj.type));
     },
 
@@ -85,8 +86,9 @@ module.exports = {
     exists: function (p) {
         var result = false;
 
-        // 隐藏备份,上传文件夹
-        if (!p || p.indexOf(uploadDir) !== -1 || p.indexOf(backupDir) !== -1) {
+        // 隐藏备份, 上传, 发布文件夹
+        if (!p || p.indexOf(uploadDir) !== -1
+            || p.indexOf(backupDir) !== -1 || p.indexOf(deployDir) !== -1) {
             return result;
         }
 
@@ -116,6 +118,10 @@ module.exports = {
      * 测试文件（夹）名合法性
      */
     testName: function (name) {
+        if (name === backupDir || name === deployDir || name === uploadDir) {
+            return false;
+        }
+
         return /^[\w\-\.]*$/.test(name);
     },
 
@@ -159,7 +165,18 @@ module.exports = {
         var absPath = this.resolveAbsolutePath(p);
 
         if (fs.statSync(absPath).isDirectory()) {
-            return fs.rmdirAsync(absPath);
+            return fs.readdirAsync(absPath)
+                .then(fileList => {
+                    return fileList.filter(fileName => fileName !== backupDir && fileName !== deployDir)
+                })
+                .then(fileList => {
+                    if (fileList.length > 0) {
+                        throw new Error('目录非空');
+                    }
+                })
+                .then(() => {
+                    return fs.removeAsync(absPath);
+                });
         }
 
         return fs.unlinkAsync(absPath);
