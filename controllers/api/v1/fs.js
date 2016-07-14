@@ -47,7 +47,7 @@ module.exports = {
             throw Error('路径不存在');
         }
 
-        var name = src.slice(src.lastIndexOf('/') + 1);
+        var name = path.parse(src).base;
         var newSrc = `${dest}/${name}`;
 
         yield fsHelper.move(src, newSrc);
