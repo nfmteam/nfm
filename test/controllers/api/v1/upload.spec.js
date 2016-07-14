@@ -9,6 +9,7 @@ const { upload } = require('../../../fetch');
 const config = require('../../../../lib/config');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
+const deployDir = config['deploy.dir'];
 const stubs = {
     '../lib/config': {
         'fs.base': basePath,
@@ -148,7 +149,7 @@ describe('fs upload测试', function () {
             });
     });
 
-    it('# 文件已存在', function (done) {
+    it('# 文件已存在, 待发布', function (done) {
         var uploadDir = '/',
             form1 = new FormData(),
             headers1 = form1.getHeaders();
@@ -167,8 +168,10 @@ describe('fs upload测试', function () {
 
                 upload(`http://localhost:8888/api/upload`, form2, headers2)
                     .then(() => {
-                        done();
-                    })
+                        if(fs.existsSync(path.join(basePath, deployDir, 'README.md'))) {
+                            done();
+                        }
+                    });
             });
     });
 

@@ -99,6 +99,20 @@ module.exports = {
     },
 
     /**
+     * 判断path(绝对路径)是否存在
+     */
+    absPathExists: function (p) {
+        var result = false;
+
+        try {
+            result = fs.statSync(p);
+        } catch (error) {
+        }
+
+        return result;
+    },
+
+    /**
      * 测试文件（夹）名合法性
      */
     testName: function (name) {

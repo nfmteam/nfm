@@ -2,9 +2,12 @@
 
 const fsHelper = require('../../../utils/fsHelper');
 const uploader = require('../../../utils/uploader');
+const config = require('../../../lib/config');
+
+const deployDir = config['deploy.dir'];
 
 module.exports = function *() {
-    var path, uploadDir, formData, files, paths = [];
+    var path, uploadDir, formData, files, filePath, paths = [];
 
     formData = yield uploader(this);
 
@@ -37,10 +40,17 @@ module.exports = function *() {
 
     // 移动文件到path
     for (let file of files) {
-        paths.push(`${uploadDir}/${file.name}`);
+        filePath = `${uploadDir}/${file.name}`;
 
-        // 重复则覆盖文件
-        yield fsHelper.fs.moveAsync(file.path, `${uploadDir}/${file.name}`, { clobber: true });
+        // 文件不存在,直接上传; 已存在, 待发布
+        if (fsHelper.absPathExists(filePath)) {
+            yield fsHelper.fs.moveAsync(file.path, `${uploadDir}/${deployDir}/${file.name}`, {
+                clobber: true
+            });
+        } else {
+            paths.push(filePath);
+            yield fsHelper.fs.moveAsync(file.path, filePath);
+        }
     }
 
     // 返回上传的文件列表
