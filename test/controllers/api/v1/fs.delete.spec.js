@@ -95,6 +95,28 @@ describe('fs delete测试', function () {
             });
     });
 
+    it('# 待发布文件同时被删除', function (done) {
+        var p = '/files/test/lib/request.js',
+            data = {
+                path: p
+            };
+
+        var { dir, base } = path.parse(p),
+            absFilePath = path.join(basePath, p),
+            absDeployDir = path.join(basePath, dir, deployDir),
+            absDestFilePath = path.join(absDeployDir, base);
+
+        fs.mkdirSync(absDeployDir);
+        fs.copySync(absFilePath, absDestFilePath);
+
+        del('http://localhost:8888', data)
+            .then(() => {
+                if (!fs.existsSync(absFilePath) && !fs.existsSync(absDestFilePath)) {
+                    done();
+                }
+            });
+    });
+
     it('# 删除根目录', function (done) {
         var p = '/',
             data = {
@@ -118,8 +140,8 @@ describe('fs delete测试', function () {
 
     it('# 路径不存在', function (done) {
         var data = {
-                path: '/aa'
-            };
+            path: '/aa'
+        };
 
         del('http://localhost:8888', data)
             .then(response => {

@@ -166,20 +166,21 @@ module.exports = {
 
         if (fs.statSync(absPath).isDirectory()) {
             return fs.readdirAsync(absPath)
-                .then(fileList => {
-                    return fileList.filter(fileName => fileName !== backupDir && fileName !== deployDir)
-                })
+                .then(fileList =>
+                    fileList.filter(fileName => fileName !== backupDir && fileName !== deployDir))
                 .then(fileList => {
                     if (fileList.length > 0) {
                         throw new Error('目录非空');
                     }
                 })
-                .then(() => {
-                    return fs.removeAsync(absPath);
-                });
+                .then(() => fs.removeAsync(absPath));
         }
 
-        return fs.unlinkAsync(absPath);
+        // 同时删除发布待发布文件
+        const { dir, base } = path.parse(absPath);
+
+        return fs.unlinkAsync(absPath)
+            .then(() => fs.unlinkAsync(`${dir}/${deployDir}/${base}`));
     }
 
 };
