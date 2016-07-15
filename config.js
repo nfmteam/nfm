@@ -2,32 +2,32 @@
 
 module.exports = {
 
-    // -------- app configuration --------
+    // -------------- app configuration --------------
 
     // 端口号
     'app.port': 3010,
 
-    // -------- fs configuration --------
+    // -------------- fs configuration ---------------
 
     'fs.base': '/Users/keenwon/Desktop/temp',
 
-    // -------- upload configuration --------
+    // -------------- upload configuration -----------
 
     'upload.dir': '.nfm_upload',
 
     'upload.multiples': true,
 
-    // -------- backup configuration --------
+    // -------------- backup configuration -----------
 
     'backup.dir': '.nfm_backup',
 
     'backup.maxSize': 10,
 
-    // -------- deploy configuration --------
+    // -------------- deploy configuration -----------
 
     'deploy.dir': '.nfm_deploy',
 
-    // -------- log configuration --------
+    // -------------- log configuration --------------
 
     // 启用日志
     'log.enable': true,

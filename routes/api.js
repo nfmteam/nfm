@@ -1,12 +1,12 @@
 'use strict';
 
 const Router = require('koa-router');
-const apiParser = require('../apiParser');
+const apiParser = require('../lib/apiParser');
 
-const apiListController = require('../../controllers/api/list');
-const apiFsController = require('../../controllers/api/fs');
-const apiUploadController = require('../../controllers/api/upload');
-const apiDownloadController = require('../../controllers/api/download');
+const apiListController = require('../controllers/api/list');
+const apiFsController = require('../controllers/api/fs');
+const apiUploadController = require('../controllers/api/upload');
+const apiDownloadController = require('../controllers/api/download');
 
 const router = new Router({
     prefix: '/api'

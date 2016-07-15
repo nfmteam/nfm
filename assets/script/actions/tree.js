@@ -49,7 +49,7 @@ export function getTree(path = '/') {
     return dispatch => {
         dispatch(requestTreeCreater(path));
 
-        fetch('GET', `http://localhost:3010/api/v1/list?path=${path}&type=d`)
+        fetch('GET', `http://localhost:3010/api/list?path=${path}&type=d`)
             .then(data => {
                 dispatch(requestTreeSuccessCreater(data, path));
             })

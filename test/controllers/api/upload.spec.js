@@ -6,12 +6,12 @@ const router = require('koa-router')();
 const fs = require('fs-extra');
 const FormData = require('form-data');
 const { upload } = require('../../fetch');
-const config = require('../../../lib/config');
+const config = require('../../../config');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const deployDir = config['deploy.dir'];
 const stubs = {
-    '../lib/config': {
+    '../config': {
         'fs.base': basePath,
         '@global': true
     }

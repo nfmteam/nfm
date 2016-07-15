@@ -7,7 +7,7 @@ const { put } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
-    '../lib/config': {
+    '../config': {
         'fs.base': basePath,
         '@global': true
     }
@@ -16,7 +16,7 @@ const fsApi = proxyquire('../../../controllers/api/fs', stubs);
 const bodyParser = require('../../../lib/bodyParser');
 const apiParser = require('../../../lib/apiParser');
 
-const config = require('../../../lib/config');
+const config = require('../../../config');
 const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];
 

@@ -2,7 +2,7 @@
 
 const fsHelper = require('../../utils/fsHelper');
 const uploader = require('../../utils/uploader');
-const config = require('../../lib/config');
+const config = require('../../config');
 
 const deployDir = config['deploy.dir'];
 

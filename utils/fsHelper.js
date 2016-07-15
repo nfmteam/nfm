@@ -1,13 +1,14 @@
 'use strict';
 
-const fs = require('../lib/fs');
+const Promise = require('bluebird');
+const fsExtra = require('fs-extra');
+const fs = Promise.promisifyAll(fsExtra);
 const path = require('path');
 const moment = require('moment');
 const filesize = require('filesize');
 const crypto = require('crypto');
-const Promise = require('bluebird');
 
-const config = require('../lib/config');
+const config = require('../config');
 
 const basePath = config['fs.base'];
 const uploadDir = config['upload.dir'];

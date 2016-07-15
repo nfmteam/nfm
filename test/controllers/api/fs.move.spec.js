@@ -7,7 +7,7 @@ const { put } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
-    '../lib/config': {
+    '../config': {
         'fs.base': basePath,
         '@global': true
     }

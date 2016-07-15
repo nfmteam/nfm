@@ -30,7 +30,7 @@ export function getWorkspaceFiles(path = '/') {
         dispatch(beginLoadingCreater());
         dispatch(requestWorkspaceCreater(path));
 
-        fetch('GET', `http://localhost:3010/api/v1/list?path=${path}`)
+        fetch('GET', `http://localhost:3010/api/list?path=${path}`)
             .then(data => {
                 dispatch(syncTree(path, data));
                 dispatch(requestWorkspaceSuccessCreater(sortFiles(data)));

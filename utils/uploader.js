@@ -2,7 +2,7 @@
 
 const fs = require('fs-extra');
 const formidable = require('formidable');
-const config = require('../lib/config');
+const config = require('../config');
 
 const keepExtensions = config['upload.keepExtensions'];
 const multiples = config['upload.multiples'];

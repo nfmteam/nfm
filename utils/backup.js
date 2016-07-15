@@ -3,7 +3,7 @@
 const Promise = require('bluebird');
 const fsHelper = require('./fsHelper');
 const path = require('path');
-const config = require('../lib/config');
+const config = require('../config');
 
 const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];

@@ -6,13 +6,13 @@ const serve = require('koa-static');
 const Pug = require('koa-pug');
 
 const config = require('./config');
-const exceptionHandler = require('./exceptionHandler');
-const bodyParser = require('./bodyParser');
-const webpack = require('./webpackMiddleware');
+const exceptionHandler = require('./lib/exceptionHandler');
+const bodyParser = require('./lib/bodyParser');
+const webpack = require('./lib/webpackMiddleware');
 const apiRouter = require('./routes/api');
 const pageRouter = require('./routes/page');
-const logger = require('./logger');
-const assets = require('../assets/.assets.json');
+const logger = require('./lib/logger');
+const assets = require('./assets/.assets.json');
 
 // logger
 logger.register(app);

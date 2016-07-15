@@ -2,7 +2,7 @@
   "apps": [
     {
       "name": "NFM",
-      "script": "lib/app.js",
+      "script": "app.js",
       "watch": true,
       "ignore_watch": [
         "node_modules",
