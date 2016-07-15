@@ -18,6 +18,7 @@ const apiParser = require('../../../../lib/apiParser');
 
 const config = require('../../../../lib/config');
 const deployDir = config['deploy.dir'];
+const backupDir = config['backup.dir'];
 
 const mocha = require('mocha');
 const chai = require('chai');
@@ -82,7 +83,7 @@ describe('fs rename测试', function () {
             });
     });
 
-    it('# 重命名文件和待发布文件', function (done) {
+    it('# 重命名文件,待发布文件,备份文件', function (done) {
         var data = {
             src: '/files/package.json',
             name: 'package2.json'
@@ -100,13 +101,16 @@ describe('fs rename测试', function () {
             path.join(basePath, 'files/package.json'),
             path.join(basePath, `files/${deployDir}/package.json`)
         );
+        fs.mkdirSync(path.join(basePath, `files/${backupDir}/package.json`));
 
         put('http://localhost:8888', data)
             .then(() => {
                 if (fs.existsSync(path.join(basePath, '/files/package2.json'))
                     && !fs.existsSync(path.join(basePath, '/files/package.json'))
                     && fs.existsSync(path.join(basePath, `/files/${deployDir}/package2.json`))
-                    && !fs.existsSync(path.join(basePath, `/files/${deployDir}/package.json`))) {
+                    && !fs.existsSync(path.join(basePath, `/files/${deployDir}/package.json`))
+                    && fs.existsSync(path.join(basePath, `/files/${backupDir}/package2.json`))
+                    && !fs.existsSync(path.join(basePath, `/files/${backupDir}/package.json`))) {
                     done();
                 }
             });

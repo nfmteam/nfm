@@ -157,18 +157,27 @@ module.exports = {
         return this._move(absSrc, absDest);
     },
 
+    _moveBackupAndDeploy: function (absSrc, absDest) {
+        var { dir: srcDir, base: srcBase } = path.parse(absSrc),
+            { dir: destDir, base: destBase } = path.parse(absDest),
+            deploySrc = `${srcDir}/${deployDir}/${srcBase}`,
+            deployDest = `${destDir}/${deployDir}/${destBase}`,
+            backupSrc = `${srcDir}/${backupDir}/${srcBase}`,
+            backupDest = `${destDir}/${backupDir}/${destBase}`;
+
+        return Promise.all([
+            fs.moveAsync(deploySrc, deployDest).catchReturn(null),
+            fs.moveAsync(backupSrc, backupDest).catchReturn(null)
+        ]);
+    },
+
     _move: function (absSrc, absDest) {
         if (fs.statSync(absSrc).isDirectory()) {
             return fs.moveAsync(absSrc, absDest);
         } else {
-            var { dir: srcDir, base: srcBase } = path.parse(absSrc);
-            var { dir: destDir, base: destBase } = path.parse(absDest);
-            var deploySrc = `${srcDir}/${deployDir}/${srcBase}`;
-            var deployDest = `${destDir}/${deployDir}/${destBase}`;
-
-            // 同时静默移动待发布文件
+            // 同时静默移动待发布文件和备份文件夹
             return fs.moveAsync(absSrc, absDest)
-                .then(() => fs.moveAsync(deploySrc, deployDest).catch(() => null));
+                .then(() => this._moveBackupAndDeploy(absSrc, absDest));
         }
     },
 
@@ -190,11 +199,19 @@ module.exports = {
                 .then(() => fs.removeAsync(absPath));
         }
 
-        // 同时删除发布待发布文件
-        const { dir, base } = path.parse(absPath);
-
         return fs.unlinkAsync(absPath)
-            .then(() => fs.unlinkAsync(`${dir}/${deployDir}/${base}`));
+            .then(() => this._deleteBackupAndDeploy(absPath));
+    },
+
+    _deleteBackupAndDeploy: function (absPath) {
+        var { dir, base } = path.parse(absPath),
+            backupDir = `${dir}/${backupDir}/${base}`,
+            deployFile = `${dir}/${deployDir}/${base}`;
+
+        return Promise.all([
+            fs.removeAsync(backupDir).catchReturn(null),
+            fs.removeAsync(deployFile).catchReturn(null)
+        ]);
     }
 
 };
