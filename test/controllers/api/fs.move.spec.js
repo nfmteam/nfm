@@ -3,7 +3,7 @@
 const path = require('path');
 const koa = require('koa');
 const fs = require('fs-extra');
-const { put } = require('../../../fetch');
+const { put } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
@@ -12,9 +12,9 @@ const stubs = {
         '@global': true
     }
 };
-const fsApi = proxyquire('../../../../controllers/api/v1/fs', stubs);
-const bodyParser = require('../../../../lib/bodyParser');
-const apiParser = require('../../../../lib/apiParser');
+const fsApi = proxyquire('../../../controllers/api/fs', stubs);
+const bodyParser = require('../../../lib/bodyParser');
+const apiParser = require('../../../lib/apiParser');
 
 const mocha = require('mocha');
 const chai = require('chai');

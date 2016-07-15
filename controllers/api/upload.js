@@ -1,8 +1,8 @@
 'use strict';
 
-const fsHelper = require('../../../utils/fsHelper');
-const uploader = require('../../../utils/uploader');
-const config = require('../../../lib/config');
+const fsHelper = require('../../utils/fsHelper');
+const uploader = require('../../utils/uploader');
+const config = require('../../lib/config');
 
 const deployDir = config['deploy.dir'];
 

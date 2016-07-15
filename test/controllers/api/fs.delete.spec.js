@@ -3,7 +3,7 @@
 const path = require('path');
 const koa = require('koa');
 const fs = require('fs-extra');
-const { del } = require('../../../fetch');
+const { del } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
@@ -12,11 +12,11 @@ const stubs = {
         '@global': true
     }
 };
-const fsApi = proxyquire('../../../../controllers/api/v1/fs', stubs);
-const bodyParser = require('../../../../lib/bodyParser');
-const apiParser = require('../../../../lib/apiParser');
+const fsApi = proxyquire('../../../controllers/api/fs', stubs);
+const bodyParser = require('../../../lib/bodyParser');
+const apiParser = require('../../../lib/apiParser');
 
-const config = require('../../../../lib/config');
+const config = require('../../../lib/config');
 const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];
 
@@ -30,7 +30,7 @@ describe('fs delete测试', function () {
 
     before('before delete测试', function () {
         fs.ensureDirSync(basePath);
-        fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}/files`);
     });
 
     after('after delete测试', function () {

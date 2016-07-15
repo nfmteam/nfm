@@ -1,6 +1,6 @@
 'use strict';
 
-const fsHelper = require('../../../utils/fsHelper');
+const fsHelper = require('../../utils/fsHelper');
 const path = require('path');
 
 module.exports = {

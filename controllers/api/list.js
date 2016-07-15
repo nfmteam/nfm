@@ -1,6 +1,6 @@
 'use strict';
 
-const fsHelper = require('../../../utils/fsHelper');
+const fsHelper = require('../../utils/fsHelper');
 
 module.exports = function *() {
     const p = this.request.query.path || '/';

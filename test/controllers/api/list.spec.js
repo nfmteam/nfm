@@ -3,7 +3,7 @@
 const path = require('path');
 const koa = require('koa');
 const fs = require('fs-extra');
-const { get } = require('../../../fetch');
+const { get } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
@@ -12,9 +12,9 @@ const stubs = {
         '@global': true
     }
 };
-const listApi = proxyquire('../../../../controllers/api/v1/list', stubs);
-const bodyParser = require('../../../../lib/bodyParser');
-const apiParser = require('../../../../lib/apiParser');
+const listApi = proxyquire('../../../controllers/api/list', stubs);
+const bodyParser = require('../../../lib/bodyParser');
+const apiParser = require('../../../lib/apiParser');
 
 const mocha = require('mocha');
 const chai = require('chai');
@@ -26,7 +26,7 @@ describe('list测试', function () {
 
     before('before list测试', function () {
         fs.ensureDirSync(basePath);
-        fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}/files`);
     });
 
     after('after list测试', function () {

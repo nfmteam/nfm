@@ -5,8 +5,8 @@ const koa = require('koa');
 const router = require('koa-router')();
 const fs = require('fs-extra');
 const FormData = require('form-data');
-const { upload } = require('../../../fetch');
-const config = require('../../../../lib/config');
+const { upload } = require('../../fetch');
+const config = require('../../../lib/config');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const deployDir = config['deploy.dir'];
@@ -16,9 +16,9 @@ const stubs = {
         '@global': true
     }
 };
-const uploadApi = proxyquire('../../../../controllers/api/v1/upload', stubs);
-const bodyParser = require('../../../../lib/bodyParser');
-const apiParser = require('../../../../lib/apiParser');
+const uploadApi = proxyquire('../../../controllers/api/upload', stubs);
+const bodyParser = require('../../../lib/bodyParser');
+const apiParser = require('../../../lib/apiParser');
 
 const mocha = require('mocha');
 const chai = require('chai');
@@ -26,7 +26,7 @@ const chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
-const filesPath = path.resolve(__dirname, '../../../files');
+const filesPath = path.resolve(__dirname, '../../files');
 
 describe('fs upload测试', function () {
 
