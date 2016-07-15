@@ -1,12 +1,12 @@
 'use strict';
 
-const fsHelper = require('../../utils/fsHelper');
+const fs = require('../../service/fs');
 
 module.exports = function *() {
     const p = this.request.query.path || '/';
     const _type = this.request.query.type;
-    const stat = fsHelper.exists(p);
 
+    const stat = fs.exists(p);
     if (!stat || !stat.isDirectory()) {
         throw Error('路径不存在');
     }
@@ -17,5 +17,5 @@ module.exports = function *() {
         type = [_type];
     }
 
-    this.body = fsHelper.getFileList(p, type);
+    this.body = fs.getFileList(p, type);
 };

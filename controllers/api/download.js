@@ -1,6 +1,6 @@
 'use strict';
 
-const fsHelper = require('../../utils/fsHelper');
+const fs = require('../../service/fs');
 
 module.exports = function *() {
     const p = this.request.query.path;
@@ -9,13 +9,13 @@ module.exports = function *() {
         throw Error('入参错误');
     }
 
-    var stat = fsHelper.exists(p);
+    var stat = fs.exists(p);
 
     if (!stat || !stat.isFile()) {
         throw Error('文件不存在');
     }
 
-    var file = fsHelper.resolveAbsolutePath(p);
+    var file = fs.resolveAbsolutePath(p);
 
     this.attachment(file);
 };

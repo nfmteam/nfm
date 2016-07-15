@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs-extra');
+const fs = require('./fs');
 const formidable = require('formidable');
 const config = require('../config');
 
@@ -8,7 +8,7 @@ const keepExtensions = config['upload.keepExtensions'];
 const multiples = config['upload.multiples'];
 const uploadDir = `${config['fs.base']}/${config['upload.dir']}`;
 
-fs.ensureDirSync(uploadDir);
+fs.fsExtra.ensureDirSync(uploadDir);
 
 module.exports = (ctx) => new Promise((resolve, reject) => {
     var form = new formidable.IncomingForm({

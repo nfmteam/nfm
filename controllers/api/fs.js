@@ -1,6 +1,6 @@
 'use strict';
 
-const fsHelper = require('../../utils/fsHelper');
+const fs = require('../../service/fs');
 const path = require('path');
 
 module.exports = {
@@ -19,15 +19,15 @@ module.exports = {
             p = parsedDir.dir,
             dirName = parsedDir.base;
 
-        if (!fsHelper.exists(p)) {
+        if (!fs.exists(p)) {
             throw Error('路径不存在');
         }
 
-        if (!fsHelper.testName(dirName)) {
+        if (!fs.testName(dirName)) {
             throw Error('文件名不合法');
         }
 
-        yield fsHelper.mkdir(dir);
+        yield fs.mkdir(dir);
     },
 
     /**
@@ -40,14 +40,14 @@ module.exports = {
             throw Error('入参错误');
         }
 
-        if (!fsHelper.exists(src) || !fsHelper.exists(dest)) {
+        if (!fs.exists(src) || !fs.exists(dest)) {
             throw Error('路径不存在');
         }
 
         var name = path.parse(src).base;
         var newSrc = `${dest}/${name}`;
 
-        yield fsHelper.move(src, newSrc);
+        yield fs.move(src, newSrc);
     },
 
     /**
@@ -60,15 +60,15 @@ module.exports = {
             throw Error('入参错误');
         }
 
-        if (!fsHelper.exists(src)) {
+        if (!fs.exists(src)) {
             throw Error('路径不存在');
         }
 
-        if (!fsHelper.testName(name)) {
+        if (!fs.testName(name)) {
             throw Error('文件名不合法');
         }
 
-        yield fsHelper.rename(src, name)
+        yield fs.rename(src, name)
             .catch(error => {
                 if (error.code === 'EEXIST') {
                     throw Error(`${name}已存在`);
@@ -92,11 +92,11 @@ module.exports = {
             throw Error('根目录不能删除');
         }
 
-        if (!fsHelper.exists(path)) {
+        if (!fs.exists(path)) {
             throw Error('路径不存在');
         }
 
-        yield fsHelper.del(path);
+        yield fs.del(path);
     }
 
 };

@@ -32,7 +32,7 @@ function getFileType(mode) {
 
 module.exports = {
 
-    fs: fs,
+    fsExtra: fs,
 
     /**
      * 获取文件(夹)列表

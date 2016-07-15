@@ -1,7 +1,7 @@
 'use strict';
 
 const Promise = require('bluebird');
-const fsHelper = require('./fsHelper');
+const fs = require('./fs');
 const path = require('path');
 const config = require('../config');
 
@@ -15,14 +15,14 @@ module.exports = {
         var { dir, base } = path.parse(absFilePath),
             absBackupFilePath = `${dir}/${backupDir}/${base}/${Date.now()}.bak`;
 
-        return fsHelper.fs.copyAsync(absFilePath, absBackupFilePath);
+        return fs.fsExtra.copyAsync(absFilePath, absBackupFilePath);
     },
 
     getBackupList: function (absFilePath) {
         var { dir, base } = path.parse(absFilePath),
             absBackupPath = `${dir}/${backupDir}/${base}`;
 
-        return fsHelper.fs.walkAsync(absBackupPath);
+        return fs.fsExtra.walkAsync(absBackupPath);
     },
 
     // 恢复到待发布模式
@@ -30,7 +30,7 @@ module.exports = {
         var { dir, base } = path.parse(absFilePath),
             absDeployFilePath = `${dir}/${deployDir}/${base}`;
 
-        return fsHelper.copyAsync(absBackupPath, absDeployFilePath, {
+        return fs.copyAsync(absBackupPath, absDeployFilePath, {
             clobber: true
         });
     },
@@ -39,12 +39,12 @@ module.exports = {
         var { dir, base } = path.parse(absFilePath),
             absBackupPath = `${dir}/${backupDir}/${base}`;
 
-        return fsHelper.fs.walkAsync(absBackupPath)
+        return fs.fsExtra.walkAsync(absBackupPath)
             .then(files => files.sort().reverse().slice(backupMaxSize))
             .then(files => {
                 if (files.length) {
                     return Promise.all(
-                        files.map(file => fsHelper.removeAsync(`${absBackupPath}/${file}`))
+                        files.map(file => fs.removeAsync(`${absBackupPath}/${file}`))
                     );
                 }
             });
