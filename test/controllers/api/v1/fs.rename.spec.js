@@ -16,6 +16,9 @@ const fsApi = proxyquire('../../../../controllers/api/v1/fs', stubs);
 const bodyParser = require('../../../../lib/bodyParser');
 const apiParser = require('../../../../lib/apiParser');
 
+const config = require('../../../../lib/config');
+const deployDir = config['deploy.dir'];
+
 const mocha = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
@@ -29,6 +32,7 @@ describe('fs rename测试', function () {
         fs.ensureDirSync(`${basePath}/rename-one`);
         fs.ensureDirSync(`${basePath}/rename-two`);
         fs.ensureDirSync(`${basePath}/rename-three`);
+        fs.copySync(path.resolve(__dirname, '../../../files'), `${basePath}/files`);
     });
 
     after('after rename测试', function () {
@@ -58,6 +62,51 @@ describe('fs rename测试', function () {
         put('http://localhost:8888', data)
             .then(function () {
                 if (fs.existsSync(path.join(basePath, '/one'))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 重命名文件', function (done) {
+        var data = {
+            src: '/files/README.md',
+            name: 'README2.md'
+        };
+
+        put('http://localhost:8888', data)
+            .then(() => {
+                if (fs.existsSync(path.join(basePath, '/files/README2.md'))
+                    && !fs.existsSync(path.join(basePath, '/files/README.md'))) {
+                    done();
+                }
+            });
+    });
+
+    it('# 重命名文件和待发布文件', function (done) {
+        var data = {
+            src: '/files/package.json',
+            name: 'package2.json'
+        };
+
+        /**
+         * 上个测试中重命名文件夹
+         * fs-extra move方法会被触发
+         * 该方法移动文件的时候会创建不存在的目录
+         * 翻阅源码,发现move方法存在文档中不存在的option mkdir
+         * 默认设置为true,会保证文件夹存在
+         */
+        // fs.mkdirSync(path.join(basePath, 'files', deployDir));
+        fs.copySync(
+            path.join(basePath, 'files/package.json'),
+            path.join(basePath, `files/${deployDir}/package.json`)
+        );
+
+        put('http://localhost:8888', data)
+            .then(() => {
+                if (fs.existsSync(path.join(basePath, '/files/package2.json'))
+                    && !fs.existsSync(path.join(basePath, '/files/package.json'))
+                    && fs.existsSync(path.join(basePath, `/files/${deployDir}/package2.json`))
+                    && !fs.existsSync(path.join(basePath, `/files/${deployDir}/package.json`))) {
                     done();
                 }
             });

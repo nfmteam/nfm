@@ -141,21 +141,35 @@ module.exports = {
      * 移动文件(夹)
      */
     move: function (src, dest) {
-        src = this.resolveAbsolutePath(src);
-        dest = this.resolveAbsolutePath(dest);
+        var absSrc = this.resolveAbsolutePath(src);
+        var absDest = this.resolveAbsolutePath(dest);
 
-        return fs.moveAsync(src, dest);
+        return this._move(absSrc, absDest);
     },
 
     /**
      * 重命名文件（夹）
      */
     rename: function (src, name) {
-        src = this.resolveAbsolutePath(src);
+        var absSrc = this.resolveAbsolutePath(src);
+        var absDest = absSrc.replace(/[^\/]+$/, name);
 
-        var newSrc = src.replace(/[^\/]+$/, name);
+        return this._move(absSrc, absDest);
+    },
 
-        return fs.moveAsync(src, newSrc);
+    _move: function (absSrc, absDest) {
+        if (fs.statSync(absSrc).isDirectory()) {
+            return fs.moveAsync(absSrc, absDest);
+        } else {
+            var { dir: srcDir, base: srcBase } = path.parse(absSrc);
+            var { dir: destDir, base: destBase } = path.parse(absDest);
+            var deploySrc = `${srcDir}/${deployDir}/${srcBase}`;
+            var deployDest = `${destDir}/${deployDir}/${destBase}`;
+
+            // 同时静默移动待发布文件
+            return fs.moveAsync(absSrc, absDest)
+                .then(() => fs.moveAsync(deploySrc, deployDest).catch(() => null));
+        }
     },
 
     /**
