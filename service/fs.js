@@ -48,7 +48,14 @@ module.exports = {
     rename: function (absSrc, name) {
         const absDest = absSrc.replace(/[^\/]+$/, name);
 
-        return this._move(absSrc, absDest);
+        return fsHelper.exists(absDest)
+            .then(stat => {
+                if (stat) {
+                    throw Error(`${name}已存在`);
+                }
+
+                return this._move(absSrc, absDest);
+            });
     },
 
     _moveBackupAndDeploy: function (absSrc, absDest) {

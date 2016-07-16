@@ -220,7 +220,12 @@ describe('fs upload测试', function () {
         var form = new FormData(),
             headers = form.getHeaders();
 
+        // service/uploader的部分代码
+        // 只有三个以上files和fields才能覆盖带
         form.append('path', '/dir1');
+        form.append('a', 'a1');
+        form.append('a', 'a2');
+        form.append('a', 'a3');
         form.append('files', fs.createReadStream(`${filesPath}/backup3.js`));
         form.append('files', fs.createReadStream(`${filesPath}/deploy1.js`));
         form.append('files', fs.createReadStream(`${filesPath}/deploy2.js`));

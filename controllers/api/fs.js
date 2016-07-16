@@ -95,14 +95,7 @@ module.exports = {
             throw Error('路径不存在');
         }
 
-        yield fs.rename(absSrc, name)
-            .catch(error => {
-                if (error.code === 'EEXIST') {
-                    throw Error(`${name}已存在`);
-                }
-
-                throw error;
-            });
+        yield fs.rename(absSrc, name);
     },
 
     /**

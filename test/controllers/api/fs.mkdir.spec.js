@@ -19,6 +19,7 @@ const apiParser = require('../../../lib/apiParser');
 const config = require('../../../config');
 const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];
+const uploadDir = config['upload.dir'];
 
 const mocha = require('mocha');
 const chai = require('chai');
@@ -98,7 +99,7 @@ describe('fs mkdir测试', function () {
             });
     });
 
-    it('入参错误:文件名不合法', function (done) {
+    it('入参错误:文件名不合法:包含非法字符', function (done) {
         var data = {
             dir: '/测试'
         };
@@ -106,6 +107,30 @@ describe('fs mkdir测试', function () {
         post('http://localhost:8888', data)
             .then(response => {
                 response.message.should.equal('文件名不合法');
+                done();
+            });
+    });
+
+    it('入参错误:文件名不合法:包含nfm系统文件夹', function (done) {
+        var data = {
+            dir: `/${uploadDir}`
+        };
+
+        post('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('文件名不合法');
+                done();
+            });
+    });
+
+    it('入参错误:父级路径不存在', function (done) {
+        var data = {
+            dir: '/cc/bbbb'
+        };
+
+        post('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('路径不存在');
                 done();
             });
     });
