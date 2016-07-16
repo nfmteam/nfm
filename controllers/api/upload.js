@@ -8,9 +8,10 @@ const deployDir = config['deploy.dir'];
 
 module.exports = function *() {
     var path, uploadDir, pathStat, formData,
-        files, filePath, fileStat, paths = [];
+        files, filePath, fileStat,
+        absSrc, absDest, options;
 
-    formData = yield uploader(this);
+    formData = yield uploader.upload(this);
 
     path = formData.fields.path;
     files = formData.files.files;
@@ -50,13 +51,19 @@ module.exports = function *() {
 
         // 文件不存在,直接上传; 已存在, 待发布
         fileStat = yield fsHelper.exists(filePath);
+
         if (fileStat) {
-            yield fsHelper.fsExtra.moveAsync(file.path, `${uploadDir}/${deployDir}/${file.name}`, {
+            absSrc = file.path;
+            absDest = `${uploadDir}/${deployDir}/${file.name}`;
+            options = {
                 clobber: true
-            });
+            };
         } else {
-            paths.push(filePath);
-            yield fsHelper.fsExtra.moveAsync(file.path, filePath);
+            absSrc = file.path;
+            absDest = filePath;
+            options = {};
         }
+
+        yield uploader.move(absSrc, absDest, options);
     }
 };

@@ -34,10 +34,7 @@ const fsExists = p => fs.existsSync(path.join(basePath, p));
 describe('fs upload测试', function () {
 
     before('before upload测试', function () {
-        // 系统启动的时候,默认会确认uploadDir存在
-        // 运行测试的时候会被前面的测试删除
-        // 这里单独创建一次
-        fs.ensureDirSync(`${basePath}/${uploadDir}`);
+        fs.ensureDirSync(basePath);
         fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
