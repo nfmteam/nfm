@@ -47,7 +47,7 @@ describe('list测试', function () {
         this.server.close();
     });
 
-    it('# 入参测试:path省略', function () {
+    it('# 入参测试:path省略', function (done) {
         // path省略,取根目录
         get(`http://localhost:8888`)
             .then(response => {
@@ -56,7 +56,7 @@ describe('list测试', function () {
             });
     });
 
-    it('# 入参测试:path非目录', function () {
+    it('# 入参测试:path非目录', function (done) {
         var path = '/file1.js';
 
         get(`http://localhost:8888?path=${encodeURIComponent(path)}`)
@@ -66,37 +66,37 @@ describe('list测试', function () {
             });
     });
 
-    it('# 入参测试:path安全:安全path存在', function () {
+    it('# 入参测试:path安全:安全path存在', function (done) {
         var path = '../../../dir1';
 
-        get(`http://localhost:8888`)
+        get(`http://localhost:8888?path=${encodeURIComponent(path)}`)
             .then(response => {
                 response.data.length.should.equal(2);
                 done();
             });
     });
 
-    it('# 入参测试:path安全:安全path不存在', function () {
+    it('# 入参测试:path安全:安全path不存在', function (done) {
         var path = '../../../aaa';
 
-        get(`http://localhost:8888`)
+        get(`http://localhost:8888?path=${encodeURIComponent(path)}`)
             .then(response => {
                 response.message.should.equal('目录不存在');
                 done();
             });
     });
 
-    it('# 入参测试:path安全:安全path存在但是非目录', function () {
+    it('# 入参测试:path安全:安全path存在但是非目录', function (done) {
         var path = '../../../.hiddenfile1.js';
 
-        get(`http://localhost:8888`)
+        get(`http://localhost:8888?path=${encodeURIComponent(path)}`)
             .then(response => {
                 response.message.should.equal('目录不存在');
                 done();
             });
     });
 
-    it('# 入参测试:type非法', function () {
+    it('# 入参测试:type非法', function (done) {
         var type = 'keenwon';
 
         // type非法,直接忽略
@@ -107,7 +107,7 @@ describe('list测试', function () {
             });
     });
 
-    it('# 获取列表:全部', function () {
+    it('# 获取列表:全部', function (done) {
         get(`http://localhost:8888`)
             .then(response => {
                 response.data.length.should.equal(16);
@@ -115,7 +115,7 @@ describe('list测试', function () {
             });
     });
 
-    it('# 获取列表:目录', function () {
+    it('# 获取列表:目录', function (done) {
         var type = 'd';
 
         get(`http://localhost:8888?type=${type}`)
@@ -125,7 +125,7 @@ describe('list测试', function () {
             });
     });
 
-    it('# 获取列表:文件', function () {
+    it('# 获取列表:文件', function (done) {
         var type = 'f';
 
         get(`http://localhost:8888?type=${type}`)
