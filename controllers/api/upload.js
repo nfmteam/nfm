@@ -2,16 +2,13 @@
 
 const fsHelper = require('../../utils/fsHelper');
 const uploader = require('../../service/uploader');
-const config = require('../../config');
-
-const deployDir = config['deploy.dir'];
+const deployer = require('../../service/deployer');
 
 module.exports = function *() {
     var path, uploadDir, pathStat, formData,
-        files, filePath, fileStat,
-        absSrc, absDest, options;
+        files, filePath, fileStat;
 
-    formData = yield uploader.upload(this);
+    formData = yield uploader(this);
 
     path = formData.fields.path;
     files = formData.files.files;
@@ -49,21 +46,14 @@ module.exports = function *() {
     for (let file of files) {
         filePath = `${uploadDir}/${file.name}`;
 
-        // 文件不存在,直接上传; 已存在, 待发布
         fileStat = yield fsHelper.exists(filePath);
 
         if (fileStat) {
-            absSrc = file.path;
-            absDest = `${uploadDir}/${deployDir}/${file.name}`;
-            options = {
-                clobber: true
-            };
+            // 文件已存在, 待发布模式
+            yield deployer.add(file.path, filePath);
         } else {
-            absSrc = file.path;
-            absDest = filePath;
-            options = {};
+            // 文件不存在, 直接移动到目标路径
+            return fsHelper.fsExtra.moveAsync(file.path, filePath);
         }
-
-        yield uploader.move(absSrc, absDest, options);
     }
 };

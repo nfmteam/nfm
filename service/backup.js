@@ -20,12 +20,12 @@ module.exports = {
 
     getBackupList: function (absFilePath) {
         var { dir, base } = path.parse(absFilePath),
-            absBackupPath = `${dir}/${backupDir}/${base}`;
+            absBackupDir = `${dir}/${backupDir}/${base}`;
 
-        return fsHelper.fsExtra.walkAsync(absBackupPath);
+        return fsHelper.fsExtra.walkAsync(absBackupDir);
     },
 
-    // 恢复到待发布模式
+    // 恢复(到待发布模式)
     restore: function (absFilePath, absBackupPath) {
         var { dir, base } = path.parse(absFilePath),
             absDeployFilePath = `${dir}/${deployDir}/${base}`;

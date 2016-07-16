@@ -7,9 +7,9 @@ var paths = [
     '!assets/script/bundle.*.js',
     'controllers',
     'lib',
+    'routes',
     'service',
     'utils',
-    'routes',
     '*.js'
 ];
 
