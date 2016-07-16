@@ -57,7 +57,7 @@ describe('fs mkdir测试', function () {
             };
 
         post('http://localhost:8888', data)
-            .then(function () {
+            .then(() => {
                 if (fs.existsSync(path.join(basePath, dir))) {
                     done();
                 }
@@ -71,7 +71,7 @@ describe('fs mkdir测试', function () {
             };
 
         post('http://localhost:8888', data)
-            .then(function () {
+            .then(() => {
                 if (fs.existsSync(path.join(basePath, dir))) {
                     done();
                 }
@@ -85,7 +85,7 @@ describe('fs mkdir测试', function () {
             };
 
         post('http://localhost:8888', data)
-            .then(function () {
+            .then(() => {
                 if (fs.existsSync(path.join(basePath, dir, deployDir))
                     && fs.existsSync(path.join(basePath, dir, backupDir))) {
                     done();

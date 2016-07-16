@@ -55,7 +55,7 @@ describe('fs move测试', function () {
         };
 
         put('http://localhost:8888', data)
-            .then(function () {
+            .then(() => {
                 if (fs.existsSync(path.join(basePath, '/move-two/move-one'))) {
                     done();
                 }
@@ -69,7 +69,7 @@ describe('fs move测试', function () {
         };
 
         put('http://localhost:8888', data)
-            .then(function () {
+            .then(() => {
                 var path1 = path.join(basePath, '/move-one');
                 var path2 = path.join(basePath, '/move-two');
                 if (fs.existsSync(path1) && fs.existsSync(path2)) {

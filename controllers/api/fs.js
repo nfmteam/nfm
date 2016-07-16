@@ -1,5 +1,6 @@
 'use strict';
 
+const fsHelper = require('../../utils/fsHelper');
 const fs = require('../../service/fs');
 const path = require('path');
 
@@ -15,60 +16,69 @@ module.exports = {
             throw Error('入参错误');
         }
 
-        var parsedDir = path.parse(dir),
-            p = parsedDir.dir,
-            dirName = parsedDir.base;
-
-        if (!fs.exists(p)) {
-            throw Error('路径不存在');
-        }
-
-        if (!fs.testName(dirName)) {
+        var absDir = fsHelper.resolveAbsolutePath(dir);
+        var { dir: absPath, base: dirName } = path.parse(absDir);
+        if (!fsHelper.testName(dirName)) {
             throw Error('文件名不合法');
         }
 
-        yield fs.mkdir(dir);
+        var stat = yield fsHelper.exists(absPath);
+        if (!stat) {
+            throw Error('路径不存在');
+        }
+
+        yield fs.mkdir(absDir);
     },
 
     /**
      * 移动文件（夹）
      */
     move: function *() {
+        var name, absSrc, absDest, srcStat, destStat;
         const { src, dest } = this.request.body;
 
         if (!src || !dest) {
             throw Error('入参错误');
         }
 
-        if (!fs.exists(src) || !fs.exists(dest)) {
+        name = path.parse(src).base;
+
+        absSrc = fsHelper.resolveAbsolutePath(src);
+        absDest = fsHelper.resolveAbsolutePath(dest);
+
+        srcStat = yield fsHelper.exists(absSrc);
+        destStat = yield fsHelper.exists(absDest);
+
+        if (!srcStat || !destStat) {
             throw Error('路径不存在');
         }
 
-        var name = path.parse(src).base;
-        var newSrc = `${dest}/${name}`;
-
-        yield fs.move(src, newSrc);
+        yield fs.move(absSrc, `${absDest}/${name}`);
     },
 
     /**
      * 重命名文件（夹）
      */
     rename: function *() {
+        var absSrc, stat;
         const { src, name } = this.request.body;
 
         if (!src || !name) {
             throw Error('入参错误');
         }
 
-        if (!fs.exists(src)) {
-            throw Error('路径不存在');
-        }
-
-        if (!fs.testName(name)) {
+        if (!fsHelper.testName(name)) {
             throw Error('文件名不合法');
         }
 
-        yield fs.rename(src, name)
+        absSrc = fsHelper.resolveAbsolutePath(src);
+        stat = yield fsHelper.exists(absSrc);
+
+        if (!stat) {
+            throw Error('路径不存在');
+        }
+
+        yield fs.rename(absSrc, name)
             .catch(error => {
                 if (error.code === 'EEXIST') {
                     throw Error(`${name}已存在`);
@@ -82,6 +92,7 @@ module.exports = {
      * 删除文件(夹)
      */
     del: function *() {
+        var absPath, stat;
         const { path } = this.request.body;
 
         if (!path) {
@@ -92,11 +103,14 @@ module.exports = {
             throw Error('根目录不能删除');
         }
 
-        if (!fs.exists(path)) {
+        absPath = fsHelper.resolveAbsolutePath(path);
+        stat = yield fsHelper.exists(absPath);
+
+        if (!stat) {
             throw Error('路径不存在');
         }
 
-        yield fs.del(path);
+        yield fs.del(absPath);
     }
 
 };

@@ -3,19 +3,19 @@
 const fs = require('../../service/fs');
 
 module.exports = function *() {
+    var absFilePath, stat;
     const p = this.request.query.path;
 
     if (!p) {
         throw Error('入参错误');
     }
 
-    var stat = fs.exists(p);
+    absFilePath = fs.resolveAbsolutePath(p);
+    stat = yield fs.exists(absFilePath);
 
     if (!stat || !stat.isFile()) {
         throw Error('文件不存在');
     }
 
-    var file = fs.resolveAbsolutePath(p);
-
-    this.attachment(file);
+    this.attachment(absFilePath);
 };

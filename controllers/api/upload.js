@@ -1,13 +1,14 @@
 'use strict';
 
-const fs = require('../../service/fs');
+const fsHelper = require('../../utils/fsHelper');
 const uploader = require('../../service/uploader');
 const config = require('../../config');
 
 const deployDir = config['deploy.dir'];
 
 module.exports = function *() {
-    var path, uploadDir, formData, files, filePath, paths = [];
+    var path, uploadDir, pathStat, formData,
+        files, filePath, fileStat, paths = [];
 
     formData = yield uploader(this);
 
@@ -18,11 +19,12 @@ module.exports = function *() {
         throw Error('入参错误');
     }
 
-    if (!fs.exists(path)) {
+    uploadDir = fsHelper.resolveAbsolutePath(path);
+    pathStat = yield fsHelper.exists(uploadDir);
+
+    if (!pathStat) {
         throw Error('路径不存在');
     }
-
-    uploadDir = fs.resolveAbsolutePath(path);
 
     if (!files) {
         throw Error('files字段为空');
@@ -33,7 +35,7 @@ module.exports = function *() {
     }
 
     files.forEach(file => {
-        if (!fs.testName(file.name)) {
+        if (!fsHelper.testName(file.name)) {
             throw Error(`无效文件名:"${file.name}"`);
         }
     });
@@ -43,16 +45,14 @@ module.exports = function *() {
         filePath = `${uploadDir}/${file.name}`;
 
         // 文件不存在,直接上传; 已存在, 待发布
-        if (fs.absPathExists(filePath)) {
-            yield fs.fsExtra.moveAsync(file.path, `${uploadDir}/${deployDir}/${file.name}`, {
+        fileStat = yield fsHelper.exists(filePath);
+        if (fileStat) {
+            yield fsHelper.fsExtra.moveAsync(file.path, `${uploadDir}/${deployDir}/${file.name}`, {
                 clobber: true
             });
         } else {
             paths.push(filePath);
-            yield fs.fsExtra.moveAsync(file.path, filePath);
+            yield fsHelper.fsExtra.moveAsync(file.path, filePath);
         }
     }
-
-    // 返回上传的文件列表
-    this.body = paths.map(p => fs.getFileStat(p));
 };
