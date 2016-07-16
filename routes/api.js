@@ -7,22 +7,40 @@ const apiListController = require('../controllers/api/list');
 const apiFsController = require('../controllers/api/fs');
 const apiUploadController = require('../controllers/api/upload');
 const apiDownloadController = require('../controllers/api/download');
+const apiDeployController = require('../controllers/api/deploy');
 
 const router = new Router({
     prefix: '/api'
 });
 
-// api v1
+// parser
 router.use('*', apiParser);
 
+// list
 router.get('/list', apiListController);
 
+// fs mkdir
 router.post('/fs', apiFsController.mkdir);
-router.put('/fs', apiFsController.move);
+
+// fs move
+router.put('/fs/move', apiFsController.move);
+
+// fs rename
+router.put('/fs/rename', apiFsController.rename);
+
+// fs delete
 router.delete('/fs', apiFsController.del);
 
+// file upload
 router.post('/upload', apiUploadController);
 
+// file download
 router.get('/download', apiDownloadController);
+
+// depoly
+router.post('/deploy', apiDeployController.deploy);
+
+// undepoly
+router.delete('/deploy', apiDeployController.undeploy);
 
 module.exports = router;
