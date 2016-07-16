@@ -12,7 +12,7 @@ module.exports = function *() {
     stat = yield fsHelper.exists(absPath);
 
     if (!stat || !stat.isDirectory()) {
-        throw Error('路径不存在');
+        throw Error('目录不存在');
     }
 
     let type = ['f', 'd'];

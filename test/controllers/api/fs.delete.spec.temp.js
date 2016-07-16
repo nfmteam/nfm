@@ -30,7 +30,7 @@ describe('fs delete测试', function () {
 
     before('before delete测试', function () {
         fs.ensureDirSync(basePath);
-        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}/files`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
     after('after delete测试', function () {
@@ -50,6 +50,19 @@ describe('fs delete测试', function () {
     afterEach(function () {
         this.server.close();
     });
+
+    /**
+     * 入参错误
+     * 入参为空(根目录)
+     * 入参安全(突破base目录)
+     * 入参路径不合法(乱七八糟)
+     * 路径不存在
+     * 删除根目录
+     * 删除文件(不含待发布文件,备份文件)
+     * 删除文件(含待发布文件,备份文件)
+     * 删除目录
+     * 删除非空目录(递归判断是否有文件,排除备份,待发布目录)
+     */
 
     it('# 删除非空文件夹', function (done) {
         var data = {

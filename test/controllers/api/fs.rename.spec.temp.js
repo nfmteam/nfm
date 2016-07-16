@@ -30,10 +30,7 @@ describe('fs rename测试', function () {
 
     before('before rename测试', function () {
         fs.ensureDirSync(basePath);
-        fs.ensureDirSync(`${basePath}/rename-one`);
-        fs.ensureDirSync(`${basePath}/rename-two`);
-        fs.ensureDirSync(`${basePath}/rename-three`);
-        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}/files`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
     after('after rename测试', function () {
@@ -53,6 +50,16 @@ describe('fs rename测试', function () {
     afterEach(function () {
         this.server.close();
     });
+
+    /**
+     * 入参错误
+     * 入参安全(重命名base之外的文件)
+     * 入参路径不存在
+     * 目标文件名已存在
+     * 文件名不合法
+     * 重命名目录
+     * 重命名文件,包括备份,待发布文件
+     */
 
     it('# 重命名文件夹', function (done) {
         var data = {

@@ -26,8 +26,7 @@ describe('fs move测试', function () {
 
     before('before move测试', function () {
         fs.ensureDirSync(basePath);
-        fs.ensureDirSync(`${basePath}/move-one`);
-        fs.ensureDirSync(`${basePath}/move-two`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
     after('after move测试', function () {
@@ -47,6 +46,20 @@ describe('fs move测试', function () {
     afterEach(function () {
         this.server.close();
     });
+
+    /**
+     * 入参错误
+     * 入参安全(移动到base外)
+     * 路径非法
+     *      不是文件夹
+     *      是备份,待发布文件夹
+     *      就是不存在
+     *          src
+     *          dest
+     * 目标路径重名
+     * 移动文件夹
+     * 移动文件,同时移动备份,待发布文件
+     */
 
     it('# 移动文件夹1', function (done) {
         var data = {

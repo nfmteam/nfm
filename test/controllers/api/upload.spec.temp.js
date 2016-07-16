@@ -30,10 +30,16 @@ const filesPath = path.resolve(__dirname, '../../files');
 
 describe('fs upload测试', function () {
 
-    beforeEach(function () {
+    before('before upload测试', function () {
         fs.ensureDirSync(basePath);
-        fs.ensureDirSync(`${basePath}/${config['upload.dir']}`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
+    });
 
+    after('after upload测试', function () {
+        fs.removeSync(basePath);
+    });
+
+    beforeEach(function () {
         var app = koa();
 
         app.use(bodyParser);
@@ -48,8 +54,45 @@ describe('fs upload测试', function () {
 
     afterEach(function () {
         this.server.close();
+    });
 
-        fs.removeSync(basePath);
+    it('# 入参错误:未传path', function (done) {
+        var form = new FormData(),
+            headers = form.getHeaders();
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('入参错误');
+                done();
+            });
+    });
+
+    it('# 入参错误:path不存在', function (done) {
+        var uploadDir = '/keenwon',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
+    it('# 入参错误:files不存在', function (done) {
+        var uploadDir = '/',
+            form = new FormData(),
+            headers = form.getHeaders();
+
+        form.append('path', uploadDir);
+
+        upload(`http://localhost:8888/api/upload`, form, headers)
+            .then(response => {
+                response.message.should.equal('files字段为空');
+                done();
+            });
     });
 
     it('# 单文件上传', function (done) {
@@ -107,45 +150,6 @@ describe('fs upload测试', function () {
                     && fs.existsSync(path.join(basePath, 'package.json'))) {
                     done();
                 }
-            });
-    });
-
-    it('# 入参错误:未传path', function (done) {
-        var form = new FormData(),
-            headers = form.getHeaders();
-
-        upload(`http://localhost:8888/api/upload`, form, headers)
-            .then(response => {
-                response.message.should.equal('入参错误');
-                done();
-            });
-    });
-
-    it('# 入参错误:path不存在', function (done) {
-        var uploadDir = '/keenwon',
-            form = new FormData(),
-            headers = form.getHeaders();
-
-        form.append('path', uploadDir);
-
-        upload(`http://localhost:8888/api/upload`, form, headers)
-            .then(response => {
-                response.message.should.equal('路径不存在');
-                done();
-            });
-    });
-
-    it('# 入参错误:files不存在', function (done) {
-        var uploadDir = '/',
-            form = new FormData(),
-            headers = form.getHeaders();
-
-        form.append('path', uploadDir);
-
-        upload(`http://localhost:8888/api/upload`, form, headers)
-            .then(response => {
-                response.message.should.equal('files字段为空');
-                done();
             });
     });
 

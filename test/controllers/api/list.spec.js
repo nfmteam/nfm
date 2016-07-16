@@ -26,7 +26,7 @@ describe('list测试', function () {
 
     before('before list测试', function () {
         fs.ensureDirSync(basePath);
-        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}/files`);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
     after('after list测试', function () {
@@ -47,84 +47,90 @@ describe('list测试', function () {
         this.server.close();
     });
 
-    it('# 获取全部列表', function (done) {
-        var path = '/files';
-
-        get(`http://localhost:8888?path=${path}`)
-            .then(response => {
-                response.data.length.should.equal(9);
-                done();
-            });
-    });
-
-    it('# 获取文件列表', function (done) {
-        var path = '/files/lib',
-            type = 'f';
-
-        get(`http://localhost:8888?path=${path}&type=${type}`)
-            .then(response => {
-                response.data.length.should.equal(1);
-                done();
-            });
-    });
-
-    it('# 获取文件夹列表', function (done) {
-        var path = '/files',
-            type = 'd';
-
-        get(`http://localhost:8888?path=${path}&type=${type}`)
-            .then(response => {
-                response.data.length.should.equal(2);
-                done();
-            });
-    });
-
-    it('# 省略参数测试', function (done) {
+    it('# 入参测试:path省略', function () {
+        // path省略,取根目录
         get(`http://localhost:8888`)
             .then(response => {
-                response.data.length.should.equal(1);
+                response.data.length.should.equal(16);
                 done();
             });
     });
 
-    it('# 路径错误', function (done) {
-        var path = '/f';
+    it('# 入参测试:path非目录', function () {
+        var path = '/file1.js';
 
-        get(`http://localhost:8888?path=${path}`)
+        get(`http://localhost:8888?path=${encodeURIComponent(path)}`)
             .then(response => {
-                response.message.should.equal('路径不存在');
+                response.message.should.equal('目录不存在');
                 done();
             });
     });
 
-    it('# path非目录测试', function (done) {
-        var path = '/files/package.json';
+    it('# 入参测试:path安全:安全path存在', function () {
+        var path = '../../../dir1';
 
-        get(`http://localhost:8888?path=${path}`)
-            .then(response => {
-                response.message.should.equal('路径不存在');
-                done();
-            });
-    });
-
-    it('# 路径安全', function (done) {
-        var path = '../../../../files',
-            type = 'd';
-
-        get(`http://localhost:8888?path=${path}&type=${type}`)
+        get(`http://localhost:8888`)
             .then(response => {
                 response.data.length.should.equal(2);
                 done();
             });
     });
 
-    it('# 非法type测试', function (done) {
-        var path = '/files',
-            type = 'keenwon';
+    it('# 入参测试:path安全:安全path不存在', function () {
+        var path = '../../../aaa';
 
-        get(`http://localhost:8888?path=${path}&type=${type}`)
+        get(`http://localhost:8888`)
             .then(response => {
-                response.data.length.should.equal(9);
+                response.message.should.equal('目录不存在');
+                done();
+            });
+    });
+
+    it('# 入参测试:path安全:安全path存在但是非目录', function () {
+        var path = '../../../.hiddenfile1.js';
+
+        get(`http://localhost:8888`)
+            .then(response => {
+                response.message.should.equal('目录不存在');
+                done();
+            });
+    });
+
+    it('# 入参测试:type非法', function () {
+        var type = 'keenwon';
+
+        // type非法,直接忽略
+        get(`http://localhost:8888?type=${type}`)
+            .then(response => {
+                response.data.length.should.equal(16);
+                done();
+            });
+    });
+
+    it('# 获取列表:全部', function () {
+        get(`http://localhost:8888`)
+            .then(response => {
+                response.data.length.should.equal(16);
+                done();
+            });
+    });
+
+    it('# 获取列表:目录', function () {
+        var type = 'd';
+
+        get(`http://localhost:8888?type=${type}`)
+            .then(response => {
+                response.data.length.should.equal(3);
+                done();
+            });
+    });
+
+    it('# 获取列表:文件', function () {
+        var type = 'f';
+
+        get(`http://localhost:8888?type=${type}`)
+            .then(response => {
+                response.data.length.should.equal(13);
                 done();
             });
     });

@@ -30,6 +30,7 @@ describe('fs mkdir测试', function () {
 
     before('before mkdir测试', function () {
         fs.ensureDirSync(basePath);
+        fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
     });
 
     after('after mkdir测试', function () {
@@ -49,6 +50,17 @@ describe('fs mkdir测试', function () {
     afterEach(function () {
         this.server.close();
     });
+
+    /**
+     * 入参错误
+     * 入参安全(创建在base外)
+     * 入参文件名不合法
+     * 入参文件名安全(突破base目录)
+     * 创建文件夹已存在 ---------报错
+     * 创建文件夹和已存在文件重名 ---------报错,和上一个可以合并? -------- 经测试,创建不了
+     * 创建文件夹,同时创建备份和待发布目录
+     * 创建文件夹,层级不能太深
+     */
 
     it('# 创建文件夹1', function (done) {
         var dir = '/mkdir-test',
