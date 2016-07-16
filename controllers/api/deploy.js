@@ -22,7 +22,7 @@ module.exports = {
             throw Error('文件不存在');
         }
 
-        absDeployFilePath = deploy.getDeployFilePath(absFilePath);
+        absDeployFilePath = deployer.getDeployFilePath(absFilePath);
         deployFileStat = yield fsHelper.exists(absDeployFilePath);
 
         if (!deployFileStat || !deployFileStat.isFile()) {
@@ -42,7 +42,7 @@ module.exports = {
         }
 
         absFilePath = fsHelper.resolveAbsolutePath(path);
-        absDeployFilePath = deploy.getDeployFilePath(absFilePath);
+        absDeployFilePath = deployer.getDeployFilePath(absFilePath);
         deployFileStat = yield fsHelper.exists(absDeployFilePath);
 
         if (deployFileStat && deployFileStat.isFile()) {

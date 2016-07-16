@@ -53,7 +53,7 @@ module.exports = function *() {
             yield deployer.add(file.path, filePath);
         } else {
             // 文件不存在, 直接移动到目标路径
-            return fsHelper.fsExtra.moveAsync(file.path, filePath);
+            yield fsHelper.fsExtra.moveAsync(file.path, filePath);
         }
     }
 };

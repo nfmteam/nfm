@@ -189,8 +189,7 @@ describe('fs upload测试', function () {
         form.append('files', fs.createReadStream(`${filesPath}/.hiddenfile2.js`));
 
         upload(`http://localhost:8888/api/upload`, form, headers)
-            .then(response => {
-                console.log(response);
+            .then(() => {
                 if (fsExists('/dir1/.hiddenfile2.js')) {
                     done();
                 }
