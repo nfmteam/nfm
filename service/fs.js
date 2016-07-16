@@ -18,13 +18,11 @@ module.exports = {
      */
     getFileList: function (absPath, types) {
         return fs.readdirAsync(absPath)
-            .then(fileNames => fileNames
-                .filter(fileName => ![uploadDir, backupDir, deployDir].includes(fileName))
-            )
+            .filter(fileName => ![uploadDir, backupDir, deployDir].includes(fileName))
             .then(fileNames => Promise.all(
                 fileNames.map(fileName => fsHelper.info(`${absPath}/${fileName}`))
             ))
-            .then(fileNames => fileNames.filter(obj => types.includes(obj.type)));
+            .filter(fileName => types.includes(fileName.type));
     },
 
     /**
@@ -68,33 +66,40 @@ module.exports = {
     },
 
     _move: function (absSrc, absDest) {
-        if (fs.statSync(absSrc).isDirectory()) {
-            return fs.moveAsync(absSrc, absDest);
-        }
+        return fsHelper.stat(absSrc)
+            .call('isDirectory')
+            .then(isDir => {
+                if (isDir) {
+                    return fs.moveAsync(absSrc, absDest);
+                }
 
-        // 同时静默移动待发布文件和备份文件夹
-        return fs.moveAsync(absSrc, absDest)
-            .then(() => this._moveBackupAndDeploy(absSrc, absDest));
+                // 同时静默移动待发布文件和备份文件夹
+                return fs.moveAsync(absSrc, absDest)
+                    .then(() => this._moveBackupAndDeploy(absSrc, absDest));
+            });
     },
 
     /**
      * 删除文件(夹)
      */
     del: function (absPath) {
-        if (fs.statSync(absPath).isDirectory()) {
-            return fs.readdirAsync(absPath)
-                .then(fileList =>
-                    fileList.filter(fileName => fileName !== backupDir && fileName !== deployDir))
-                .then(fileList => {
-                    if (fileList.length > 0) {
-                        throw new Error('目录非空');
-                    }
-                })
-                .then(() => fs.removeAsync(absPath));
-        }
+        return fsHelper.stat(absPath)
+            .call('isDirectory')
+            .then(isDir => {
+                if (isDir) {
+                    return fs.readdirAsync(absPath)
+                        .filter(fileName => fileName !== backupDir && fileName !== deployDir)
+                        .then(fileList => {
+                            if (fileList.length > 0) {
+                                throw new Error('目录非空');
+                            }
+                        })
+                        .then(() => fs.removeAsync(absPath));
+                }
 
-        return fs.unlinkAsync(absPath)
-            .then(() => this._deleteBackupAndDeploy(absPath));
+                return fs.unlinkAsync(absPath)
+                    .then(() => this._deleteBackupAndDeploy(absPath));
+            });
     },
 
     _deleteBackupAndDeploy: function (absPath) {

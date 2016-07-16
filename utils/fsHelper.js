@@ -31,7 +31,7 @@ module.exports = {
      * 获取文件信息
      */
     info: function (absFilePath) {
-        return this._stat(absFilePath)
+        return this.stat(absFilePath)
             .then(stat => ({
                 id: md5(absFilePath),
                 name: path.basename(absFilePath),
@@ -65,15 +65,15 @@ module.exports = {
         // 隐藏备份, 上传, 发布文件夹
         if (!absPath || absPath.includes(uploadDir)
             || absPath.includes(backupDir) || absPath.includes(deployDir)) {
-            return Promise.reject(false);
+            return Promise.resolve(false);
         }
 
-        return this._stat(absPath)
+        return this.stat(absPath)
             .then(stat => stat)
             .catchReturn(false);
     },
 
-    _stat: absFilePath => fs.statAsync(absFilePath),
+    stat: absFilePath => fs.statAsync(absFilePath),
 
     /**
      * 测试文件（夹）名合法性
