@@ -26,6 +26,10 @@ module.exports = function *() {
         throw Error('路径不存在');
     }
 
+    if (!pathStat.isDirectory()) {
+        throw Error('路径必须是目录');
+    }
+
     if (!files) {
         throw Error('files字段为空');
     }

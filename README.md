@@ -19,6 +19,7 @@ File manage implement by node.
 	2. 文件操作
 * 清理过期的上传文件
 * 重命名,移动,删除是立刻生效的,有更好的方案?
+* 回收站
 * 根目录要确保backupdir, deploydir, 因为根目录非程序创建
 * 除了特殊需要外,其余fs操作全异步
 * 自定义滚动条
