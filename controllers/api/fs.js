@@ -27,7 +27,7 @@ module.exports = {
             throw Error('路径不存在');
         }
 
-        var absDirStat = yield  fsHelper.exists(absDir);
+        var absDirStat = yield fsHelper.exists(absDir);
         if (absDirStat && absDirStat.isFile()) {
             throw Error('路径已存在');
         }
