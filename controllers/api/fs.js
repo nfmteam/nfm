@@ -34,10 +34,11 @@ module.exports = {
      * 移动文件（夹）
      */
     move: function *() {
-        var name, absSrc, absDest, srcStat, destStat;
+        var name, absSrc, absDest, srcStat, destStat,
+            absNewSrc, newSrcStat;
         const { src, dest } = this.request.body;
 
-        if (!src || !dest) {
+        if (!src || !dest || src === dest) {
             throw Error('入参错误');
         }
 
@@ -51,6 +52,17 @@ module.exports = {
 
         if (!srcStat || !destStat) {
             throw Error('路径不存在');
+        }
+
+        if (destStat.isFile()) {
+            throw Error('目标路径必须是目录');
+        }
+
+        absNewSrc = `${absDest}/${name}`;
+        newSrcStat = yield fsHelper.exists(absNewSrc);
+
+        if (newSrcStat) {
+            throw Error('目标路径已存在');
         }
 
         yield fs.move(absSrc, `${absDest}/${name}`);
