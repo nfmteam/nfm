@@ -20,7 +20,8 @@ module.exports = (ctx) => new Promise((resolve, reject) => {
     var fields = {};
     var files = {};
 
-    form.on('end', function () {
+    form
+        .on('end', function () {
             resolve({ fields: fields, files: files });
         })
         .on('error', function (err) {

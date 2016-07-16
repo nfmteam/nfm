@@ -70,11 +70,11 @@ module.exports = {
     _move: function (absSrc, absDest) {
         if (fs.statSync(absSrc).isDirectory()) {
             return fs.moveAsync(absSrc, absDest);
-        } else {
-            // 同时静默移动待发布文件和备份文件夹
-            return fs.moveAsync(absSrc, absDest)
-                .then(() => this._moveBackupAndDeploy(absSrc, absDest));
         }
+
+        // 同时静默移动待发布文件和备份文件夹
+        return fs.moveAsync(absSrc, absDest)
+            .then(() => this._moveBackupAndDeploy(absSrc, absDest));
     },
 
     /**
@@ -99,12 +99,12 @@ module.exports = {
 
     _deleteBackupAndDeploy: function (absPath) {
         var { dir, base } = path.parse(absPath),
-            backupDir = `${dir}/${backupDir}/${base}`,
-            deployFile = `${dir}/${deployDir}/${base}`;
+            absBackupDir = `${dir}/${backupDir}/${base}`,
+            absDeployFile = `${dir}/${deployDir}/${base}`;
 
         return Promise.all([
-            fs.removeAsync(backupDir).catchReturn(null),
-            fs.removeAsync(deployFile).catchReturn(null)
+            fs.removeAsync(absBackupDir).catchReturn(null),
+            fs.removeAsync(absDeployFile).catchReturn(null)
         ]);
     }
 
