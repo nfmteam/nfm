@@ -54,7 +54,7 @@ module.exports = {
      */
     resolveAbsolutePath: (p = '/') => {
         // 防止"../../../file"跳的basePath之外
-        var safaPath = path.resolve('/', p);
+        var safaPath = path.resolve('/', path.normalize(p));
         return path.normalize(path.join(basePath, safaPath));
     },
 

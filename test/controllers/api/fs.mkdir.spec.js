@@ -26,6 +26,8 @@ const chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
+const fsExists = p => fs.existsSync(path.join(basePath, p));
+
 describe('fs mkdir测试', function () {
 
     before('before mkdir测试', function () {
@@ -51,61 +53,7 @@ describe('fs mkdir测试', function () {
         this.server.close();
     });
 
-    /**
-     * 入参错误
-     * 入参安全(创建在base外)
-     * 入参文件名不合法
-     * 入参文件名安全(突破base目录)
-     * 创建文件夹已存在 ---------报错
-     * 创建文件夹和已存在文件重名 ---------报错,和上一个可以合并? -------- 经测试,创建不了
-     * 创建文件夹,同时创建备份和待发布目录
-     * 创建文件夹,层级不能太深
-     */
-
-    it('# 创建文件夹1', function (done) {
-        var dir = '/mkdir-test',
-            data = {
-                dir: dir
-            };
-
-        post('http://localhost:8888', data)
-            .then(() => {
-                if (fs.existsSync(path.join(basePath, dir))) {
-                    done();
-                }
-            });
-    });
-
-    it('# 创建文件夹2', function (done) {
-        var dir = '/mkdir-test/test',
-            data = {
-                dir: dir
-            };
-
-        post('http://localhost:8888', data)
-            .then(() => {
-                if (fs.existsSync(path.join(basePath, dir))) {
-                    done();
-                }
-            });
-    });
-
-    it('# 检查deploy & backup文件夹', function (done) {
-        var dir = '/mkdir-test/test',
-            data = {
-                dir: dir
-            };
-
-        post('http://localhost:8888', data)
-            .then(() => {
-                if (fs.existsSync(path.join(basePath, dir, deployDir))
-                    && fs.existsSync(path.join(basePath, dir, backupDir))) {
-                    done();
-                }
-            });
-    });
-
-    it('# 入参错误', function (done) {
+    it('入参错误:dir省略', function (done) {
         post('http://localhost:8888')
             .then(response => {
                 response.message.should.equal('入参错误');
@@ -113,27 +61,67 @@ describe('fs mkdir测试', function () {
             });
     });
 
-    it('# 路径不存在', function (done) {
+    it('入参错误:dir安全:安全dir不存在', function (done) {
         var data = {
-            dir: '/one/two'
+            dir: '/dir3/../../../../../../../aaaaa'
+        };
+
+        post('http://localhost:8888', data)
+            .then(() => {
+                if (fsExists('/aaaaa')) {
+                    done();
+                }
+            });
+    });
+
+    it('入参错误:dir安全:安全dir存在,是目录', function (done) {
+        var data = {
+            dir: '../../../../../../../dir1'
         };
 
         post('http://localhost:8888', data)
             .then(response => {
-                response.message.should.equal('路径不存在');
+                response.message.should.equal('');
                 done();
             });
     });
 
-    it('# 文件名不合法', function (done) {
+    it('入参错误:dir安全:安全dir存在,是文件', function (done) {
         var data = {
-            dir: '/!!'
+            dir: '../../../../../../../file1.js'
+        };
+
+        post('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('路径已存在');
+                done();
+            });
+    });
+
+    it('入参错误:文件名不合法', function (done) {
+        var data = {
+            dir: '/测试'
         };
 
         post('http://localhost:8888', data)
             .then(response => {
                 response.message.should.equal('文件名不合法');
                 done();
+            });
+    });
+
+    it('创建文件夹', function (done) {
+        var data = {
+            dir: '/dir1/abcde'
+        };
+
+        post('http://localhost:8888', data)
+            .then(() => {
+                if (fsExists('/dir1/abcde')
+                    && fsExists(`/dir1/abcde/${deployDir}`)
+                    && fsExists(`/dir1/abcde/${backupDir}`)) {
+                    done();
+                }
             });
     });
 

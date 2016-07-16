@@ -104,6 +104,19 @@ describe('fs rename测试', function () {
             });
     });
 
+    it('# 入参测试:src安全:安全src不存在', function (done) {
+        var data = {
+            src: '/dir3/../../../../../../../tmp',
+            name: 'dir3'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('路径不存在');
+                done();
+            });
+    });
+
     it('# 入参测试:src不存在', function (done) {
         var data = {
             src: '/aaaaa',

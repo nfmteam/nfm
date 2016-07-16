@@ -210,6 +210,19 @@ describe('fs move测试', function () {
             });
     });
 
+    it('# 移动:文件:目标文件已存在', function (done) {
+        var data = {
+            src: '/.hiddenfile2.js',
+            dest: '/'
+        };
+
+        put('http://localhost:8888', data)
+            .then(response => {
+                response.message.should.equal('目标路径已存在');
+                done();
+            });
+    });
+
     it('# 移动:文件:不包含备份&不包含待发布', function (done) {
         var data = {
             src: '/.hiddenfile1.js',
