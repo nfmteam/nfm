@@ -77,11 +77,8 @@ module.exports = {
    * 判断deploy文件是否存在
    */
   deployFileExists: function (absPath) {
-    // 隐藏备份, 上传, 发布文件夹
-    if (!absPath || absPath.includes(uploadDir) || absPath.includes(backupDir)) {
-      return Promise.resolve(false);
-    }
-
+    // 不必判断是否为nfm的系统文件夹了
+    // 因为deployFile是计算出来的
     return this.stat(absPath)
       .then(stat => stat)
       .catchReturn(false);
@@ -91,11 +88,6 @@ module.exports = {
    * 判断backup文件是否存在
    */
   backupFileExists: function (absPath) {
-    // 隐藏备份, 上传, 发布文件夹
-    if (!absPath || absPath.includes(uploadDir) || absPath.includes(deployDir)) {
-      return Promise.resolve(false);
-    }
-
     return this.stat(absPath)
       .then(stat => stat)
       .catchReturn(false);
