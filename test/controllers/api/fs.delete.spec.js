@@ -53,11 +53,6 @@ describe('fs delete测试', function () {
     this.server.close();
   });
 
-  /**
-   * 删除文件(不含待发布文件,备份文件)
-   * 删除文件(含待发布文件,备份文件)
-   */
-
   it('# 入参测试:path省略', function (done) {
     del('http://localhost:8888')
       .then(response => {

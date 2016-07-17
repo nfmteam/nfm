@@ -1,7 +1,7 @@
 'use strict';
 
 const Promise = require('bluebird');
-const fsHelper = require('../utils/fsHelper');
+const fs = require('../utils/fsHelper').fsExtra;
 const path = require('path');
 const config = require('../config');
 
@@ -11,43 +11,64 @@ const backupMaxSize = config['backup.maxSize'];
 
 module.exports = {
 
+  /**
+   * 添加备份文件
+   */
   add: function (absFilePath) {
-    var { dir, base } = path.parse(absFilePath),
-      absBackupFilePath = `${dir}/${backupDir}/${base}/${Date.now()}.bak`;
+    var { dir, base } = path.parse(absFilePath);
+    var absBackupFilePath = `${dir}/${backupDir}/${base}/${Date.now()}.bak`;
+    var currentBackupDir = this.getCurrentBackupDir(absFilePath);
 
-    return fsHelper.fsExtra.copyAsync(absFilePath, absBackupFilePath);
+    return fs.ensureDirAsync(currentBackupDir)
+      .then(() => fs.copyAsync(absFilePath, absBackupFilePath));
   },
 
+  /**
+   * 获取备份文件列表
+   */
   getBackupList: function (absFilePath) {
     var { dir, base } = path.parse(absFilePath),
       absBackupDir = `${dir}/${backupDir}/${base}`;
 
-    return fsHelper.fsExtra.walkAsync(absBackupDir);
+    return fs.walkAsync(absBackupDir);
   },
 
-  // 恢复(到待发布模式)
+  /**
+   * 执行恢复(到待发布模式)
+   */
   restore: function (absFilePath, absBackupPath) {
     var { dir, base } = path.parse(absFilePath),
       absDeployFilePath = `${dir}/${deployDir}/${base}`;
 
-    return fsHelper.fsExtra.copyAsync(absBackupPath, absDeployFilePath, {
+    return fs.copyAsync(absBackupPath, absDeployFilePath, {
       clobber: true
     });
   },
 
+  /**
+   * 清理备份文件
+   */
   clean: function (absFilePath) {
     var { dir, base } = path.parse(absFilePath),
       absBackupPath = `${dir}/${backupDir}/${base}`;
 
-    return fsHelper.fsExtra.walkAsync(absBackupPath)
+    return fs.walkAsync(absBackupPath)
       .then(files => files.sort().reverse().slice(backupMaxSize))
       .then(files => {
         if (files.length) {
           return Promise.all(
-            files.map(file => fsHelper.removeAsync(`${absBackupPath}/${file}`))
+            files.map(file => fs.removeAsync(`${absBackupPath}/${file}`))
           );
         }
       });
+  },
+
+  /**
+   * 获取当前的备份文件夹
+   */
+  getCurrentBackupDir: function (absFilePath) {
+    const { dir } = path.parse(absFilePath);
+    return `${dir}/${backupDir}`;
   }
 
 };

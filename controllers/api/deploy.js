@@ -46,7 +46,7 @@ module.exports = {
     deployFileStat = yield fsHelper.exists(absDeployFilePath);
 
     if (deployFileStat && deployFileStat.isFile()) {
-      yield deployer.undeploy(absFilePath, absDeployFilePath);
+      yield deployer.undeploy(absDeployFilePath);
     }
   }
 
