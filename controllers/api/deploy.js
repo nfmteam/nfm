@@ -23,7 +23,7 @@ module.exports = {
     }
 
     absDeployFilePath = deployer.getDeployFilePath(absFilePath);
-    deployFileStat = yield fsHelper.exists(absDeployFilePath);
+    deployFileStat = yield fsHelper.deployFileExists(absDeployFilePath);
 
     if (!deployFileStat || !deployFileStat.isFile()) {
       throw Error('待发布文件不存在');

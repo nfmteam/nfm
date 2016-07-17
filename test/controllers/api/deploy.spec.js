@@ -53,12 +53,90 @@ describe('deploy测试', function () {
     this.server.close();
   });
 
-  /**
-   *
-   */
-
   it('# 入参测试:path省略', function (done) {
+    post('http://localhost:8888')
+      .then(response => {
+        response.message.should.be.equal('入参错误');
+        done();
+      });
+  });
 
+  it('# 入参测试:文件不存在', function (done) {
+    var data = {
+      path: '/aaaaaa.js'
+    };
+
+    post('http://localhost:8888', data)
+      .then(response => {
+        response.message.should.be.equal('文件不存在');
+        done();
+      });
+  });
+
+  it('# 入参测试:path是目录', function (done) {
+    var data = {
+      path: '/dir1'
+    };
+
+    post('http://localhost:8888', data)
+      .then(response => {
+        response.message.should.be.equal('文件不存在');
+        done();
+      });
+  });
+
+  it('# 入参测试:待发布文件不存在', function (done) {
+    var data = {
+      path: '/file1.js'
+    };
+
+    post('http://localhost:8888', data)
+      .then(response => {
+        response.message.should.be.equal('待发布文件不存在');
+        done();
+      });
+  });
+
+  it('# 入参测试:path安全', function (done) {
+    var data = {
+      path: '/dir/../../../../aaaaa.js'
+    };
+
+    post('http://localhost:8888', data)
+      .then(response => {
+        response.message.should.be.equal('文件不存在');
+        done();
+      });
+  });
+
+  it('# 发布', function (done) {
+    var data = {
+      path: '/deploy1.js'
+    };
+
+    post('http://localhost:8888', data)
+      .then(() => {
+        if (!fsExists(`/${deployDir}/deploy1.js`)
+          && fsExists(`/${backupDir}/deploy1.js`)
+          && fs.readdirSync(`/${basePath}/${backupDir}/deploy1.js`).length === 1) {
+          done();
+        }
+      });
+  });
+
+  it('# 发布', function (done) {
+    var data = {
+      path: '/deploy_backup1.js'
+    };
+
+    post('http://localhost:8888', data)
+      .then(response => {
+        if (!fsExists(`/${deployDir}/deploy_backup1.js`)
+          && fsExists(`/${backupDir}/deploy_backup1.js`)
+          && fs.readdirSync(`/${basePath}/${backupDir}/deploy_backup1.js`).length === 3) {
+          done();
+        }
+      });
   });
 
 });

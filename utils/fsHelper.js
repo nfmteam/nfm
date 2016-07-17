@@ -73,6 +73,34 @@ module.exports = {
       .catchReturn(false);
   },
 
+  /**
+   * 判断deploy文件是否存在
+   */
+  deployFileExists: function (absPath) {
+    // 隐藏备份, 上传, 发布文件夹
+    if (!absPath || absPath.includes(uploadDir) || absPath.includes(backupDir)) {
+      return Promise.resolve(false);
+    }
+
+    return this.stat(absPath)
+      .then(stat => stat)
+      .catchReturn(false);
+  },
+
+  /**
+   * 判断backup文件是否存在
+   */
+  backupFileExists: function (absPath) {
+    // 隐藏备份, 上传, 发布文件夹
+    if (!absPath || absPath.includes(uploadDir) || absPath.includes(deployDir)) {
+      return Promise.resolve(false);
+    }
+
+    return this.stat(absPath)
+      .then(stat => stat)
+      .catchReturn(false);
+  },
+
   stat: absFilePath => fs.statAsync(absFilePath),
 
   /**

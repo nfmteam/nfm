@@ -7,6 +7,10 @@ const backup = require('./backup');
 const config = require('../config');
 const deployDir = config['deploy.dir'];
 
+const clobberOptions = {
+  clobber: true
+};
+
 module.exports = {
 
   /**
@@ -17,18 +21,14 @@ module.exports = {
     const currentDeployDir = this.getCurrentDeployDir(absFilePath);
 
     return fs.ensureDirAsync(currentDeployDir)
-      .then(() => fs.moveAsync(absUploadFilePath, absDeployFilePath, {
-        clobber: true
-      }));
+      .then(() => fs.moveAsync(absUploadFilePath, absDeployFilePath, clobberOptions));
   },
 
   /**
    * 发布
    */
   deploy: function (absFilePath, absDeployFilePath) {
-    return fs.moveAsync(absDeployFilePath, absFilePath, {
-        clobber: true
-      })
+    return fs.moveAsync(absDeployFilePath, absFilePath, clobberOptions)
       .then(() => backup.add(absFilePath))
   },
 
