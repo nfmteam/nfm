@@ -43,7 +43,7 @@ module.exports = {
 
     absFilePath = fsHelper.resolveAbsolutePath(path);
     absDeployFilePath = deployer.getDeployFilePath(absFilePath);
-    deployFileStat = yield fsHelper.exists(absDeployFilePath);
+    deployFileStat = yield fsHelper.deployFileExists(absDeployFilePath);
 
     if (deployFileStat && deployFileStat.isFile()) {
       yield deployer.undeploy(absDeployFilePath);
