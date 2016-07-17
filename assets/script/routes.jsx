@@ -6,12 +6,12 @@ import Browser from './containers/Browser.jsx';
 const defaultWorkspacePath = encodeURIComponent('/');
 
 export default (
-    <Route path='/' component={App}>
-        <IndexRedirect to={`/browser/${defaultWorkspacePath}`} />
+  <Route path='/' component={App}>
+    <IndexRedirect to={`/browser/${defaultWorkspacePath}`}/>
 
-        <Route path='browser/:workspacePath' component={Browser} />
-        <Route path='browser/search/:keyword' component={Browser} />
+    <Route path='browser/:workspacePath' component={Browser}/>
+    <Route path='browser/search/:keyword' component={Browser}/>
 
-        <Redirect from='*' to={`/browser/${defaultWorkspacePath}`} />
-    </Route>
+    <Redirect from='*' to={`/browser/${defaultWorkspacePath}`}/>
+  </Route>
 );

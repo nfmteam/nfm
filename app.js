@@ -20,7 +20,7 @@ app.use(logger.useGlobalLogger());
 
 // exception handler
 app.on('error', function (error) {
-    app.context.error(error);
+  app.context.error(error);
 });
 app.use(exceptionHandler.errorHandler);
 app.use(exceptionHandler.notfoundHandler);
@@ -28,16 +28,16 @@ app.use(exceptionHandler.notfoundHandler);
 // view engine
 const IS_DEVELOPMENT = app.env === 'development';
 const defaultAssets = {
-    app: { js: '/script/bundle.js' },
-    vendor: { js: '/script/vendor.js' }
+  app: { js: '/script/bundle.js' },
+  vendor: { js: '/script/vendor.js' }
 };
 const pug = new Pug({
-    viewPath: './views',
-    basedir: './views',
-    noCache: IS_DEVELOPMENT,
-    debug: IS_DEVELOPMENT,
-    app: app,
-    locals: IS_DEVELOPMENT ? defaultAssets : assets
+  viewPath: './views',
+  basedir: './views',
+  noCache: IS_DEVELOPMENT,
+  debug: IS_DEVELOPMENT,
+  app: app,
+  locals: IS_DEVELOPMENT ? defaultAssets : assets
 });
 
 // webpack

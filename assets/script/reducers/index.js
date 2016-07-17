@@ -7,9 +7,9 @@ import messageReducer from './message';
 import loadingbarReducer from './loadingbar';
 
 export default combineReducers({
-    loading: loadingbarReducer,
-    tree: treeReducer,
-    workspace: workspaceReducer,
-    message: messageReducer,
-    routing: routerReducer
+  loading: loadingbarReducer,
+  tree: treeReducer,
+  workspace: workspaceReducer,
+  message: messageReducer,
+  routing: routerReducer
 });

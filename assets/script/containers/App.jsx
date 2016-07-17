@@ -8,36 +8,36 @@ import selector from '../selectors/app';
 
 class App extends Component {
 
-    render() {
-        const { message, loading, hideMessage, children } = this.props;
+  render() {
+    const { message, loading, hideMessage, children } = this.props;
 
-        return (
-            <div>
-                <Loadingbar loading={loading} />
-                <Message message={message} hideMessage={hideMessage} />
-                <Header />
-                {children}
-            </div>
-        );
-    }
+    return (
+      <div>
+        <Loadingbar loading={loading}/>
+        <Message message={message} hideMessage={hideMessage}/>
+        <Header />
+        {children}
+      </div>
+    );
+  }
 
 }
 
 App.propTypes = {
-    loading: PropTypes.bool.isRequired,
-    message: PropTypes.shape({
-        text: PropTypes.string,
-        level: PropTypes.string,
-        show: PropTypes.bool.isRequired
-    }),
-    hideMessage: PropTypes.func.isRequired
+  loading: PropTypes.bool.isRequired,
+  message: PropTypes.shape({
+    text: PropTypes.string,
+    level: PropTypes.string,
+    show: PropTypes.bool.isRequired
+  }),
+  hideMessage: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => ({
-    hideMessage: path => dispatch(hideMessageCreater())
+  hideMessage: path => dispatch(hideMessageCreater())
 });
 
 export default connect(
-    selector,
-    mapDispatchToProps
+  selector,
+  mapDispatchToProps
 )(App);

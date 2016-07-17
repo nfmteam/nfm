@@ -10,7 +10,7 @@ const apiDownloadController = require('../controllers/api/download');
 const apiDeployController = require('../controllers/api/deploy');
 
 const router = new Router({
-    prefix: '/api'
+  prefix: '/api'
 });
 
 // parser

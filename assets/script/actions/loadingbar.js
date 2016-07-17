@@ -5,13 +5,13 @@ import { LOADINGBAR_BEGIN, LOADINGBAR_END } from '../constants/actionTypes';
  */
 
 export function beginLoadingCreater() {
-    return {
-        type: LOADINGBAR_BEGIN
-    }
+  return {
+    type: LOADINGBAR_BEGIN
+  }
 }
 
 export function endLoadingCreater() {
-    return {
-        type: LOADINGBAR_END
-    }
+  return {
+    type: LOADINGBAR_END
+  }
 }

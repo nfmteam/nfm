@@ -6,15 +6,15 @@ const getWorkspaceCurrentPath = (state) => state.workspace.currentPath;
 const getWorkspaceData = (state) => state.workspace.data;
 
 export default createSelector(
-    [getTreeData, getTreeCurrentPath, getWorkspaceCurrentPath, getWorkspaceData],
-    (treeData, treeCurrentPath, workspaceCurrentPath, workspaceData) => ({
-        tree: {
-            currentPath: treeCurrentPath,
-            data: treeData
-        },
-        workspace: {
-            currentPath: workspaceCurrentPath,
-            data: workspaceData
-        }
-    })
+  [getTreeData, getTreeCurrentPath, getWorkspaceCurrentPath, getWorkspaceData],
+  (treeData, treeCurrentPath, workspaceCurrentPath, workspaceData) => ({
+    tree: {
+      currentPath: treeCurrentPath,
+      data: treeData
+    },
+    workspace: {
+      currentPath: workspaceCurrentPath,
+      data: workspaceData
+    }
+  })
 );

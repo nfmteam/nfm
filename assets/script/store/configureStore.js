@@ -7,17 +7,17 @@ import Reducers from '../reducers';
 const middlewares = [thunk, routerMiddleware(browserHistory)];
 
 if (process.env.NODE_ENV === 'development') {
-    /* eslint-disable global-require */
-    const createLogger = require('redux-logger');
-    /* eslint-enable global-require */
+  /* eslint-disable global-require */
+  const createLogger = require('redux-logger');
+  /* eslint-enable global-require */
 
-    const logger = createLogger();
-    middlewares.push(logger);
+  const logger = createLogger();
+  middlewares.push(logger);
 }
 
 const store = createStore(
-    Reducers,
-    applyMiddleware(...middlewares)
+  Reducers,
+  applyMiddleware(...middlewares)
 );
 
 export default store;

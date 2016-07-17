@@ -1,9 +1,9 @@
 import fetch from '../lib/fetch';
 import {
-    TREE_REQUEST,
-    TREE_REQUEST_SUCCESS,
-    TREE_CONTROL,
-    TREE_SYNC_WORKSPACE
+  TREE_REQUEST,
+  TREE_REQUEST_SUCCESS,
+  TREE_CONTROL,
+  TREE_SYNC_WORKSPACE
 } from '../constants/actionTypes';
 import { showErrorMessageCreater } from './message';
 
@@ -12,33 +12,33 @@ import { showErrorMessageCreater } from './message';
  */
 
 function requestTreeCreater(path) {
-    return {
-        type: TREE_REQUEST,
-        currentPath: path
-    }
+  return {
+    type: TREE_REQUEST,
+    currentPath: path
+  }
 }
 
 function requestTreeSuccessCreater(data, path) {
-    return {
-        type: TREE_REQUEST_SUCCESS,
-        currentPath: path,
-        data: data
-    }
+  return {
+    type: TREE_REQUEST_SUCCESS,
+    currentPath: path,
+    data: data
+  }
 }
 
 export function controlTreeCreater(path) {
-    return {
-        type: TREE_CONTROL,
-        currentPath: path
-    }
+  return {
+    type: TREE_CONTROL,
+    currentPath: path
+  }
 }
 
 export function syncTree(path, data) {
-    return {
-        type: TREE_SYNC_WORKSPACE,
-        currentPath: path,
-        data: data
-    }
+  return {
+    type: TREE_SYNC_WORKSPACE,
+    currentPath: path,
+    data: data
+  }
 }
 
 /**
@@ -46,15 +46,15 @@ export function syncTree(path, data) {
  */
 
 export function getTree(path = '/') {
-    return dispatch => {
-        dispatch(requestTreeCreater(path));
+  return dispatch => {
+    dispatch(requestTreeCreater(path));
 
-        fetch('GET', `http://localhost:3010/api/list?path=${path}&type=d`)
-            .then(data => {
-                dispatch(requestTreeSuccessCreater(data, path));
-            })
-            .catch(message => {
-                dispatch(showErrorMessageCreater(message));
-            });
-    }
+    fetch('GET', `http://localhost:3010/api/list?path=${path}&type=d`)
+      .then(data => {
+        dispatch(requestTreeSuccessCreater(data, path));
+      })
+      .catch(message => {
+        dispatch(showErrorMessageCreater(message));
+      });
+  }
 }

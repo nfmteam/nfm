@@ -2,8 +2,8 @@
 
 module.exports = {
 
-    index: function *() {
-        this.render('index');
-    }
+  index: function *() {
+    this.render('index');
+  }
 
 };
