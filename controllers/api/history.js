@@ -40,9 +40,9 @@ module.exports = {
    * 恢复到某一历史
    */
   restore: function *() {
-    const { path } = this.request.body;
+    const { path, timestamp } = this.request.body;
 
-    if (!path) {
+    if (!path || !timestamp) {
       throw Error('入参错误');
     }
 
@@ -55,14 +55,14 @@ module.exports = {
       throw Error('文件不存在');
     }
 
-    absBackupFile = backup.getCurrentBackupDir(absFilePath);
+    absBackupFile = backup.getBackupFile(absFilePath, timestamp);
     backupFileStat = yield fsHelper.backupExists(absBackupFile);
 
     if (!backupFileStat) {
       throw Error('历史备份不存在');
     }
 
-    backup.restore(absFilePath, absBackupFile);
+    yield backup.restore(absFilePath, absBackupFile);
   }
 
 };

@@ -16,26 +16,20 @@ const historyApi = proxyquire('../../../controllers/api/history', stubs);
 const bodyParser = require('../../../lib/bodyParser');
 const apiParser = require('../../../lib/apiParser');
 
-const config = require('../../../config');
-const deployDir = config['deploy.dir'];
-const backupDir = config['backup.dir'];
-
 const mocha = require('mocha');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 chai.should();
 chai.use(chaiAsPromised);
 
-const fsExists = p => fs.existsSync(path.join(basePath, p));
+describe('history list测试', function () {
 
-describe('deploy测试', function () {
-
-  before('before deploy测试', function () {
+  before('before list测试', function () {
     fs.ensureDirSync(basePath);
     fs.copySync(path.resolve(__dirname, '../../files'), `${basePath}`);
   });
 
-  after('after deploy测试', function () {
+  after('after list测试', function () {
     fs.removeSync(basePath);
   });
 
@@ -52,10 +46,6 @@ describe('deploy测试', function () {
   afterEach(function () {
     this.server.close();
   });
-
-  /**
-   * 获取列表
-   */
 
   it('# 入参测试:path省略', function (done) {
     get('http://localhost:8888')

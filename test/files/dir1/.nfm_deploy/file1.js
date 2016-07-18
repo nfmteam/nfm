@@ -1,0 +1,1 @@
+//dir1/.nfm_deploy/file1.js

@@ -35,11 +35,13 @@ module.exports = {
    */
   restore: function (absFilePath, absBackupPath) {
     var { dir, base } = path.parse(absFilePath),
-      absDeployFilePath = `${dir}/${deployDir}/${base}`;
+      absDeployDir = `${dir}/${deployDir}`,
+      absDeployFilePath = `${absDeployDir}/${base}`;
 
-    return fs.copyAsync(absBackupPath, absDeployFilePath, {
-      clobber: true
-    });
+    return fs.ensureDirAsync(absDeployDir)
+      .then(() => fs.copyAsync(absBackupPath, absDeployFilePath, {
+        clobber: true
+      }));
   },
 
   /**
@@ -66,6 +68,14 @@ module.exports = {
   getCurrentBackupDir: function (absFilePath) {
     const { dir, base } = path.parse(absFilePath);
     return `${dir}/${backupDir}/${base}`;
+  },
+
+  /**
+   * 根据timestamp获取备份文件
+   */
+  getBackupFile: function (absFilePath, timestamp) {
+    const currentBackupDir = this.getCurrentBackupDir(absFilePath);
+    return `${currentBackupDir}/${timestamp}.bak`;
   }
 
 };
