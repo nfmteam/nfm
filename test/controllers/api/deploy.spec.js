@@ -27,6 +27,7 @@ chai.should();
 chai.use(chaiAsPromised);
 
 const fsExists = p => fs.existsSync(path.join(basePath, p));
+const fsRead = p => fs.readFileSync(path.join(basePath, p)).toString();
 
 describe('deploy测试', function () {
 
@@ -116,10 +117,11 @@ describe('deploy测试', function () {
 
     post('http://localhost:8888', data)
       .then(() => {
-        if (!fsExists(`/${deployDir}/deploy1.js`)
-          && fsExists(`/${backupDir}/deploy1.js`)
-          && fs.readdirSync(`/${basePath}/${backupDir}/deploy1.js`).length === 1) {
-          done();
+        if (!fsExists(`/${deployDir}/deploy1.js`) && fsExists(`/${backupDir}/deploy1.js`)) {
+          var fileName = fs.readdirSync(`/${basePath}/${backupDir}/deploy1.js`)[0];
+          if(fsRead(`/${backupDir}/deploy1.js/${fileName}`) === '//.nfm_deploy/deploy1.js') {
+            done();
+          }
         }
       });
   });
