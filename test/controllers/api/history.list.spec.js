@@ -3,7 +3,7 @@
 const path = require('path');
 const koa = require('koa');
 const fs = require('fs-extra');
-const { post } = require('../../fetch');
+const { get } = require('../../fetch');
 const proxyquire = require('proxyquire').noPreserveCache();
 const basePath = '/tmp/nfm-test';
 const stubs = {
@@ -12,7 +12,7 @@ const stubs = {
     '@global': true
   }
 };
-const deployApi = proxyquire('../../../controllers/api/deploy', stubs);
+const historyApi = proxyquire('../../../controllers/api/history', stubs);
 const bodyParser = require('../../../lib/bodyParser');
 const apiParser = require('../../../lib/apiParser');
 
@@ -44,7 +44,7 @@ describe('deploy测试', function () {
 
     app.use(bodyParser);
     app.use(apiParser);
-    app.use(deployApi.deploy);
+    app.use(historyApi.list);
 
     this.server = app.listen(8888);
   });
@@ -53,89 +53,93 @@ describe('deploy测试', function () {
     this.server.close();
   });
 
+  /**
+   * 获取列表
+   */
+
   it('# 入参测试:path省略', function (done) {
-    post('http://localhost:8888')
+    get('http://localhost:8888')
       .then(response => {
         response.message.should.be.equal('入参错误');
         done();
       });
   });
 
-  it('# 入参测试:文件不存在', function (done) {
-    var data = {
-      path: '/aaaaaa.js'
-    };
+  it('# 入参测试:path为目录', function (done) {
+    var p = '/dir1';
 
-    post('http://localhost:8888', data)
+    get(`http://localhost:8888?path=${p}`)
       .then(response => {
         response.message.should.be.equal('文件不存在');
         done();
       });
   });
 
-  it('# 入参测试:path是目录', function (done) {
-    var data = {
-      path: '/dir1'
-    };
+  it('# 入参测试:path安全:安全path存在', function (done) {
+    var p = '/dir1/../../../../../backup1.js';
 
-    post('http://localhost:8888', data)
+    get(`http://localhost:8888?path=${p}`)
+      .then(response => {
+        response.data.should.be.deep.equal([
+          '1.bak',
+          '2.bak'
+        ]);
+        done();
+      });
+  });
+
+  it('# 入参测试:path安全:安全path不存在', function (done) {
+    var p = '/dir1/../../../../../aaaaa.js';
+
+    get(`http://localhost:8888?path=${p}`)
       .then(response => {
         response.message.should.be.equal('文件不存在');
         done();
       });
   });
 
-  it('# 入参测试:待发布文件不存在', function (done) {
-    var data = {
-      path: '/file1.js'
-    };
+  it('# 获取列表:存在备份文件1', function (done) {
+    var p = '/backup1.js';
 
-    post('http://localhost:8888', data)
+    get(`http://localhost:8888?path=${p}`)
       .then(response => {
-        response.message.should.be.equal('待发布文件不存在');
+        response.data.should.be.deep.equal([
+          '1.bak',
+          '2.bak'
+        ]);
         done();
       });
   });
 
-  it('# 入参测试:path安全', function (done) {
-    var data = {
-      path: '/dir/../../../../aaaaa.js'
-    };
+  it('# 获取列表:存在备份文件2', function (done) {
+    var p = '/dir1/file1.js';
 
-    post('http://localhost:8888', data)
+    get(`http://localhost:8888?path=${p}`)
       .then(response => {
-        response.message.should.be.equal('文件不存在');
+        response.data.should.be.deep.equal([
+          '1.bak'
+        ]);
         done();
       });
   });
 
-  it('# 发布', function (done) {
-    var data = {
-      path: '/deploy1.js'
-    };
+  it('# 获取列表:不存在备份文件', function (done) {
+    var p = '/file1.js';
 
-    post('http://localhost:8888', data)
-      .then(() => {
-        if (!fsExists(`/${deployDir}/deploy1.js`)
-          && fsExists(`/${backupDir}/deploy1.js`)
-          && fs.readdirSync(`/${basePath}/${backupDir}/deploy1.js`).length === 1) {
-          done();
-        }
+    get(`http://localhost:8888?path=${p}`)
+      .then(response => {
+        response.data.should.be.deep.equal([]);
+        done();
       });
   });
 
-  it('# 发布', function (done) {
-    var data = {
-      path: '/deploy_backup1.js'
-    };
+  it('# 获取列表:不存在备份目录', function (done) {
+    var p = '/file1.js';
 
-    post('http://localhost:8888', data)
-      .then(() => {
-        if (!fsExists(`/${deployDir}/deploy_backup1.js`)
-          && fsExists(`/${backupDir}/deploy_backup1.js`)
-          && fs.readdirSync(`/${basePath}/${backupDir}/deploy_backup1.js`).length === 3) {
-          done();
-        }
+    get(`http://localhost:8888?path=${p}`)
+      .then(response => {
+        response.data.should.be.deep.equal([]);
+        done();
       });
   });
 

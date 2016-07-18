@@ -26,11 +26,8 @@ module.exports = {
   /**
    * 获取备份文件列表
    */
-  getBackupList: function (absFilePath) {
-    var { dir, base } = path.parse(absFilePath),
-      absBackupDir = `${dir}/${backupDir}/${base}`;
-
-    return fs.walkAsync(absBackupDir);
+  getBackupList: function (absBackupDir) {
+    return fs.readdirAsync(absBackupDir);
   },
 
   /**
@@ -67,8 +64,8 @@ module.exports = {
    * 获取当前的备份文件夹
    */
   getCurrentBackupDir: function (absFilePath) {
-    const { dir } = path.parse(absFilePath);
-    return `${dir}/${backupDir}`;
+    const { dir, base } = path.parse(absFilePath);
+    return `${dir}/${backupDir}/${base}`;
   }
 
 };

@@ -33,6 +33,13 @@ module.exports = {
   },
 
   /**
+   * 获取待发布文件列表
+   */
+  getDeployFiles: function (absPath) {
+    // ...
+  },
+
+  /**
    * 取消发布
    */
   undeploy: function (absDeployFilePath) {

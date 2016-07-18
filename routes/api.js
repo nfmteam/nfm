@@ -8,6 +8,7 @@ const apiFsController = require('../controllers/api/fs');
 const apiUploadController = require('../controllers/api/upload');
 const apiDownloadController = require('../controllers/api/download');
 const apiDeployController = require('../controllers/api/deploy');
+const apiHistoryController = require('../controllers/api/history');
 
 const router = new Router({
   prefix: '/api'
@@ -20,7 +21,7 @@ router.use('*', apiParser);
 router.get('/list', apiListController);
 
 // fs mkdir
-router.post('/fs', apiFsController.mkdir);
+router.post('/fs/mkdir', apiFsController.mkdir);
 
 // fs move
 router.put('/fs/move', apiFsController.move);
@@ -29,7 +30,7 @@ router.put('/fs/move', apiFsController.move);
 router.put('/fs/rename', apiFsController.rename);
 
 // fs delete
-router.delete('/fs', apiFsController.del);
+router.delete('/fs/delete', apiFsController.del);
 
 // file upload
 router.post('/upload', apiUploadController);
@@ -41,6 +42,13 @@ router.get('/download', apiDownloadController);
 router.post('/deploy', apiDeployController.deploy);
 
 // undepoly
-router.delete('/deploy', apiDeployController.undeploy);
+router.delete('/undeploy', apiDeployController.undeploy);
+
+// history list
+router.get('/history/list', apiHistoryController.list);
+
+// history restory
+router.post('/history/restore', apiHistoryController.restore);
+
 
 module.exports = router;

@@ -76,7 +76,7 @@ module.exports = {
   /**
    * 判断deploy文件是否存在
    */
-  deployFileExists: function (absPath) {
+  deployExists: function (absPath) {
     // 不必判断是否为nfm的系统文件夹了
     // 因为deployFile是计算出来的
     return this.stat(absPath)
@@ -87,7 +87,7 @@ module.exports = {
   /**
    * 判断backup文件是否存在
    */
-  backupFileExists: function (absPath) {
+  backupExists: function (absPath) {
     return this.stat(absPath)
       .then(stat => stat)
       .catchReturn(false);
