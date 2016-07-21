@@ -5,8 +5,7 @@ const uploader = require('../../service/uploader');
 const deployer = require('../../service/deployer');
 
 module.exports = function *() {
-  var path, uploadDir, pathStat, formData,
-    files, filePath, fileStat;
+  var path, uploadDir, pathStat, formData, files;
 
   formData = yield uploader(this);
 
@@ -44,16 +43,7 @@ module.exports = function *() {
 
   // 移动文件到path
   for (let file of files) {
-    filePath = `${uploadDir}/${file.name}`;
-
-    fileStat = yield fsHelper.exists(filePath);
-
-    if (fileStat) {
-      // 文件已存在, 待发布模式
-      yield deployer.add(file.path, filePath);
-    } else {
-      // 文件不存在, 直接移动到目标路径
-      yield fsHelper.fsExtra.moveAsync(file.path, filePath);
-    }
+    // 不管文件是否存在, 都进入待发布模式
+    yield deployer.add(file.path, `${uploadDir}/${file.name}`);
   }
 };

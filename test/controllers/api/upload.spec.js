@@ -105,7 +105,7 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        if (fsExists('/dir1/.hiddenfile1.js')) {
+        if (fsExists(`/dir1/${deployDir}/.hiddenfile1.js`)) {
           done();
         }
       });
@@ -190,7 +190,7 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        if (fsExists('/dir1/.hiddenfile2.js')) {
+        if (fsExists(`/dir1/${deployDir}/.hiddenfile2.js`)) {
           done();
         }
       });
@@ -206,8 +206,8 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        if (fsExists('/dir1/backup1.js')
-          && fsExists('/dir1/backup2.js')) {
+        if (fsExists(`/dir1/${deployDir}/backup1.js`)
+          && fsExists(`/dir1/${deployDir}/backup2.js`)) {
           done();
         }
       });
@@ -229,15 +229,15 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        if (fsExists('/dir1/backup3.js')
-          && fsExists('/dir1/deploy1.js')
-          && fsExists('/dir1/deploy2.js')) {
+        if (fsExists(`/dir1/${deployDir}/backup3.js`)
+          && fsExists(`/dir1/${deployDir}/deploy1.js`)
+          && fsExists(`/dir1/${deployDir}/deploy2.js`)) {
           done();
         }
       });
   });
 
-  it('# 上传:文件不存在,直接发布', function (done) {
+  it('# 上传:文件不存在', function (done) {
     var form = new FormData(),
       headers = form.getHeaders();
 
@@ -246,14 +246,14 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        if (fsExists('/dir1/deploy_backup1.js')
-          && !fsExists(`/dir1/${deployDir}/deploy_backup1.js`)) {
+        if (!fsExists('/dir1/deploy_backup1.js')
+          && fsExists(`/dir1/${deployDir}/deploy_backup1.js`)) {
           done();
         }
       });
   });
 
-  it('# 上传:文件存在,待发布模式', function (done) {
+  it('# 上传:文件存在', function (done) {
     var form = new FormData(),
       headers = form.getHeaders();
 
