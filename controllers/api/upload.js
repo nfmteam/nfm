@@ -1,11 +1,12 @@
 'use strict';
 
+const mime = require('mime-types');
 const fsHelper = require('../../utils/fsHelper');
 const uploader = require('../../service/uploader');
 const deployer = require('../../service/deployer');
 
 module.exports = function *() {
-  var path, uploadDir, pathStat, formData, files;
+  var path, uploadDir, pathStat, formData, files, zipNum = 0;
 
   formData = yield uploader(this);
 
@@ -36,10 +37,16 @@ module.exports = function *() {
   }
 
   files.forEach(file => {
-    if (!fsHelper.testName(file.name)) {
+    if (mime.extension(file.type) === 'zip') {
+      zipNum++;
+    } else if (!fsHelper.testName(file.name)) {
       throw Error(`无效文件名:"${file.name}"`);
     }
   });
+
+  if (!(zipNum === 0 || (zipNum === 1 && zipNum === files.length))) {
+    throw Error('只允许上传一个zip文件');
+  }
 
   // 移动文件到path
   for (let file of files) {
