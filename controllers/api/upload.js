@@ -44,7 +44,7 @@ module.exports = function *() {
     }
   });
 
-  if (!(zipNum === 0 || (zipNum === 1 && zipNum === files.length))) {
+  if (zipNum !== 0 && zipNum !== 1 || zipNum === 1 && files.length !== 1) {
     throw Error('只允许上传一个zip文件');
   }
 

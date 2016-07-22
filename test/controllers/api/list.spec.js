@@ -51,7 +51,7 @@ describe('list测试', function () {
     // path省略,取根目录
     get(`http://localhost:8888`)
       .then(response => {
-        response.data.length.should.equal(16);
+        response.data.length.should.equal(18);
         done();
       });
   });
@@ -102,7 +102,7 @@ describe('list测试', function () {
     // type非法,直接忽略
     get(`http://localhost:8888?type=${type}`)
       .then(response => {
-        response.data.length.should.equal(16);
+        response.data.length.should.equal(18);
         done();
       });
   });
@@ -110,7 +110,7 @@ describe('list测试', function () {
   it('# 获取列表:全部', function (done) {
     get(`http://localhost:8888`)
       .then(response => {
-        response.data.length.should.equal(16);
+        response.data.length.should.equal(18);
         done();
       });
   });
@@ -130,7 +130,7 @@ describe('list测试', function () {
 
     get(`http://localhost:8888?type=${type}`)
       .then(response => {
-        response.data.length.should.equal(13);
+        response.data.length.should.equal(15);
         done();
       });
   });
