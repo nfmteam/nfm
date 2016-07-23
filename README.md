@@ -8,7 +8,6 @@ File manage implement by node.
 
 - [ ] 收藏目录
 - [ ] 在线编辑器
-- [ ] zip上传
 
 ## TODO
 
@@ -19,12 +18,12 @@ File manage implement by node.
 	2. 文件操作
 * 清理过期的上传文件
 * 重命名,移动,删除是立刻生效的,有更好的方案?
+* 前端限制上传文件数量,或者zip包大小
 * 回收站
-* 根目录要确保backupdir, deploydir, 因为根目录非程序创建
-* 除了特殊需要外,其余fs操作全异步
+* 除了特殊需要外,其余fs操作全异步 -- code review
 * 自定义滚动条
 * 浏览器检测
-* 优化打包规则
+* 优化打包规则 -- shell
 * reselect cache?
 * normalizr
 * monaco-editor
