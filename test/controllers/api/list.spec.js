@@ -18,9 +18,7 @@ const apiParser = require('../../../lib/apiParser');
 
 const mocha = require('mocha');
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 chai.should();
-chai.use(chaiAsPromised);
 
 describe('list测试', function () {
 

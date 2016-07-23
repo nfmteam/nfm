@@ -23,9 +23,7 @@ const uploadDir = config['upload.dir'];
 
 const mocha = require('mocha');
 const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
 chai.should();
-chai.use(chaiAsPromised);
 
 const fsExists = p => fs.existsSync(path.join(basePath, p));
 
