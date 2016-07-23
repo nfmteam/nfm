@@ -341,7 +341,7 @@ describe('fs upload测试', function () {
     form.append('files', fs.createReadStream(`${filesPath}/test-error.zip`));
 
     upload(`http://localhost:8888/api/upload`, form, headers)
-      .then(() => {
+      .then(response => {
         response.message.should.be.equal('zip文件损坏');
         done();
       });
