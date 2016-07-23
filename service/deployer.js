@@ -80,8 +80,8 @@ module.exports = {
   /**
    * 获取待发布文件列表
    */
-  getDeployFiles: function (absPath) {
-    // ...
+  getDeployFiles: function (absDir) {
+    return fs.readdirAsync(`${absDir}/${deployDir}`);
   },
 
   /**

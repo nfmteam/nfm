@@ -115,22 +115,55 @@ describe('list测试', function () {
       });
   });
 
-  it('# 获取列表:目录', function (done) {
+  it('# 获取列表:目录,并且判断发布&备份状态', function (done) {
     var type = 'd';
 
     get(`http://localhost:8888?type=${type}`)
       .then(response => {
         response.data.length.should.equal(3);
+        response.data.forEach(file => {
+          file.hasBackup.should.equal(false);
+          file.hasDeploy.should.equal(false);
+        });
         done();
       });
   });
 
-  it('# 获取列表:文件', function (done) {
-    var type = 'f';
+  it('# 获取列表:文件,并且判断发布&备份状态', function (done) {
+    var type = 'f', hasBackup, hasDeploy,
+      backupFiles = [
+        'backup1.js',
+        'backup2.js',
+        'backup3.js',
+        'deploy_backup1.js',
+        'deploy_backup2.js',
+        'deploy_backup3.js'
+      ],
+      deployFiles = [
+        'deploy1.js',
+        'deploy2.js',
+        'deploy3.js',
+        'deploy_backup1.js',
+        'deploy_backup2.js',
+        'deploy_backup3.js'
+      ];
 
     get(`http://localhost:8888?type=${type}`)
       .then(response => {
         response.data.length.should.equal(16);
+        response.data.forEach(file => {
+          hasBackup = backupFiles.includes(file.name);
+          hasDeploy = deployFiles.includes(file.name);
+
+          if (hasBackup) {
+            file.hasBackup.should.equal(true);
+          } else if (hasDeploy) {
+            file.hasDeploy.should.equal(true);
+          } else {
+            file.hasBackup.should.equal(false);
+            file.hasDeploy.should.equal(false);
+          }
+        });
         done();
       });
   });

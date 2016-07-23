@@ -26,8 +26,8 @@ module.exports = {
   /**
    * 获取备份文件列表
    */
-  getBackupList: function (absBackupDir) {
-    return fs.readdirAsync(absBackupDir);
+  getBackupList: function (absDir) {
+    return fs.readdirAsync(`${absDir}/${backupDir}`);
   },
 
   /**

@@ -2,6 +2,8 @@
 
 const fsHelper = require('../../utils/fsHelper');
 const fs = require('../../service/fs');
+const deployer = require('../../service/deployer');
+const backup = require('../../service/backup');
 
 module.exports = function *() {
   var absPath, stat;
@@ -21,5 +23,17 @@ module.exports = function *() {
     type = [_type];
   }
 
-  this.body = yield fs.getFileList(absPath, type);
+  var [files, backups, deploys] = yield [
+    fs.getFileList(absPath, type),
+    backup.getBackupList(absPath).catchReturn([]),
+    deployer.getDeployFiles(absPath).catchReturn([])
+  ];
+
+  files.map(file => {
+    file.hasBackup = backups.includes(file.name);
+    file.hasDeploy = deploys.includes(file.name);
+    return file;
+  });
+
+  this.body = files;
 };
