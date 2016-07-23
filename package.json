@@ -30,6 +30,7 @@
     "koa-static": "^2.0.0",
     "mime-types": "^2.1.11",
     "moment": "^2.13.0",
+    "unzip": "^0.1.11",
     "winston": "^2.2.0"
   },
   "devDependencies": {

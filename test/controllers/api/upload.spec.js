@@ -246,8 +246,10 @@ describe('fs upload测试', function () {
 
     upload(`http://localhost:8888/api/upload`, form, headers)
       .then(() => {
-        // 还未做解压,暂时这么判断
-        if (fsExists(`/dir1/${deployDir}/test-zip1.zip`)) {
+        if (fsExists(`/dir1/zip1/${deployDir}/a.js`)
+          && fsExists(`/dir1/zip1/${deployDir}/b.js`)
+          && fsExists(`/dir1/zip1/inner-dir1/${deployDir}/c.js`)
+          && fsExists(`/dir1/zip1/inner-dir2/${deployDir}/d.js`)) {
           done();
         }
       });
@@ -265,6 +267,22 @@ describe('fs upload测试', function () {
       .then(response => {
         response.message.should.be.equal('只允许上传一个zip文件');
         done();
+      });
+  });
+
+  it('# 上传:1个zip文件&存在非法文件名', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir1');
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip2.zip`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(response => {
+        response.message.should.equal('zip包存在无效文件名:"说明.txt"');
+        if (!fsExists(`/dir1/test-zip2`)) {
+          done();
+        }
       });
   });
 

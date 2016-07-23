@@ -2,7 +2,7 @@
 
 const mime = require('mime-types');
 const fsHelper = require('../../utils/fsHelper');
-const uploader = require('../../service/uploader');
+const { uploader, unzip } = require('../../service/uploader');
 const deployer = require('../../service/deployer');
 
 module.exports = function *() {
@@ -36,6 +36,7 @@ module.exports = function *() {
     files = [files];
   }
 
+  // 判断zip文件数量,或者普通文件的文件名合法性
   files.forEach(file => {
     if (mime.extension(file.type) === 'zip') {
       zipNum++;
@@ -48,9 +49,15 @@ module.exports = function *() {
     throw Error('只允许上传一个zip文件');
   }
 
-  // 移动文件到path
-  for (let file of files) {
-    // 不管文件是否存在, 都进入待发布模式
-    yield deployer.add(file.path, `${uploadDir}/${file.name}`);
+  if (zipNum) {
+    // 处理zip文件
+    let unzipDir = yield unzip(files[0].path);
+    yield deployer.addByDir(unzipDir, uploadDir);
+  } else {
+    // 处理常规文件, 移动文件到path
+    for (let file of files) {
+      // 不管文件是否存在, 都进入待发布模式
+      yield deployer.add(file.path, `${uploadDir}/${file.name}`);
+    }
   }
 };

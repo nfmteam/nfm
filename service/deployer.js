@@ -1,7 +1,8 @@
 'use strict';
 
 const path = require('path');
-const fs = require('../utils/fsHelper').fsExtra;
+const fsHelper = require('../utils/fsHelper');
+const fs = fsHelper.fsExtra;
 const backup = require('./backup');
 
 const config = require('../config');
@@ -22,6 +23,50 @@ module.exports = {
 
     return fs.ensureDirAsync(currentDeployDir)
       .then(() => fs.moveAsync(absUploadFilePath, absDeployFilePath, clobberOptions));
+  },
+
+  /**
+   * 按目录添加发布文件
+   */
+  addByDir: function (absUploadDir, dir) {
+    return this.walk(absUploadDir)
+      .then(items => {
+        items.forEach(item => {
+          let fileName = path.parse(item).base;
+          if (!fsHelper.testName(fileName)) {
+            throw Error(`zip包存在无效文件名:"${fileName}"`);
+          }
+        });
+
+        return items;
+      })
+      .then(items => items.map(item => {
+        let _path = path.relative(absUploadDir, item);
+        let absFilePath = path.join(dir, _path);
+
+        return this.add(item, absFilePath)
+      }))
+      .then(promises => Promise.all(promises));
+  },
+
+  walk: function (absDir) {
+    return new Promise(function (resolve, reject) {
+      let items = [];
+
+      fs.walk(absDir)
+        .on('error', error => {
+          reject(error);
+        })
+        .on('data', item => {
+          if (item.stats.isDirectory()) {
+            return;
+          }
+          items.push(item.path);
+        })
+        .on('end', () => {
+          resolve(items);
+        });
+    });
   },
 
   /**
