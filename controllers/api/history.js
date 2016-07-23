@@ -28,7 +28,7 @@ module.exports = {
     backupStat = yield fsHelper.backupExists(absBackupDir);
 
     if (backupStat) {
-      list = yield backup.getBackupList(absBackupDir);
+      list = yield backup.getBackupFileList(absBackupDir);
     } else {
       list = [];
     }

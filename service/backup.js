@@ -24,10 +24,17 @@ module.exports = {
   },
 
   /**
-   * 获取备份文件列表
+   * 获取备份列表
    */
   getBackupList: function (absDir) {
     return fs.readdirAsync(`${absDir}/${backupDir}`);
+  },
+
+  /**
+   * 获取备份文件列表
+   */
+  getBackupFileList: function (absBackupDir) {
+    return fs.readdirAsync(absBackupDir);
   },
 
   /**
