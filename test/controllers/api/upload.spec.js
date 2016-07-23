@@ -237,70 +237,6 @@ describe('fs upload测试', function () {
       });
   });
 
-  it('# 上传:1个zip文件', function (done) {
-    var form = new FormData(),
-      headers = form.getHeaders();
-
-    form.append('path', '/dir1');
-    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
-
-    upload(`http://localhost:8888/api/upload`, form, headers)
-      .then(() => {
-        if (fsExists(`/dir1/zip1/${deployDir}/a.js`)
-          && fsExists(`/dir1/zip1/${deployDir}/b.js`)
-          && fsExists(`/dir1/zip1/inner-dir1/${deployDir}/c.js`)
-          && fsExists(`/dir1/zip1/inner-dir2/${deployDir}/d.js`)) {
-          done();
-        }
-      });
-  });
-
-  it('# 上传:1个zip文件和若干其他文件', function (done) {
-    var form = new FormData(),
-      headers = form.getHeaders();
-
-    form.append('path', '/dir1');
-    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
-    form.append('files', fs.createReadStream(`${filesPath}/deploy_backup1.js`));
-
-    upload(`http://localhost:8888/api/upload`, form, headers)
-      .then(response => {
-        response.message.should.be.equal('只允许上传一个zip文件');
-        done();
-      });
-  });
-
-  it('# 上传:1个zip文件&存在非法文件名', function (done) {
-    var form = new FormData(),
-      headers = form.getHeaders();
-
-    form.append('path', '/dir1');
-    form.append('files', fs.createReadStream(`${filesPath}/test-zip2.zip`));
-
-    upload(`http://localhost:8888/api/upload`, form, headers)
-      .then(response => {
-        response.message.should.equal('zip包存在无效文件名:"说明.txt"');
-        if (!fsExists(`/dir1/test-zip2`)) {
-          done();
-        }
-      });
-  });
-
-  it('# 上传:2个zip文件', function (done) {
-    var form = new FormData(),
-      headers = form.getHeaders();
-
-    form.append('path', '/dir1');
-    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
-    form.append('files', fs.createReadStream(`${filesPath}/test-zip2.zip`));
-
-    upload(`http://localhost:8888/api/upload`, form, headers)
-      .then(response => {
-        response.message.should.be.equal('只允许上传一个zip文件');
-        done();
-      });
-  });
-
   it('# 上传:文件不存在', function (done) {
     var form = new FormData(),
       headers = form.getHeaders();
@@ -330,6 +266,84 @@ describe('fs upload测试', function () {
           && fsExists(`/dir1/${deployDir}/file2.js`)) {
           done();
         }
+      });
+  });
+
+  it('# zip上传:1个zip文件', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir1');
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(() => {
+        if (fsExists(`/dir1/zip1/${deployDir}/a.js`)
+          && fsExists(`/dir1/zip1/${deployDir}/b.js`)
+          && fsExists(`/dir1/zip1/inner-dir1/${deployDir}/c.js`)
+          && fsExists(`/dir1/zip1/inner-dir2/${deployDir}/d.js`)) {
+          done();
+        }
+      });
+  });
+
+  it('# zip上传:1个zip文件和若干其他文件', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir2');
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
+    form.append('files', fs.createReadStream(`${filesPath}/deploy_backup1.js`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(response => {
+        response.message.should.be.equal('只允许上传一个zip文件');
+        done();
+      });
+  });
+
+  it('# zip上传:1个zip文件&存在非法文件名', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir3');
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip2.zip`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(response => {
+        response.message.should.equal('zip包存在无效文件名:"说明.txt"');
+        if (!fsExists(`/dir3/test-zip2`)) {
+          done();
+        }
+      });
+  });
+
+  it('# zip上传:2个zip文件', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir1');
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip1.zip`));
+    form.append('files', fs.createReadStream(`${filesPath}/test-zip2.zip`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(response => {
+        response.message.should.be.equal('只允许上传一个zip文件');
+        done();
+      });
+  });
+
+  it('# zip上传:包损坏', function (done) {
+    var form = new FormData(),
+      headers = form.getHeaders();
+
+    form.append('path', '/dir1');
+    form.append('files', fs.createReadStream(`${filesPath}/test-error.zip`));
+
+    upload(`http://localhost:8888/api/upload`, form, headers)
+      .then(() => {
+        response.message.should.be.equal('zip文件损坏');
+        done();
       });
   });
 

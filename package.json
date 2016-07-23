@@ -21,6 +21,7 @@
   "dependencies": {
     "bluebird": "^3.4.1",
     "co-body": "^4.2.0",
+    "execa": "^0.4.0",
     "filesize": "^3.3.0",
     "formidable": "^1.0.17",
     "fs-extra": "^0.30.0",
@@ -30,7 +31,6 @@
     "koa-static": "^2.0.0",
     "mime-types": "^2.1.11",
     "moment": "^2.13.0",
-    "unzip": "^0.1.11",
     "winston": "^2.2.0"
   },
   "devDependencies": {

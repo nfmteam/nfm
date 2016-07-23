@@ -2,7 +2,7 @@
 
 const fs = require('../utils/fsHelper').fsExtra;
 const formidable = require('formidable');
-const unzip = require('unzip');
+const execa = require('execa');
 const config = require('../config');
 
 const keepExtensions = config['upload.keepExtensions'];
@@ -59,24 +59,15 @@ module.exports = {
       .then(form.parse(ctx.req));
   }),
 
-  unzip: (absZipFile) => new Promise(function (resolve, reject) {
-    var reader = fs.createReadStream(absZipFile)
-      .on('error', error => {
-        reject(error);
-      });
-
+  unzip: function (absZipFile) {
     var unzipPath = absZipFile.replace(/upload_(\w+)$/, 'unzip_$1');
 
-    var parser = new unzip.Extract({ path: unzipPath })
-      .on('error', () => {
-        reject('zip文件损坏');
+    return execa
+      .shell(`unzip -q ${absZipFile} -d ${unzipPath}`)
+      .then(() => unzipPath)
+      .catch(() => {
+        throw Error('zip文件损坏')
       });
-
-    reader
-      .pipe(parser)
-      .on('close', () => {
-        resolve(unzipPath);
-      });
-  })
+  }
 
 };
