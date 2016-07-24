@@ -117,12 +117,12 @@ module.exports = {
 
     return fs.readdirAsync(absDeployDir)
       .then(files => files.map(file => ({
-        file,
+        path: file,
         stat: fs.statSync(`${absDeployDir}/${file}`)
       })))
       .then(files => files.forEach(file => {
         if (moment() - moment(file.stat.mtime) > deployKeeptime) {
-          fs.removeSync(`${absDeployDir}/${file}`);
+          fs.removeSync(`${absDeployDir}/${file.path}`);
         }
       }));
   }
