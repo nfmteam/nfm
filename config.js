@@ -17,6 +17,8 @@ module.exports = {
 
   'upload.multiples': true,
 
+  'upload.keepTime': 24 * 60 * 60 * 1000,
+
   // -------------- backup configuration -----------
 
   'backup.dir': '.nfm_backup',
@@ -26,6 +28,8 @@ module.exports = {
   // -------------- deploy configuration -----------
 
   'deploy.dir': '.nfm_deploy',
+
+  'deploy.keepTime': 24 * 60 * 60 * 1000,
 
   // -------------- log configuration --------------
 

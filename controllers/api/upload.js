@@ -2,13 +2,13 @@
 
 const mime = require('mime-types');
 const fsHelper = require('../../utils/fsHelper');
-const { uploader, unzip } = require('../../service/uploader');
+const uploader = require('../../service/uploader');
 const deployer = require('../../service/deployer');
 
 module.exports = function *() {
   var path, uploadDir, pathStat, formData, files, zipNum = 0;
 
-  formData = yield uploader(this);
+  formData = yield uploader.uploader(this);
 
   path = formData.fields.path;
   files = formData.files.files;
@@ -51,7 +51,7 @@ module.exports = function *() {
 
   if (zipNum) {
     // 处理zip文件
-    let unzipDir = yield unzip(files[0].path);
+    let unzipDir = yield uploader.unzip(files[0].path);
     yield deployer.addByDir(unzipDir, uploadDir);
   } else {
     // 处理常规文件, 移动文件到path

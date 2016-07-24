@@ -52,18 +52,36 @@ module.exports = {
   },
 
   /**
-   * 清理备份文件
+   * 清理备份(文件已不存在,删除备份)
+   *
+   * @param absPath 将会清理这个路径下的备份目录
+   * @returns {Promise.<*>}
    */
-  clean: function (absFilePath) {
-    var { dir, base } = path.parse(absFilePath),
-      absBackupPath = `${dir}/${backupDir}/${base}`;
+  clean: function (absPath) {
+    var absBackupDir = `${absPath}/${backupDir}`;
 
-    return fs.walkAsync(absBackupPath)
+    return Promise.all([
+      fs.readdirAsync(absPath).catchReturn([]),
+      fs.readdirAsync(absBackupDir).catchReturn([])
+    ]).then(([files, backupDirs]) => backupDirs.filter(backupDir => !files.includes(backupDir)))
+      .then(backupDirs => Promise.all(
+        backupDirs.map(backupDir => fs.removeAsync(`${absBackupDir}/${backupDir}`))
+      ));
+  },
+
+  /**
+   * 清理备份文件(备份数大于MaxSize)
+   *
+   * @param absBackupFilePath 清理该备份目录下的文件
+   * @returns {Promise.<*>}
+   */
+  cleanFile: function (absBackupFilePath) {
+    return fs.readdirAsync(absBackupFilePath)
       .then(files => files.sort().reverse().slice(backupMaxSize))
       .then(files => {
         if (files.length) {
           return Promise.all(
-            files.map(file => fs.removeAsync(`${absBackupPath}/${file}`))
+            files.map(file => fs.removeAsync(`${absBackupFilePath}/${file}`))
           );
         }
       });
