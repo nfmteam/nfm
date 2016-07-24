@@ -1,12 +1,14 @@
 'use strict';
 
 const path = require('path');
+const moment = require('moment');
 const fsHelper = require('../utils/fsHelper');
 const fs = fsHelper.fsExtra;
 const backup = require('./backup');
 
 const config = require('../config');
 const deployDir = config['deploy.dir'];
+const deployKeeptime = config['deploy.keepTime'];
 
 const clobberOptions = {
   clobber: true
@@ -105,6 +107,24 @@ module.exports = {
   getCurrentDeployDir: function (absFilePath) {
     const { dir } = path.parse(absFilePath);
     return `${dir}/${deployDir}`;
+  },
+
+  /**
+   * 清理待发布文件
+   */
+  clean: function (absPath) {
+    var absDeployDir = `${absPath}/${deployDir}`;
+
+    return fs.readdirAsync(absDeployDir)
+      .then(files => files.map(file => ({
+        file,
+        stat: fs.statSync(`${absDeployDir}/${file}`)
+      })))
+      .then(files => files.forEach(file => {
+        if (moment() - moment(file.stat.mtime) > deployKeeptime) {
+          fs.removeSync(`${absDeployDir}/${file}`);
+        }
+      }));
   }
 
 };
