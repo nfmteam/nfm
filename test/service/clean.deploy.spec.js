@@ -12,9 +12,9 @@ const stubs = {
     '@global': true
   }
 };
-const deployer = proxyquire('../service/deployer', stubs);
+const deployer = proxyquire('../../service/deployer', stubs);
 
-const config = require('../config');
+const config = require('../../config');
 const deployDir = config['deploy.dir'];
 
 const mocha = require('mocha');
@@ -28,7 +28,7 @@ describe('clean deploy 测试', function () {
 
   before('before clean deploy 测试', function () {
     fs.ensureDirSync(basePath);
-    fs.copySync(path.resolve(__dirname, './files'), `${basePath}`);
+    fs.copySync(path.resolve(__dirname, '../files'), `${basePath}`);
   });
 
   after('after clean deploy 测试', function () {

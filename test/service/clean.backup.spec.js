@@ -12,9 +12,9 @@ const stubs = {
     '@global': true
   }
 };
-const backup = proxyquire('../service/backup', stubs);
+const backup = proxyquire('../../service/backup', stubs);
 
-const config = require('../config');
+const config = require('../../config');
 const backupDir = config['backup.dir'];
 
 const mocha = require('mocha');
@@ -28,7 +28,7 @@ describe('clean backup 测试', function () {
 
   before('before clean backup 测试', function () {
     fs.ensureDirSync(basePath);
-    fs.copySync(path.resolve(__dirname, './files'), `${basePath}`);
+    fs.copySync(path.resolve(__dirname, '../files'), `${basePath}`);
   });
 
   after('after clean backup 测试', function () {
