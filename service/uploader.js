@@ -1,13 +1,15 @@
 'use strict';
 
+const moment = require('moment');
 const fs = require('../utils/fsHelper').fsExtra;
 const formidable = require('formidable');
 const execa = require('execa');
-const config = require('../config');
 
+const config = require('../config');
 const keepExtensions = config['upload.keepExtensions'];
 const multiples = config['upload.multiples'];
 const uploadDir = `${config['fs.base']}/${config['upload.dir']}`;
+const uploadKeepTime = config['upload.keepTime'];
 
 module.exports = {
 
@@ -68,6 +70,22 @@ module.exports = {
       .catch(() => {
         throw Error('zip文件损坏')
       });
+  },
+
+  /**
+   * 清理上传文件
+   */
+  clean: function () {
+    return fs.readdirAsync(uploadDir)
+      .then(files => files.map(file => ({
+        path: file,
+        stat: fs.statSync(`${uploadDir}/${file}`)
+      })))
+      .then(files => files.forEach(file => {
+        if (moment() - moment(file.stat.mtime) > uploadKeepTime) {
+          fs.removeSync(`${uploadDir}/${file.path}`);
+        }
+      }));
   }
 
 };
