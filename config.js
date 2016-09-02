@@ -1,5 +1,7 @@
 'use strict';
 
+const path = require('path');
+
 module.exports = {
 
   // -------------- app configuration --------------
@@ -40,7 +42,7 @@ module.exports = {
   'log.global.enable': true,
 
   // 日志文件夹路径
-  'log.path': './logs',
+  'log.path': path.join(__dirname, 'logs'),
 
   // 单个日志文件大小
   'log.maxsize': 1024 * 1024 * 100
