@@ -6,7 +6,7 @@ const serve = require('koa-static');
 const Pug = require('koa-pug');
 
 const config = require('./config');
-const exceptionHandler = require('./lib/exceptionHandler');
+const error = require('./lib/error');
 const bodyParser = require('./lib/bodyParser');
 const webpack = require('./lib/webpackMiddleware');
 const apiRouter = require('./routes/api');
@@ -19,11 +19,7 @@ logger.register(app);
 app.use(logger.useGlobalLogger());
 
 // exception handler
-app.on('error', function (error) {
-  app.context.error(error);
-});
-app.use(exceptionHandler.errorHandler);
-app.use(exceptionHandler.notfoundHandler);
+app.use(error);
 
 // view engine
 const IS_DEVELOPMENT = app.env === 'development';
