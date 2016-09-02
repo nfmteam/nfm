@@ -17,11 +17,9 @@ const deployer = proxyquire('../../service/deployer', stubs);
 const config = require('../../config');
 const deployDir = config['deploy.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 
-const fsExists = p => fs.existsSync(path.join(basePath, p));
 const fsReadDir = p => fs.readdirSync(path.join(basePath, p));
 
 describe('clean deploy 测试', function () {

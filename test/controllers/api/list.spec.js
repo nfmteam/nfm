@@ -16,7 +16,6 @@ const listApi = proxyquire('../../../controllers/api/list', stubs);
 const bodyParser = require('../../../lib/bodyParser');
 const apiParser = require('../../../lib/apiParser');
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 

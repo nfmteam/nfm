@@ -21,7 +21,6 @@ const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];
 const uploadDir = config['upload.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 

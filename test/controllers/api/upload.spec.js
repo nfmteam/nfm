@@ -19,10 +19,8 @@ const bodyParser = require('../../../lib/bodyParser');
 const apiParser = require('../../../lib/apiParser');
 
 const config = require('../../../config');
-const uploadDir = config['upload.dir'];
 const deployDir = config['deploy.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 

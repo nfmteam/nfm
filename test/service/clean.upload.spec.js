@@ -23,11 +23,9 @@ const apiParser = require('../../lib/apiParser');
 const config = require('../../config');
 const uploadDir = config['upload.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 
-const fsExists = p => fs.existsSync(path.join(basePath, p));
 const fsReadDir = p => fs.readdirSync(path.join(basePath, p));
 const fsRead = p => fs.createReadStream(path.join(__dirname, '../files', p));
 

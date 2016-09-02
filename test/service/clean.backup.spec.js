@@ -17,11 +17,9 @@ const backup = proxyquire('../../service/backup', stubs);
 const config = require('../../config');
 const backupDir = config['backup.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 
-const fsExists = p => fs.existsSync(path.join(basePath, p));
 const fsReadDir = p => fs.readdirSync(path.join(basePath, p));
 
 describe('clean backup 测试', function () {

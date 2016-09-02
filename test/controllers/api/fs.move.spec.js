@@ -20,7 +20,6 @@ const config = require('../../../config');
 const deployDir = config['deploy.dir'];
 const backupDir = config['backup.dir'];
 
-const mocha = require('mocha');
 const chai = require('chai');
 chai.should();
 
