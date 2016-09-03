@@ -33,7 +33,7 @@ File manage implement by node.
 * 服务端渲染
 * To optimize the react
 * 安全性,完整性验证,error处理
-* 是否启用全局日志,还是手动api日志
+* 是否启用全局日志,还是手动api日志(目前未添加日志)
 * 注释
 
   

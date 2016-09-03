@@ -1,18 +1,13 @@
 'use strict';
 
 const fs = require('../utils/fsHelper').fsExtra;
+const async = require('async');
+const backup = require('./backup');
+const deployer = require('./deployer');
+const uploader = require('./uploader');
+
 const config = require('../config');
-
 const baseDir = config['fs.base'];
-
-const uploadDir = config['upload.dir'];
-const uploadKeeptime = config['upload.keepTime'];
-
-const backupDir = config['backup.dir'];
-const backupMaxSize = config['backup.maxSize'];
-
-const deployDir = config['deploy.dir'];
-const deployKeeptime = config['deploy.keepTime'];
 
 /**
  * 清理规则:
@@ -23,52 +18,41 @@ const deployKeeptime = config['deploy.keepTime'];
  *    - 无效的上传文件(大于keeptime)
  */
 
-/**
- * 待清理文件
- */
-const backupItems = [];
-const deployItems = [];
-const uploadItems = [];
-
-/**
- * Main
- */
-function cleaner(done) {
-  // walk upload dir
-
-  // walk backup & deploy dir
+function cleaner() {
+  walk(baseDir)
+    .then(paths => {
+      async.eachSeries(paths, function (path, done) {
+        clean(path).then(() => done());
+      });
+    });
 }
 
-/**
- * 清理上传文件
- */
-function cleanUpload() {
-  // ...
+// 获取全部目录
+function walk(dir) {
+  return new Promise((resolve, reject) => {
+    var paths = [];
+
+    fs.walk(dir)
+      .on('data', function ({ path, stats }) {
+        if (stats.isDirectory()) {
+          paths.push(path);
+        }
+      })
+      .on('error', function (error) {
+        reject(error);
+      })
+      .on('end', function () {
+        resolve(paths);
+      });
+  });
 }
 
-/**
- * walk
- */
-function walk(path) {
-  return fs.readdirAsync(path)
-    .then(fileNames => Promise.all(
-      fileNames.map(fileName => this.getStat(`${path}/${fileName}`))
-    ));
+// 执行清理
+function clean(path) {
+  return uploader.clean()
+    .then(() => backup.clean(path))
+    .then(() => backup.cleanFile(path))
+    .then(() => deployer.clean(path))
 }
 
-/**
- * get file stat
- */
-function getStat(path) {
-  return fs.statAsync(path);
-}
-
-/**
- * 执行清理
- */
-function clean() {
-  // ...
-}
-
-// module.exports = cleaner;
-cleaner();
+module.exports = cleaner;
