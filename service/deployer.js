@@ -110,12 +110,13 @@ module.exports = {
   },
 
   /**
-   * 清理待发布文件
+   * 清理待发布文件(留存时间大于deployKeeptime的)
    */
   clean: function (absPath) {
     var absDeployDir = `${absPath}/${deployDir}`;
 
     return fs.readdirAsync(absDeployDir)
+      .catchReturn(Promise.resolve([]))
       .then(files => files.map(file => ({
         path: file,
         stat: fs.statSync(`${absDeployDir}/${file}`)

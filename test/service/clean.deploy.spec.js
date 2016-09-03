@@ -78,4 +78,13 @@ describe('clean deploy 测试', function () {
       });
   });
 
+  it('# 清理待发布文件:待发布目录不存在', function (done) {
+    fs.removeSync(`${basePath}/${deployDir}`);
+
+    deployer.clean(basePath)
+      .then(() => {
+        done();
+      });
+  });
+
 });
