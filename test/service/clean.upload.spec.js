@@ -130,4 +130,13 @@ describe('clean upload 测试', function () {
       });
   });
 
+  it('# 清理上传文件:上传文件夹不存在', function (done) {
+    fs.removeSync(`${basePath}/${uploadDir}`);
+
+    uploader.clean()
+      .then(() => {
+        done();
+      });
+  });
+
 });

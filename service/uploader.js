@@ -1,5 +1,6 @@
 'use strict';
 
+const Promise = require('bluebird');
 const moment = require('moment');
 const fs = require('../utils/fsHelper').fsExtra;
 const formidable = require('formidable');
@@ -77,6 +78,7 @@ module.exports = {
    */
   clean: function () {
     return fs.readdirAsync(uploadDir)
+      .catchReturn(Promise.resolve([]))
       .then(files => files.map(file => ({
         path: file,
         stat: fs.statSync(`${uploadDir}/${file}`)
