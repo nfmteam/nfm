@@ -43,7 +43,7 @@ describe('apiParser测试', function () {
       });
   });
 
-  it('异常测试', function () {
+  it('异常测试', function (done) {
     fetch('http://localhost:8888/error')
       .then(response => response.json())
       .then(data => {
