@@ -53,12 +53,21 @@ describe('clean backup 测试', function () {
       });
   });
 
-  it('# 清理备份文件', function (done) {
+  it('# 清理备份文件:备份目录存在', function (done) {
     backup.cleanFile(`${basePath}`)
       .then(() => {
         fsReadDir(`${backupDir}/deploy_backup1.js`).should.deep.equal([
           '2.bak'
         ]);
+        done();
+      });
+  });
+
+  it('# 清理备份文件:备份目录不存在', function (done) {
+    fs.removeSync(`${basePath}/${backupDir}`);
+
+    backup.cleanFile(`${basePath}`)
+      .then(() => {
         done();
       });
   });

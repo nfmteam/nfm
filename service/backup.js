@@ -79,6 +79,7 @@ module.exports = {
     var absBackupDir = `${absPath}/${backupDir}`;
 
     return fs.readdirAsync(absBackupDir)
+      .catchReturn(Promise.resolve([]))
       .then(backupDirs => Promise.all(
         backupDirs.map(dir => this._cleanFile(`${absBackupDir}/${dir}`))
       ));
