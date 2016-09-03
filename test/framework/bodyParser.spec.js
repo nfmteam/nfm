@@ -10,80 +10,80 @@ chai.should();
 
 describe('bodyParser测试', function () {
 
-    afterEach(function () {
-        this.server && this.server.close();
+  afterEach(function () {
+    this.server && this.server.close();
+  });
+
+  it('POST: json', function (done) {
+    const app = koa();
+
+    app.use(bodyParser);
+
+    app.use(function *() {
+      this.request.body.should.be.deep.equal({
+        success: true
+      });
+      done();
     });
 
-    it('POST: json', function (done) {
-        const app = koa();
+    this.server = app.listen(8888);
 
-        app.use(bodyParser);
+    fetch('http://localhost:8888', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        success: true
+      })
+    });
+  });
 
-        app.use(function *() {
-            this.request.body.should.be.deep.equal({
-                success: true
-            });
-            done();
-        });
+  it('POST: application/x-www-form-urlencoded', function (done) {
+    const app = koa();
 
-        this.server = app.listen(8888);
+    app.use(bodyParser);
 
-        fetch('http://localhost:8888', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                success: true
-            })
-        });
+    app.use(function *() {
+      this.request.body.should.be.deep.equal({
+        success: 'true'
+      });
+
+      done();
     });
 
-    it('POST: application/x-www-form-urlencoded', function (done) {
-        const app = koa();
+    this.server = app.listen(8888);
 
-        app.use(bodyParser);
+    fetch('http://localhost:8888', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: 'success=true'
+    });
+  });
 
-        app.use(function *() {
-            this.request.body.should.be.deep.equal({
-                success: 'true'
-            });
+  it('POST: co-body不处理的content-type', function (done) {
+    const app = koa();
 
-            done();
-        });
+    app.use(bodyParser);
 
-        this.server = app.listen(8888);
-
-        fetch('http://localhost:8888', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: 'success=true'
-        });
+    app.use(function *() {
+      this.request.body.should.be.deep.equal({});
+      done();
     });
 
-    it('POST: co-body不处理的content-type', function (done) {
-        const app = koa();
+    this.server = app.listen(8888);
 
-        app.use(bodyParser);
-
-        app.use(function *() {
-            this.request.body.should.be.deep.equal({});
-            done();
-        });
-
-        this.server = app.listen(8888);
-
-        fetch('http://localhost:8888', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            },
-            body: JSON.stringify({
-                success: true
-            })
-        });
+    fetch('http://localhost:8888', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      body: JSON.stringify({
+        success: true
+      })
     });
+  });
 
 });
