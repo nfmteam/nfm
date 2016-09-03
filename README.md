@@ -16,7 +16,6 @@ File manage implement by node.
 * next
 	1. dialog
 	2. 文件操作
-* 清理过期的上传文件
 * 重命名,移动,删除是立刻生效的,有更好的方案?
 * 前端限制上传文件数量,或者zip包大小
 * 回收站
