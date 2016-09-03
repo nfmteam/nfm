@@ -33,6 +33,10 @@ module.exports = {
 
   'deploy.keepTime': 24 * 60 * 60 * 1000,
 
+  // -------------- robot configuration ------------
+
+  'robot.cron': '* 21 * * * *',
+
   // -------------- log configuration --------------
 
   // 启用日志
