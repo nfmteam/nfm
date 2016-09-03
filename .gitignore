@@ -8,3 +8,4 @@ assets/script/bundle.*.js
 assets/script/vendor.*.js
 *.tgz
 **/*.log
+**/*.swp  
