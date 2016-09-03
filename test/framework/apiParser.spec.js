@@ -4,6 +4,7 @@ const koa = require('koa');
 const router = require('koa-router')();
 const fetch = require('node-fetch');
 const apiParser = require('../../lib/apiParser');
+const logger = require('../../lib/logger');
 
 const chai = require('chai');
 chai.should();
@@ -12,6 +13,9 @@ describe('apiParser测试', function () {
 
   before(function () {
     const app = koa();
+
+    logger.register(app);
+    app.use(logger.useGlobalLogger());
 
     router.all('*', apiParser);
     router.get('/success', function *() {

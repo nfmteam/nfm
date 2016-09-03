@@ -6,6 +6,7 @@ const router = require('koa-router')();
 const Pug = require('koa-pug');
 const fetch = require('node-fetch');
 const error = require('../../lib/error');
+const logger = require('../../lib/logger');
 
 const chai = require('chai');
 chai.should();
@@ -14,6 +15,9 @@ describe('error测试', function () {
 
   before(function () {
     const app = koa();
+
+    logger.register(app);
+    app.use(logger.useGlobalLogger());
 
     app.on('error', function () {
       // 测试过程中, 不向控制台输入预期的错误信息
