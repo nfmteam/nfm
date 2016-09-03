@@ -72,10 +72,19 @@ module.exports = {
   /**
    * 清理备份文件(备份数大于MaxSize)
    *
-   * @param absBackupFilePath 清理该备份目录下的文件
+   * @param absPath 清理该目录下的备份文件
    * @returns {Promise.<*>}
    */
-  cleanFile: function (absBackupFilePath) {
+  cleanFile: function (absPath) {
+    var absBackupDir = `${absPath}/${backupDir}`;
+
+    return fs.readdirAsync(absBackupDir)
+      .then(backupDirs => Promise.all(
+        backupDirs.map(dir => this._cleanFile(`${absBackupDir}/${dir}`))
+      ));
+  },
+
+  _cleanFile: function (absBackupFilePath) {
     return fs.readdirAsync(absBackupFilePath)
       .then(files => files.sort().reverse().slice(backupMaxSize))
       .then(files => {

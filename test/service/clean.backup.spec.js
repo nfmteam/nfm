@@ -53,18 +53,8 @@ describe('clean backup 测试', function () {
       });
   });
 
-  it('# 清理备份文件:有可清理的', function (done) {
-    backup.cleanFile(`${basePath}/${backupDir}/deploy_backup1.js`)
-      .then(() => {
-        fsReadDir(`${backupDir}/deploy_backup1.js`).should.deep.equal([
-          '2.bak'
-        ]);
-        done();
-      });
-  });
-
-  it('# 清理备份文件:没有可清理的', function (done) {
-    backup.cleanFile(`${basePath}/${backupDir}/deploy_backup1.js`)
+  it('# 清理备份文件', function (done) {
+    backup.cleanFile(`${basePath}`)
       .then(() => {
         fsReadDir(`${backupDir}/deploy_backup1.js`).should.deep.equal([
           '2.bak'
