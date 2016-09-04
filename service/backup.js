@@ -60,10 +60,12 @@ module.exports = {
   clean: function (absPath) {
     var absBackupDir = `${absPath}/${backupDir}`;
 
-    return Promise.all([
-      fs.readdirAsync(absPath).catchReturn([]),
-      fs.readdirAsync(absBackupDir).catchReturn([])
-    ]).then(([files, backupDirs]) => backupDirs.filter(backupDir => !files.includes(backupDir)))
+    return Promise
+      .all([
+        fs.readdirAsync(absPath).catchReturn([]),
+        fs.readdirAsync(absBackupDir).catchReturn([])
+      ])
+      .then(([files, backupDirs]) => backupDirs.filter(backupDir => !files.includes(backupDir)))
       .then(backupDirs => Promise.all(
         backupDirs.map(backupDir => fs.removeAsync(`${absBackupDir}/${backupDir}`))
       ));

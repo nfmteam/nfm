@@ -14,6 +14,12 @@ const pageRouter = require('./routes/page');
 const logger = require('./lib/logger');
 const assets = require('./assets/.assets.json');
 
+// static serve
+app.use(serve('assets'));
+
+// webpack
+webpack(app);
+
 // logger
 logger.register(app);
 app.use(logger.useGlobalLogger());
@@ -35,12 +41,6 @@ const pug = new Pug({
   app: app,
   locals: IS_DEVELOPMENT ? defaultAssets : assets
 });
-
-// webpack
-webpack(app);
-
-// static serve
-app.use(serve('assets'));
 
 // bodyParser
 app.use(bodyParser);
