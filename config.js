@@ -35,7 +35,7 @@ module.exports = {
 
   // -------------- robot configuration ------------
 
-  'robot.cron': '* 21 * * * *',
+  'robot.cron': '0 0 21 * * *',
 
   // -------------- log configuration --------------
 

@@ -2,6 +2,7 @@
 
 const fs = require('../utils/fsHelper').fsExtra;
 const async = require('async');
+const logger = require('../lib/logger');
 const backup = require('./backup');
 const deployer = require('./deployer');
 const uploader = require('./uploader');
@@ -23,7 +24,12 @@ function cleaner() {
     .then(paths => {
       async.eachSeries(paths, function (path, done) {
         clean(path).then(() => done());
+      }, function () {
+        logger.info('[Robot Done]', '清理结束');
       });
+    })
+    .catch(error => {
+      logger.error('[Robot Error]', error);
     });
 }
 
