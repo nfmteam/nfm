@@ -59,6 +59,7 @@
     "lodash.merge": "^4.6.0",
     "mocha": "^3.0.2",
     "mocha-eslint": "^3.0.1",
+    "node-fetch": "^1.6.0",
     "nodemon": "^1.10.2",
     "normalizr": "^2.2.1",
     "proxyquire": "^1.7.10",
