@@ -1,5 +1,6 @@
 'use strict';
 
+const path = require('path');
 const fs = require('../utils/fsHelper').fsExtra;
 const async = require('async');
 const logger = require('../lib/logger');
@@ -12,45 +13,56 @@ const baseDir = config['fs.base'];
 
 // 总文件数
 var totalFileCount = 0;
-
-// 总文件大小
-var totalFileSize = 0;
-
+// 总目录数
+var totalDirCount = 0;
+// 总占用大小
+var totalSize = 0;
 // 具体的类型文件统计
 var fileTypeStat = {};
-
 // "其他文件类型"的key
 const otherFileTypeExtname = 'OTHER_FILE';
 
-// 入口函数
+/**
+ * 入口函数
+ */
 function main() {
   walk(baseDir)
-    .then(paths => async.waterfall([
+    .then(({ dirPaths, filePaths }) => async.waterfall([
       // 执行清理
-      async.apply(clean, paths),
-      async.apply(collectStat, paths)
+      async.apply(clean, dirPaths),
+
+      // 执行统计
+      async.apply(collectStat, dirPaths, filePaths)
     ]))
     .catch(error => {
       logger.error('[Robot Error]', error);
     });
 }
 
-// 获取全部目录
+/**
+ * 获取全部目录&文件
+ */
 function walk(dir) {
   return new Promise((resolve, reject) => {
-    var paths = [];
+    var filePaths = [];
+    var dirPaths = [];
 
     fs.walk(dir)
       .on('data', function ({ path, stats }) {
         if (stats.isDirectory()) {
-          paths.push(path);
+          dirPaths.push(path);
+        } else {
+          filePaths.push(path);
         }
       })
       .on('error', function (error) {
         reject(error);
       })
       .on('end', function () {
-        resolve(paths);
+        resolve({
+          dirPaths,
+          filePaths
+        });
       });
   });
 }
@@ -62,14 +74,14 @@ function walk(dir) {
  *  无效的待发布文件(大于keeptime)
  *  无效的上传文件(大于keeptime)
  */
-function clean(paths, callback) {
+function clean(dirPaths, callback) {
   logger.info('[Robot]', '清理开始');
 
-  async.eachSeries(paths, function (path, done) {
+  async.eachSeries(dirPaths, function (_path, done) {
     uploader.clean()
-      .then(() => backup.clean(path))
-      .then(() => backup.cleanFile(path))
-      .then(() => deployer.clean(path))
+      .then(() => backup.clean(_path))
+      .then(() => backup.cleanFile(_path))
+      .then(() => deployer.clean(_path))
       .then(() => done());
   }, function () {
     logger.info('[Robot]', '清理结束');
@@ -80,29 +92,36 @@ function clean(paths, callback) {
 /**
  * 执行统计, 统计文件大小, 数量
  */
-function collectStat(paths, callback) {
+function collectStat(dirPaths, filePaths, callback) {
   logger.info('[Robot]', '统计开始');
 
-  async.eachSeries(paths, function (path, done) {
-    fs.statAsync(path)
-      .then(stat => {
-        var extname = path.extname(path).substring(1).toLowerCase()
-          || otherFileTypeExtname;
-        var size = stat.size;
+  const paths = dirPaths.concat(filePaths);
 
-        // 统计信息不存在该文件, 则新建
-        if(!fileTypeStat[extname]) {
-          fileTypeStat[extname] = {
-            count: 0,
-            size: 0
+  async.eachSeries(paths, function (_path, done) {
+    fs.statAsync(_path)
+      .then(stat => {
+        var extname, size = stat.size;
+        totalSize = totalSize + size;
+
+        if (stat.isDirectory()) {
+          totalDirCount++;
+        } else {
+          extname = path.extname(_path).substring(1).toLowerCase() || otherFileTypeExtname;
+
+          // 统计信息不存在该文件, 则新建
+          if (!fileTypeStat[extname]) {
+            fileTypeStat[extname] = {
+              count: 0,
+              size: 0
+            }
           }
+
+          totalFileCount++;
+          fileTypeStat[extname].count++;
+          fileTypeStat[extname].size = fileTypeStat[extname].size + size;
         }
 
-        // 执行统计
-        totalFileCount++;
-        totalFileSize = totalFileSize + size;
-        fileTypeStat[extname].count++;
-        fileTypeStat[extname].size = fileTypeStat[extname].size + size;
+        done();
       })
       .catch(() => {
         // 文件不存在等错误;
