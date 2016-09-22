@@ -2,11 +2,11 @@
 
 const schedule = require('node-schedule');
 const logger = require('./lib/logger');
-const cleaner = require('./service/cleaner');
+const robot = require('./service/robot');
 const config = require('./config');
 const cron = config['robot.cron'];
 
 schedule.scheduleJob(cron, () => {
-  logger.info('[Robot Start]', '执行自动清理');
-  cleaner();
+  logger.info('[Schedule]', '执行Robot');
+  robot();
 });
