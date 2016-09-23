@@ -3,6 +3,7 @@
 const Promise = require('bluebird');
 const moment = require('moment');
 const fs = require('../utils/fsHelper').fsExtra;
+const logger = require('../lib/logger');
 const formidable = require('formidable');
 const execa = require('execa');
 
@@ -85,7 +86,9 @@ module.exports = {
       })))
       .then(files => files.forEach(file => {
         if (moment() - moment(file.stat.mtime) > uploadKeepTime) {
-          fs.removeSync(`${uploadDir}/${file.path}`);
+          const absUploadFile = `${uploadDir}/${file.path}`;
+          fs.removeSync(absUploadFile);
+          logger.info('[清理: 上传文件]', absUploadFile);
         }
       }));
   }

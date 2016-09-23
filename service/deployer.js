@@ -3,6 +3,7 @@
 const path = require('path');
 const moment = require('moment');
 const fsHelper = require('../utils/fsHelper');
+const logger = require('../lib/logger');
 const fs = fsHelper.fsExtra;
 const backup = require('./backup');
 
@@ -123,7 +124,9 @@ module.exports = {
       })))
       .then(files => files.forEach(file => {
         if (moment() - moment(file.stat.mtime) > deployKeeptime) {
+          const absDeployFilePath = `${absDeployDir}/${file.path}`;
           fs.removeSync(`${absDeployDir}/${file.path}`);
+          logger.info('[清理: 待发布文件]', absDeployFilePath);
         }
       }));
   }

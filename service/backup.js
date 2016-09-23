@@ -2,6 +2,7 @@
 
 const Promise = require('bluebird');
 const fs = require('../utils/fsHelper').fsExtra;
+const logger = require('../lib/logger');
 const path = require('path');
 const config = require('../config');
 
@@ -67,7 +68,10 @@ module.exports = {
       ])
       .then(([files, backupDirs]) => backupDirs.filter(backupDir => !files.includes(backupDir)))
       .then(backupDirs => Promise.all(
-        backupDirs.map(backupDir => fs.removeAsync(`${absBackupDir}/${backupDir}`))
+        backupDirs.map(backupDir => {
+          return fs.removeAsync(`${absBackupDir}/${backupDir}`)
+            .then(() => logger.info('[清理: 备份目录]', `${absBackupDir}/${backupDir}`));
+        })
       ));
   },
 
@@ -87,15 +91,21 @@ module.exports = {
       ));
   },
 
-  _cleanFile: function (absBackupFilePath) {
-    return fs.readdirAsync(absBackupFilePath)
+  _cleanFile: function (absBackupDirPath) {
+    return fs.readdirAsync(absBackupDirPath)
       .then(files => files.sort().reverse().slice(backupMaxSize))
       .then(files => {
-        if (files.length) {
-          return Promise.all(
-            files.map(file => fs.removeAsync(`${absBackupFilePath}/${file}`))
-          );
+        if (!files.length) {
+          return Promise.resolve();
         }
+
+        return Promise.all(
+          files.map(file => {
+            const absBackupFilePath = `${absBackupDirPath}/${file}`;
+            return fs.removeAsync(absBackupFilePath)
+              .then(() => logger.info('[清理: 备份文件]', absBackupFilePath));
+          })
+        );
       });
   },
 
