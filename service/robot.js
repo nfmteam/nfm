@@ -13,12 +13,16 @@ const baseDir = config['fs.base'];
 
 // 总文件数
 var totalFileCount = 0;
+
 // 总目录数
 var totalDirCount = 0;
+
 // 总占用大小
 var totalSize = 0;
+
 // 具体的类型文件统计
 var fileTypeStat = {};
+
 // "其他文件类型"的key
 const otherFileTypeExtname = 'OTHER_FILE';
 
@@ -26,14 +30,28 @@ const otherFileTypeExtname = 'OTHER_FILE';
  * 入口函数
  */
 function main() {
-  walk(baseDir)
-    .then(({ dirPaths, filePaths }) => async.waterfall([
-      // 执行清理
-      async.apply(clean, dirPaths),
+  return walk(baseDir)
+    .then(({ dirPaths, filePaths }) => new Promise((resolve, reject) => {
+      async.waterfall([
+        // 执行清理
+        async.apply(clean, dirPaths),
 
-      // 执行统计
-      async.apply(collectStat, dirPaths, filePaths)
-    ]))
+        // 执行统计
+        async.apply(collectStat, dirPaths, filePaths)
+      ], function (error) {
+        if (error) {
+          reject(error);
+        }
+
+        resolve({
+          totalFileCount,
+          totalDirCount,
+          totalSize,
+          fileTypeStat,
+          otherFileTypeExtname
+        });
+      })
+    }))
     .catch(error => {
       logger.error('[Robot Error]', error);
     });
@@ -50,7 +68,7 @@ function walk(dir) {
     fs.walk(dir)
       .on('data', function ({ path, stats }) {
         if (stats.isDirectory()) {
-          dirPaths.push(path);
+          path !== baseDir && dirPaths.push(path);
         } else {
           filePaths.push(path);
         }
