@@ -29,10 +29,10 @@ describe('robot 测试', function () {
   it('# 测试文件统计', function (done) {
     robot()
       .then(data => {
-        data.totalFileCount.should.equal(41);
-        data.totalDirCount.should.equal(14);
+        data.totalFileCount.should.equal(22);
+        data.totalDirCount.should.equal(3);
         done();
-      })
+      });
   });
 
 });

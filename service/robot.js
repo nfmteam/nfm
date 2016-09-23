@@ -10,6 +10,9 @@ const uploader = require('./uploader');
 
 const config = require('../config');
 const baseDir = config['fs.base'];
+const uploadDir = config['upload.dir'];
+const backupDir = config['backup.dir'];
+const deployDir = config['deploy.dir'];
 
 // 总文件数
 var totalFileCount = 0;
@@ -111,7 +114,10 @@ function clean(dirPaths, callback) {
 }
 
 /**
- * 执行统计, 统计文件大小, 数量
+ * 执行统计, 规则:
+ *  统计文件数目(不包括nfm系统文件夹)
+ *  统计目录数目(不包括nfm系统文件夹)
+ *  统计文件总大小
  */
 function collectStat(dirPaths, filePaths, callback) {
   logger.info('[Robot]', '统计开始');
@@ -121,8 +127,17 @@ function collectStat(dirPaths, filePaths, callback) {
   async.eachSeries(paths, function (_path, done) {
     fs.statAsync(_path)
       .then(stat => {
-        var extname, size = stat.size;
+        var extname,
+          size = stat.size,
+          isSystem = isSystemPath(_path);
+
         totalSize = totalSize + size;
+
+        // 文件的详细统计包括备份, 待发布等系统文件
+        if (isSystem) {
+          done();
+          return;
+        }
 
         if (stat.isDirectory()) {
           totalDirCount++;
@@ -152,6 +167,15 @@ function collectStat(dirPaths, filePaths, callback) {
     logger.info('[Robot]', '统计结束');
     callback();
   });
+}
+
+/**
+ * 判断是否是nfm系统路径
+ */
+function isSystemPath(_path) {
+  return _path.includes(uploadDir)
+    || _path.includes(backupDir)
+    || _path.includes(deployDir);
 }
 
 module.exports = main;
