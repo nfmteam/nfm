@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('../../service/fs');
+const fsHelper = require('../../utils/fsHelper');
 
 module.exports = function *() {
   var absFilePath, stat;
@@ -10,8 +10,8 @@ module.exports = function *() {
     throw Error('入参错误');
   }
 
-  absFilePath = fs.resolveAbsolutePath(p);
-  stat = yield fs.exists(absFilePath);
+  absFilePath = fsHelper.resolveAbsolutePath(p);
+  stat = yield fsHelper.exists(absFilePath);
 
   if (!stat || !stat.isFile()) {
     throw Error('文件不存在');

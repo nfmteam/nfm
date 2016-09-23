@@ -26,6 +26,8 @@ module.exports = {
 
   get: function (url) {
     return fetch(url).then(response => response.json());
-  }
+  },
+
+  fetch: fetch
 
 };
