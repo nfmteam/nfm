@@ -7,33 +7,30 @@ File manage implement by node.
 ## Featur
 
 - [ ] 收藏目录
-- [ ] 在线编辑器
+- [ ] 在线编辑器 monaco-editor
 
 ## TODO
 
-* ../../../../controllers/api/v1/fs
-* 刷新目录,同步workspace和tree(如果有文件被其他用户删除)
+* 刷新目录, 同步workspace和tree(如果有文件被其他用户删除)
 * next
 	1. dialog
 	2. 文件操作
-* 重命名,移动,删除是立刻生效的,有更好的方案?
-* 前端限制上传文件数量,或者zip包大小
+* 重命名,移动,删除是立刻生效的, 有更好的方案?
+* 前端限制上传文件数量, 或者zip包大小
 * 回收站
-* 除了特殊需要外,其余fs操作全异步 -- code review
+* code review
+	1. 除了特殊需要外, 其余fs操作全异步
+	2. 注释
 * 自定义滚动条
 * 浏览器检测
 * 优化打包规则 -- shell
 * reselect cache?
 * normalizr
-* monaco-editor
 * key event
 * CSS Modules
-* 错误信息区分请求和页面,前端错误处理
 * 服务端渲染
 * To optimize the react
-* 安全性,完整性验证,error处理
-* 是否启用全局日志,还是手动api日志(目前未添加日志)
-* 注释
+* 是否启用全局日志, 还是手动api日志(目前未添加日志)
 
   
 [travis-image]: https://img.shields.io/travis/keenwon/nfm.svg?style=flat-square
