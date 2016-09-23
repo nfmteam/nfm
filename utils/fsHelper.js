@@ -63,14 +63,22 @@ module.exports = {
    */
   exists: function (absPath) {
     // 隐藏备份, 上传, 发布文件夹
-    if (!absPath || absPath.includes(uploadDir)
-      || absPath.includes(backupDir) || absPath.includes(deployDir)) {
+    if (!absPath || this.isSystemPath(absPath)) {
       return Promise.resolve(false);
     }
 
     return this.stat(absPath)
       .then(stat => stat)
       .catchReturn(false);
+  },
+
+  /**
+   * 判断是否是nfm系统目录
+   */
+  isSystemPath: function (absPath) {
+    return absPath.includes(uploadDir)
+      || absPath.includes(backupDir)
+      || absPath.includes(deployDir);
   },
 
   /**

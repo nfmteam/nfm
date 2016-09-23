@@ -2,6 +2,7 @@
 
 const path = require('path');
 const fs = require('../utils/fsHelper').fsExtra;
+const isSystemPath = require('../utils/fsHelper').isSystemPath;
 const async = require('async');
 const logger = require('../lib/logger');
 const backup = require('./backup');
@@ -10,9 +11,6 @@ const uploader = require('./uploader');
 
 const config = require('../config');
 const baseDir = config['fs.base'];
-const uploadDir = config['upload.dir'];
-const backupDir = config['backup.dir'];
-const deployDir = config['deploy.dir'];
 
 // 总文件数
 var totalFileCount = 0;
@@ -167,15 +165,6 @@ function collectStat(dirPaths, filePaths, callback) {
     logger.info('[Robot]', '统计结束');
     callback();
   });
-}
-
-/**
- * 判断是否是nfm系统路径
- */
-function isSystemPath(_path) {
-  return _path.includes(uploadDir)
-    || _path.includes(backupDir)
-    || _path.includes(deployDir);
 }
 
 module.exports = main;
