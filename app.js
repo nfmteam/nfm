@@ -49,4 +49,10 @@ app.use(bodyParser);
 app.use(apiRouter.routes());
 app.use(pageRouter.routes());
 
-app.listen(config['app.port'] || 3000);
+if (require.main === module) {
+  // istanbul ignore next
+  // 开发&测试环境时覆盖
+  app.listen(config['app.port'] || 3000);
+} else {
+  module.exports = app;
+}

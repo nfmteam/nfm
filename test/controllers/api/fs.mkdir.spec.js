@@ -51,7 +51,7 @@ describe('fs mkdir测试', function () {
     this.server.close();
   });
 
-  it('入参错误:dir省略', function (done) {
+  it('# 入参错误:dir省略', function (done) {
     post('http://localhost:8888')
       .then(response => {
         response.message.should.equal('入参错误');
@@ -59,7 +59,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:dir安全:安全dir不存在', function (done) {
+  it('# 入参错误:dir安全:安全dir不存在', function (done) {
     var data = {
       dir: '/dir3/../../../../../../../aaaaa'
     };
@@ -72,7 +72,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:dir安全:安全dir存在,是目录', function (done) {
+  it('# 入参错误:dir安全:安全dir存在,是目录', function (done) {
     var data = {
       dir: '../../../../../../../dir1'
     };
@@ -84,7 +84,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:dir安全:安全dir存在,是文件', function (done) {
+  it('# 入参错误:dir安全:安全dir存在,是文件', function (done) {
     var data = {
       dir: '../../../../../../../file1.js'
     };
@@ -96,7 +96,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:文件名不合法:包含非法字符', function (done) {
+  it('# 入参错误:文件名不合法:包含非法字符', function (done) {
     var data = {
       dir: '/测试'
     };
@@ -108,7 +108,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:文件名不合法:包含nfm系统文件夹', function (done) {
+  it('# 入参错误:文件名不合法:包含nfm系统文件夹', function (done) {
     var data = {
       dir: `/${uploadDir}`
     };
@@ -120,7 +120,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('入参错误:父级路径不存在', function (done) {
+  it('# 入参错误:父级路径不存在', function (done) {
     var data = {
       dir: '/cc/bbbb'
     };
@@ -132,7 +132,7 @@ describe('fs mkdir测试', function () {
       });
   });
 
-  it('创建文件夹', function (done) {
+  it('# 创建文件夹', function (done) {
     var data = {
       dir: '/dir1/abcde'
     };

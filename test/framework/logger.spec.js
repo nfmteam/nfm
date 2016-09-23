@@ -54,7 +54,7 @@ describe('logger测试', function () {
     }
   });
 
-  it('日志关闭', function (done) {
+  it('# 日志关闭', function (done) {
     const app = koa();
     const logger1 = proxyquire('../../lib/logger', stubs1);
 
@@ -75,7 +75,7 @@ describe('logger测试', function () {
       });
   });
 
-  it('日志开启, 日志目录不存在, 不限制文件大小', function (done) {
+  it('# 日志开启, 日志目录不存在, 不限制文件大小', function (done) {
     const app = koa();
     const logger2 = proxyquire('../../lib/logger', stubs2);
 
@@ -96,7 +96,7 @@ describe('logger测试', function () {
       });
   });
 
-  it('日志开启, 全局日志关闭', function (done) {
+  it('# 日志开启, 全局日志关闭', function (done) {
     const app = koa();
     const logger3 = proxyquire('../../lib/logger', stubs3);
 

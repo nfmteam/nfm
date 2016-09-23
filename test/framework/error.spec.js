@@ -46,7 +46,7 @@ describe('error测试', function () {
     this.server.close();
   });
 
-  it('200', function (done) {
+  it('# 200', function (done) {
     fetch('http://localhost:8888/success')
       .then(response => response.text())
       .then(html => {
@@ -55,7 +55,7 @@ describe('error测试', function () {
       });
   });
 
-  it('500', function (done) {
+  it('# 500', function (done) {
     fetch('http://localhost:8888/error')
       .then(response => response.text())
       .then(html => {
@@ -64,7 +64,7 @@ describe('error测试', function () {
       });
   });
 
-  it('404', function (done) {
+  it('# 404', function (done) {
     fetch('http://localhost:8888/404')
       .then(response => response.text())
       .then(html => {

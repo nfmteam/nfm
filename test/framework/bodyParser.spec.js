@@ -15,7 +15,7 @@ describe('bodyParser测试', function () {
     this.server && this.server.close();
   });
 
-  it('POST: json', function (done) {
+  it('# POST: json', function (done) {
     const app = koa();
 
     logger.register(app);
@@ -43,7 +43,7 @@ describe('bodyParser测试', function () {
     });
   });
 
-  it('POST: application/x-www-form-urlencoded', function (done) {
+  it('# POST: application/x-www-form-urlencoded', function (done) {
     const app = koa();
 
     logger.register(app);
@@ -70,7 +70,7 @@ describe('bodyParser测试', function () {
     });
   });
 
-  it('POST: co-body不处理的content-type', function (done) {
+  it('# POST: co-body不处理的content-type', function (done) {
     const app = koa();
 
     logger.register(app);
