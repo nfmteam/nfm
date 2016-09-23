@@ -43,13 +43,16 @@ function main() {
           reject(error);
         }
 
-        resolve({
+        const result = {
           totalFileCount,
           totalDirCount,
           totalSize,
           fileTypeStat,
           otherFileTypeExtname
-        });
+        };
+
+        logger.info('[Robot Result]', result);
+        resolve(result);
       })
     }))
     .catch(error => {
